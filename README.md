@@ -56,6 +56,7 @@ IDEIAS / Funcionalidades
 - Criar apoio visual a cada "pack" de material, fotografia "top down" para identificar cada material usado.
  
 - Para funcionários internos e externos, registar os serviços em que participaram e o respectivo saldo/salário (€).
+- nome para o projecto, minha sugestao "snapCode" (snap de foto, code de codigo, relacionado com a programacao.
 
 
 
