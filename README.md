@@ -36,22 +36,28 @@ A base de dados será estruturada de forma a garantir flexibilidade e escalabili
 
 
 
-IDEIAS:
+IDEIAS / Funcionalidades
+- Criar 3 níveis de acesso: Administrador, Funcionário Interno e Funcionário Externo.
+
+- Para funcionários internos e externos, registar os serviços em que participaram e o respectivo saldo (€).
+
+- Implementar um sistema de base de dados para gerir:
+
+    - Fotógrafos e colaboradores, com contactos e informação relevante (ex: estilo, funções: videógrafo, fotógrafo, ambos, etc).
+
+    - Material (lentes, tampas de lente, máquinas, baterias, tripés, etc).
+
+- Associar cada serviço a um fotógrafo/videógrafo e ao respectivo material utilizado.
+
+- Implementar sistema para gerar PDFs com instruções sobre proximo serviço.
+
+- Possibilidade de pesquisar, após o serviço, todo o material que foi utilizado.
+
+- Criar apoio visual a cada "pack" de material, fotografia "top down" para identificar cada material usado  
 
 
-sistema de base de dados para gerir fotógrafos, material
-implementar sistema para gerar PDF's com instrucoes 
-base de dados com contactos e informação de fotógrafo/colaborador, campos de informacao como estilo, funcoes (videografo, fotografo, ambos, etc)
-Cada serviço é associado a um fotógrafo/videografo e o seu respectivo material
-criar código em c# para escrever/exportar registos em CSV
-Com uma base de dados podemos por exemplo descobrir que fotografo foi para o servico X e que material usou. 
-também podemos usar a pesquisa nos dias após o serviço para confirmar que cartoes foram usados para cada serviço
-Cada material(lente, tampas de lente, máquinas, baterias, tripés, etc) teria uma etiqueta com codigo de barras(??)
-No inicio de cada servico o fotógrafo faz scan usando o telemovel a cada material que vai levar
-No fim do serviço tem que confirmar que todo material voltou
-Aplicação construida para android
 
-Usar Figma para design de layout 
+ 
 
 
 
@@ -59,77 +65,135 @@ Usar Figma para design de layout
 
 Primeiro esboço via chatgpt
 
+Estou a realizar um trabalho de final de curso na área de desenvolvimento de software. O projeto consiste em criar uma web app para a gestão de uma empresa de fotografia. Idealmente, pretendemos criar uma base de dados com todo o material utilizado nas reportagens fotográficas, bem como os colaboradores internos e externos, entre outros.
 
-1. Estrutura da Base de Dados:
-
-Tabelas Essenciais:
-Fotógrafos/Videógrafos: (ID, Nome, Contacto, Especialidade)
-Material: (ID, Nome, Tipo, Número de Série, Código de Barras/QR Code)
-Serviços: (ID, Data, Local, Descrição, Fotógrafo/Videógrafo ID)
-ServiçoMaterial: (Serviço ID, Material ID, Quantidade, Estado (Levado/Devolvido))
-Cartões de Memória: (ID, Número de Série, Capacidade, Serviço ID)
-
-Relacionamentos:
-Estabeleçer relações claras entre as tabelas para garantir a integridade dos dados. Por exemplo, um serviço está associado a um fotógrafo e vários itens de material
-
-Códigos de Barras/QR Codes:
-  - A utilização de códigos de barras ou QR codes é uma excelente ideia para agilizar o processo de registo de material. Certifique-se de que a aplicação Android seja capaz de ler estes códigos.
-
-
-2. Funcionalidades da Aplicação Android:
-
-Registo de Material:
-Permitir o registo de novos itens de material na base de dados, incluindo a geração de códigos de barras/QR codes.
-Check-in/Check-out de Material:
-Implementar a funcionalidade de leitura de códigos de barras/QR codes para registar a saída e o retorno de material.
-Permitir a confirmação visual do material através de fotos.
-Associação de Material a Serviços:
-Permitir que os fotógrafos associem o material utilizado a cada serviço.
-Registo de cartões de memória usados.
-Consulta de Histórico:
-Permitir a consulta do histórico de serviços e do material utilizado em cada um.
-Permitir a consulta de que cartões foram usados em cada serviço.
-Gestão de Fotógrafos/Videógrafos:
-Permitir o registo e a gestão de informações dos fotógrafos/videógrafos.
-Relatórios:
-Gerar relatórios sobre o material mais utilizado, os fotógrafos mais requisitados, etc.
-Notificações:
-Enviar notificações sobre material não devolvido ou cartões de memória que precisam ser verificados.
-3. Tecnologias:
-
-Base de Dados:
-SQLite (para armazenamento local no dispositivo Android) ou MySQL/PostgreSQL (para um servidor centralizado).
-Aplicação Android:
-Kotlin ou Java (linguagens de programação Android).
-Biblioteca de leitura de códigos de barras/QR codes (por exemplo, Zxing).
-Servidor (Opcional):
-Node.js, Python/Django ou .NET (para um servidor centralizado).
-API REST (para comunicação entre a aplicação Android e o servidor).
-4. Melhorias Adicionais:
-
-Sincronização na Nuvem:
-Implementar a sincronização de dados com um servidor na nuvem para garantir a segurança e a acessibilidade dos dados.
-Integração com Calendário:
-Integrar a aplicação com o calendário do dispositivo para facilitar o agendamento de serviços.
-Gestão de Manutenção:
-Adicionar funcionalidades para registar e gerir a manutenção do material.
-5. Considerações Importantes:
-
-Interface do Utilizador (UI):
-Desenvolver uma interface intuitiva e fácil de usar para a aplicação Android.
-Segurança:
-Implementar medidas de segurança para proteger os dados da base de dados.
-Testes:
-Realizar testes exaustivos para garantir a funcionalidade e a estabilidade da aplicação.
-Ao considerar estas sugestões, você poderá criar um projeto final robusto e valioso para a gestão de fotógrafos e material.
+Pretendemos também guardar na base de dados todos os serviços realizados, sendo que cada serviço estará associado a funcionários e ao material utilizado. Gostaríamos ainda que a web app permitisse, para cada funcionário, realizar o check-out do material levado após o serviço, de forma a verificar se falta algum material.
+Que tipo de abordagem devemos seguir? Estavamos a pensar em Mysql+Laravel 
 
 
 
+A tua abordagem com MySQL e Laravel é excelente para este tipo de projeto! Laravel é um dos frameworks PHP mais modernos, com ótimas ferramentas para autenticação, gestão de permissões, ligação a bases de dados e construção rápida de web apps robustas. MySQL é uma base de dados relacional muito estável e largamente suportada. Vou deixar-te aqui um esquema de abordagem que te pode ajudar a estruturar o trabalho e o projeto.
+
+1. Planeamento do Projeto
+Análise de requisitos: Lista todas as funcionalidades necessárias, tipos de utilizadores, fluxos principais (exemplo: check-out/check-in de material, registo de serviços, gestão de colaboradores, etc.).
+
+Desenho da base de dados: Esboça as tabelas principais e as relações entre elas.
+
+Protótipo UI/UX: Cria esboços de como será a navegação e as páginas principais (podes usar Figma, papel, etc.).
+
+2. Modelação da Base de Dados
+De forma geral, vais precisar de tabelas como:
+
+users (funcionários, internos/externos)
+
+materials (equipamento de fotografia, acessórios, etc.)
+
+services (reportagens, eventos, etc.)
+
+material_service (pivot: material usado em cada serviço)
+
+user_service (pivot: funcionários associados a cada serviço)
+
+checkouts (controlo de saída/entrada de material por serviço)
+
+users
+- id
+- name
+- type (interno/externo)
+- ...
+
+materials
+- id
+- name
+- description
+- serial_number
+- ...
+
+services
+- id
+- title
+- date
+- description
+- ...
+
+material_service
+- id
+- material_id
+- service_id
+
+user_service
+- id
+- user_id
+- service_id
+
+checkouts
+- id
+- user_id
+- material_id
+- service_id
+- checked_out_at
+- checked_in_at
 
 
 
 
 
+
+
+
+3. Back-end com Laravel
+Eloquent Models: Cada tabela tem o seu modelo, com relações bem definidas (hasMany, belongsToMany, etc.).
+
+Controllers: Um para cada área (MaterialController, ServiceController, UserController, etc.).
+
+Autenticação & Autorização: Usa o sistema built-in do Laravel, que permite gerir permissões facilmente (por exemplo, só certos utilizadores podem fazer check-out de material).
+
+APIs/Views: Se quiseres uma SPA, podes usar Laravel como API + frontend em Vue.js, ou então o tradicional Blade/Laravel Livewire.
+
+4. Front-end
+Laravel Blade: Simples e eficaz para muitos projetos, já vem integrado.
+
+Laravel Livewire: Para interfaces reativas sem sair do Laravel.
+
+Vue.js: Se quiseres algo mais dinâmico/SPA.
+
+5. Funcionalidades-chave a considerar
+Gestão de stock de material (o que está disponível, em serviço, manutenção, etc.)
+
+Histórico de serviços e de material utilizado
+
+Check-out e check-in de material (com alertas se faltar algo ao devolver)
+
+Gestão de utilizadores e permissões
+
+Notificações (opcional): Por exemplo, se um material não for devolvido a tempo.
+
+6. Sugestão de workflow para o check-out/check-in
+Quando um serviço é criado, associa-se o material e os colaboradores.
+
+Antes do serviço, cada colaborador faz o check-out do material que vai levar.
+
+No regresso, realiza-se o check-in: regista-se o material devolvido, marcando automaticamente o que ficou em falta.
+
+Podes depois gerar relatórios automáticos de material em falta ou histórico de movimentos.
+
+7. Vantagens da stack MySQL + Laravel
+Documentação e comunidade muito forte
+
+Ferramentas built-in para autenticação e permissões
+
+Facilidade de escalar e migrar para produção
+
+Migrations do Laravel facilitam criar e evoluir a base de dados
+
+8. Outros conselhos
+Começa por modelar bem os dados (é meio caminho andado!)
+
+Usa seeders/factories para gerar dados de teste
+
+Testa as relações entre tabelas com Eloquent logo desde início
+
+Documenta bem o processo (é ótimo para o relatório final!)
 
 
 
