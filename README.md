@@ -37,23 +37,25 @@ A base de dados será estruturada de forma a garantir flexibilidade e escalabili
 
 
 IDEIAS / Funcionalidades
-- Criar 3 níveis de acesso: Administrador, Funcionário Interno e Funcionário Externo.
-
-- Para funcionários internos e externos, registar os serviços em que participaram e o respectivo saldo (€).
-
+- Criar 3 níveis de acesso: Administrador(acesso total), Funcionário Interno(consultas de serviços, report de avarias/perdas),  e Funcionário Externo (penas consulta).
+- 
 - Implementar um sistema de base de dados para gerir:
 
     - Fotógrafos e colaboradores, com contactos e informação relevante (ex: estilo, funções: videógrafo, fotógrafo, ambos, etc).
 
     - Material (lentes, tampas de lente, máquinas, baterias, tripés, etc).
 
-- Associar cada serviço a um fotógrafo/videógrafo e ao respectivo material utilizado.
-
-- Implementar sistema para gerar PDFs com instruções sobre proximo serviço.
+- Associar cada serviço/evento a um fotógrafo/videógrafo e ao respectivo material utilizado.
+  
+- Associar códigos a cada elemento do material para uma gestão eficiente do stock e rastrear possíveis avarias e/ou perdas de material.
 
 - Possibilidade de pesquisar, após o serviço, todo o material que foi utilizado.
 
-- Criar apoio visual a cada "pack" de material, fotografia "top down" para identificar cada material usado  
+- Implementar sistema para gerar PDFs com instruções sobre proximo serviço.
+
+- Criar apoio visual a cada "pack" de material, fotografia "top down" para identificar cada material usado.
+ 
+- Para funcionários internos e externos, registar os serviços em que participaram e o respectivo saldo/salário (€).
 
 
 
@@ -164,7 +166,7 @@ Histórico de serviços e de material utilizado
 
 Check-out e check-in de material (com alertas se faltar algo ao devolver)
 
-Gestão de utilizadores e permissões
+Gestão de utilizadores e permissões.
 
 Notificações (opcional): Por exemplo, se um material não for devolvido a tempo.
 
