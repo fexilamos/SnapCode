@@ -1,0 +1,90 @@
+Diagrama de Atividades
+"Fluxo Check-out/Check-in de Material" 
+A[Início] --> B{Serviço Agendado?}; 
+B -- Sim --> C[Associar Colaborador(es) e Material ao Serviço]; 
+C --> D[Colaborador Seleciona Serviço]; 
+D --> E[Colaborador Inicia Check-out]; 
+E --> F[Sistema Apresenta Lista de Material Alocado]; 
+F --> G[Colaborador Confirma Material Levado]; 
+G --> H[Registar Saída de Material na BD]; 
+H --> I[Colaborador Realiza Serviço]; 
+I --> J[Colaborador Inicia Check-in]; 
+J --> K[Sistema Apresenta Lista de Material em Check-out]; 
+K --> L[Colaborador Confirma Material Devolvido]; 
+L --> M{Todo o Material Devolvido?}; 
+M -- Sim --> N[Registar Entrada de Material na BD];
+M -- Não --> O[Registar Material em Falta]; 
+O --> N; 
+N --> P[Fim]; 
+B -- Não --> P; 
+end 
+
+"Fluxo Consulta de Histórico e Diagnóstico" 
+Q[Gestor Acede à Área de Histórico] --> R[Seleciona Critérios (Serviço, Colaborador, Material)];
+ R --> S[Sistema Pesquisa Registos]; 
+S --> T[Apresentar Histórico Detalhado]; 
+T --> U{Problema Detetado na Edição?}; 
+U -- Sim --> V[Cruzar Dados: Serviço, Colaborador, Material Usado]; 
+V --> W[Identificar Possível Causa (Humana/Técnica)]; 
+W --> X[Registar Diagnóstico/Ação Corretiva]; 
+X --> Y[Fim Consulta]; 
+U -- Não --> Y; 
+
+
+Fluxo Check-out/Check-in: Descreve os passos desde a associação de material a um serviço, passando pelo check-out
+pelo colaborador antes do serviço, até ao check-in no final, com a verificação de material em falta. Fluxo Consulta 
+de Histórico: Mostra como um gestor pode pesquisar o histórico de serviços, material e colaboradores, e como essa 
+informação pode ser usada para diagnosticar problemas detetados posteriormente.
+
+*****************************************************************************************************************************************************
+Diagrama de Casos de Uso:
+"Sistema SnapCode"
+        UC1(Gerir Material)
+        UC2(Gerir Colaboradores)
+        UC3(Registar Serviços)
+        UC4(Associar Material/Colaborador a Serviço)
+        UC5(Realizar Check-out Material)
+        UC6(Realizar Check-in Material)
+        UC7(Consultar Histórico Serviços)
+        UC8(Consultar Saldo/Pagamentos)
+        UC9(Gerar Relatório PDF Serviço)
+        UC10(Reportar Avaria/Perda)
+        UC11(Gerir Utilizadores e Permissões)
+        UC12(Consultar Serviços Agendados)
+
+
+"Atores"
+        A1 - Administrador
+        A2 - Funcionário Interno
+        A3 - Funcionário Externo
+
+A1 --|> A2; -- Administrador herda permissões de Funcionário Interno, e tem as suas     próprias permissões/funções.
+
+    A1 --- UC1;
+    A1 --- UC2;
+    A1 --- UC3;
+    A1 --- UC4;
+    A1 --- UC7;
+    A1 --- UC8;
+    A1 --- UC9;
+    A1 --- UC10;
+    A1 --- UC11;
+
+    A2 --- UC5;								A3 --- UC5;
+    A2 --- UC6;								A3 --- UC6;
+    A2 --- UC7;									
+    A2 --- UC8;								A3 --- UC8;
+    A2 --- UC10;
+    A2 --- UC12;							A3 --- UC12;
+
+
+    UC5 -- include --> UC4; -- Check-out implica que material/colaborador já está associado
+    UC6 -- include --> UC4; -- Check-in implica que material/colaborador já está associado
+    UC10 -- extends --> UC1; -- Reportar avaria pode estender a gestão de material
+Atores: Define os três tipos de utilizadores (Administrador, Funcionário Interno, Funcionário Externo). 
+Casos de Uso (UC): Representam as principais funcionalidades do sistema (Gerir Material, Registar Serviços, Check-in/Check-out, etc.).
+Relações: As linhas mostram quais atores interagem com quais casos de uso.
+---     Associação direta (ator pode usar a funcionalidade).
+-- include -->   Uma funcionalidade (ex: Check-out) requer outra (ex: Associar Material).
+-- extends -->  Uma funcionalidade (ex: Reportar Avaria) pode, opcionalmente, estender outra (ex: Gerir Material).
+
