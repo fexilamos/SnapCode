@@ -1,4 +1,4 @@
-CREATE DATABASE db_Snap;
+/*CREATE DATABASE db_Snap;*/
 
 CREATE TABLE Marca (
   cod_marca INT PRIMARY KEY,
@@ -130,6 +130,7 @@ CREATE TABLE Servico_Detalhes_Casamento (
   fotos_convidados BOOLEAN, 
   num_convidados_fotos INT,
   venda_fotos BOOLEAN, 
+  
   hora_chegada_casa_noivo VARCHAR(10),
   hora_saida_casa_noivo VARCHAR(10),
   nome_noivo VARCHAR(40),
