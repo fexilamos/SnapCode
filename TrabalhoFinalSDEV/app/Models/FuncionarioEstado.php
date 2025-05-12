@@ -14,7 +14,7 @@ class FuncionarioEstado extends Model
     protected $primaryKey = 'cod_estado';
     protected $keyType = 'int';
     public $timestamps = false;
-    protected $fillable = ['estado_nome'];
+    protected $fillable = ['cod_estado', 'estado_nome'];
 
     public function funcionarios()
     {

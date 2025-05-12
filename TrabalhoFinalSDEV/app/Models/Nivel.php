@@ -15,7 +15,8 @@ class Nivel extends Model
     protected $keyType = 'int';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['nivel'];
+
+    protected $fillable = ['cod_nivel','nivel'];
 
     public function funcionarios()
     {

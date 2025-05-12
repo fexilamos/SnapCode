@@ -14,7 +14,7 @@ class Funcao extends Model
     protected $keyType = 'int';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['funcao'];
+    protected $fillable = ['cod_funcao', 'funcao'];
 
      public function funcionarios()
     {
