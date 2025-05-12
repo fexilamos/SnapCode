@@ -8,7 +8,8 @@
             margin: 0;
             padding: 0;
             background-color: #e2eff1;
-            font-family: Arial, sans-serif;
+            font-family: Helvetica, Arial, sans-serif;
+            font-weight: bold;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -21,14 +22,30 @@
             align-items: center;
             text-align: center;
             border: 1px solid #444;
-            padding: 80px 60px;
+            padding: 80px 80px;
             box-shadow: 0 0 12px rgba(0,0,0,0.1);
             background-color: #ffffff20;
         }
 
-        .logo-img {
-            width: 300px;
+        .logo-container {
+            font-size: 3rem;
+            white-space: nowrap;
             margin-bottom: 40px;
+        }
+
+        .arrow {
+            color: #000000;
+        }
+
+        .snap {
+            display: inline-block;
+            border-right: 2px solid #000000;
+            animation: blink 0.7s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: #000000; }
         }
 
         .button {
@@ -38,10 +55,8 @@
             padding: 14px 40px;
             font-size: 1.2em;
             border: none;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            border-radius: 4px;
-            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
         }
 
         .button:hover {
@@ -51,8 +66,26 @@
 </head>
 <body>
     <div class="container">
-        <img src="{{ asset('images/LOGO.png') }}" alt="SNAP Logo" class="logo-img">
+        <div class="logo-container">
+            <span class="arrow">&lt;</span><span id="snapText" class="snap"></span><span class="arrow">/&gt;</span>
+        </div>
         <a href="{{ route('login') }}" class="button">Entrar</a>
     </div>
+
+    <script>
+        const text = "SNAP";
+        let index = 0;
+        const snapText = document.getElementById("snapText");
+
+        function type() {
+            if (index < text.length) {
+                snapText.textContent += text.charAt(index);
+                index++;
+                setTimeout(type, 250);
+            }
+        }
+
+        type();
+    </script>
 </body>
 </html>
