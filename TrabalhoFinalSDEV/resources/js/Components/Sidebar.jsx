@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaHome, FaUsers, FaBox, FaCalendarAlt, FaBars } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import './Sidebar.css';
 
 export default function Sidebar() {
@@ -12,34 +13,35 @@ export default function Sidebar() {
             </div>
             <div className="logo">{isOpen ? '<SNAP/>' : '</>'}</div>
             <nav>
-                <a href="#" className="nav-item">
-                    <FaHome className="icon" />
-                    {isOpen && <span className="text">Dashboard</span>}
-                </a>
+    <Link to="/" className="nav-item">
+        <FaHome className="icon" />
+        {isOpen && <span className="text">Dashboard</span>}
+    </Link>
 
-                <div className="nav-item dropdown">
-                    <FaUsers className="icon" />
-                    {isOpen && (
-                        <>
-                            <span className="text">Gestão</span>
-                            {/* <div className="submenu">
-                                <a href="#">Gestão de Material</a>
-                                <a href="#">Gestão de Colaboradores</a>
-                            </div> */}
-                        </>
-                    )}
-                </div>
+    <div className="nav-item dropdown">
+        <FaUsers className="icon" />
+        {isOpen && (
+            <>
+                <span className="text">Gestão</span>
+                {/* <div className="submenu">
+                    <Link to="/gestao/material">Gestão de Material</Link>
+                    <Link to="/gestao/colaboradores">Gestão de Colaboradores</Link>
+                </div> */}
+            </>
+        )}
+    </div>
 
-                <a href="#" className="nav-item">
-                    <FaBox className="icon" />
-                    {isOpen && <span className="text">Eventos</span>}
-                </a>
+    <Link to="/eventos" className="nav-item">
+        <FaBox className="icon" />
+        {isOpen && <span className="text">Eventos</span>}
+    </Link>
 
-                <a href="#" className="nav-item">
-                    <FaCalendarAlt className="icon" />
-                    {isOpen && <span className="text">Calendário</span>}
-                </a>
-            </nav>
+    <Link to="/calendario" className="nav-item">
+        <FaCalendarAlt className="icon" />
+        {isOpen && <span className="text">Calendário</span>}
+    </Link>
+</nav>
+
         </div>
     );
 }

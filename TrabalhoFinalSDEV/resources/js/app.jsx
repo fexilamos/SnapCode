@@ -1,16 +1,23 @@
-import './bootstrap';
-
-import Alpine from 'alpinejs';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import Sidebar from './components/Sidebar';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-window.Alpine = Alpine;
+import Dashboard from './pages/Dashboard';
+import Gestao from './pages/Gestao';
+import Eventos from './pages/Eventos';
+import Calendario from './pages/Calendario';
 
-Alpine.start();
+import './components/Sidebar.css';
 
-ReactDOM.createRoot(document.getElementById('app')).render(
-    <React.StrictMode>
-        <Sidebar />
-    </React.StrictMode>
+const root = createRoot(document.getElementById('app'));
+
+root.render(
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/gestao" element={<Gestao />} />
+            <Route path="/eventos" element={<Eventos />} />
+            <Route path="/calendario" element={<Calendario />} />
+        </Routes>
+    </BrowserRouter>
 );
