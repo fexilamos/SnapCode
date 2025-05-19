@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Avaria;
 use Illuminate\Http\Request;
 
 class AvariaController extends Controller
@@ -11,15 +12,8 @@ class AvariaController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $avarias = Avaria::with(['material','servico','data_registo','observacoes'])->get();
+        return response()->json($avarias);
     }
 
     /**
@@ -27,21 +21,21 @@ class AvariaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'cod_material' => 'required|exists:Material,cod_material',
+            'cod_servico' => 'nullable|exists:Servico,cod_servico',
+            'data_registo' => 'required|date:Avaria,data_registo',
+            'observacoes' => 'nullable|string',
+        ]);
+
+        $avarias = Avaria::create($validated);
+        return response()->json($avarias,404);
     }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
     {
         //
     }
