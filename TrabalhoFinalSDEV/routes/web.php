@@ -25,7 +25,3 @@ Route::get('/teste', function () {
 Route::get('/testeview', function () {
     return view('testeview');
 });
-
-Route::get('/{any}', function () {
-    return view('react');
-})->where('any', '.*');

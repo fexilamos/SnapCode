@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <title>Gestão de Fotógrafos</title>
-    @viteReactRefresh
-    @vite('resources/js/app.jsx')
-</head>
-<body style="margin: 0;">
-    <div id="app"></div>
-</body>
-</html>
+import React from 'react';
+import Layout from '../components/Layout';
+
+export default function Dashboard() {
+    return (
+        <Layout>
+            <h1>Dashboard</h1>
+            <p>Conteúdo principal aqui.</p>
+        </Layout>
+    );
+}
