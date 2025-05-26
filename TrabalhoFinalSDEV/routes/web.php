@@ -7,6 +7,7 @@ use App\Http\Controllers\PerdaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServicoController;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -84,4 +85,8 @@ Route::get('/teste', function () {
 Route::get('/', function () {
     return view('welcome'); // Sem scripts React aqui
 });
+Route::get('/calendario', function () {
+    return view('calendario');
+})->middleware(['auth']);
+
 
