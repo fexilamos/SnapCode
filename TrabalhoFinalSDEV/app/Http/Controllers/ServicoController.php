@@ -122,6 +122,15 @@ class ServicoController extends Controller
             'detalhesEvCorporativo'
         ])->find($id);
 
+        $user = auth()->user();
+
+        if ($user->funcionario->cod_nivel == 3) {
+            $alocado = $servico->funcionarios->contains('cod_funcionario', $user->funcionario->cod_funcionario);
+                if (!$alocado)
+                {
+                    abort(403, 'Acesso não autorizado!');
+                }
+        }
         if (!$servico) {
             return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
         }

@@ -59,13 +59,12 @@ class Material extends Model
         return $this->hasMany(Perda::class, 'cod_material', 'cod_material');
     }
 
-    public function servicoEquipamentos()
-    {
-         return $this->hasMany(ServicoEquipamento::class, 'cod_material', 'cod_material');
-    }
-     public function servicos()
+
+    public function servicos()
     {
         return $this->belongsToMany(Servico::class, 'Servico_Equipamento', 'cod_material', 'cod_servico')
-                    ->using(ServicoEquipamento::class);
+            ->withPivot('data_levantamento', 'data_devolucao')
+            ->withTimestamps()
+            ->using(ServicoEquipamento::class);
     }
 }
