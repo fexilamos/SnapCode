@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Avaria;
 use Illuminate\Http\Request;
 
 class AvariaController extends Controller
@@ -11,15 +12,8 @@ class AvariaController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $avarias = Avaria::with(['material','servico'])->get();
+        return view('avaria.index');
     }
 
     /**
@@ -27,7 +21,15 @@ class AvariaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'cod_material' => 'required|exists:Material,cod_material',
+            'cod_servico' => 'nullable|exists:Servico,cod_servico',
+            'data_registo' => 'required|date',
+            'observacoes' => 'nullable|string',
+        ]);
+
+        $avarias = Avaria::create($validated);
+        return response()->json($avarias,201);
     }
 
     /**
@@ -35,15 +37,13 @@ class AvariaController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $avaria = Avaria::with(['material', 'servico'])->find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        if (!$avaria) {
+            return response()->json(['message' => 'Registo de Avaria não encontrado'], 404);
+        }
+
+        return response()->json($avaria);
     }
 
     /**
@@ -51,7 +51,21 @@ class AvariaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $avaria = Avaria::find($id);
+
+        if (!$avaria) {
+            return response()->json(['message' => 'Registo de Avaria não encontrado'], 404);
+        }
+
+        $validated = $request->validate([
+            'cod_material' => 'required|exists:Material,cod_material',
+            'cod_servico' => 'nullable|exists:Servico,cod_servico',
+            'data_registo' => 'required|date',
+            'observacoes' => 'nullable|string',
+        ]);
+
+        $avaria->update($validated);
+        return response()->json($avaria);
     }
 
     /**
@@ -59,6 +73,13 @@ class AvariaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $avaria = Avaria::find($id);
+
+        if (!$avaria) {
+            return response()->json(['message'=>'Registo de Avaria não encontrado'],404);
+        }
+
+        $avaria->delete();
+        return response()->json(['message'=>'Registo de Avaria apagado com sucesso']);
     }
 }

@@ -2,63 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Perda;
 use Illuminate\Http\Request;
 
 class PerdaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Listar todas as perdas
     public function index()
     {
-        //
+        $perdas = Perda::with(['material','servico'])->get();
+        return response()->json($perdas);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Criar nova perda
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'cod_material' => 'required|exists:Material,cod_material',
+            'cod_servico' => 'nullable|exists:Servico,cod_servico',
+            'data_registo' => 'required|date',
+            'observacoes' => 'nullable|string',
+        ]);
+
+        $perda = Perda::create($validated);
+        return response()->json($perda, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Mostrar perda específica
     public function show(string $id)
     {
-        //
+        $perda = Perda::with(['material', 'servico'])->find($id);
+
+        if (!$perda) {
+            return response()->json(['message' => 'Registo de Perda não encontrado'], 404);
+        }
+
+        return response()->json($perda);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+    // Atualizar registo de perda
     public function update(Request $request, string $id)
     {
-        //
+        $perda = Perda::find($id);
+
+        if (!$perda) {
+            return response()->json(['message' => 'Registo de Perda não encontrado'], 404);
+        }
+
+        $validated = $request->validate([
+            'cod_material' => 'required|exists:Material,cod_material',
+            'cod_servico' => 'nullable|exists:Servico,cod_servico',
+            'data_registo' => 'required|date',
+            'observacoes' => 'nullable|string',
+        ]);
+
+        $perda->update($validated);
+        return response()->json($perda);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Eliminar perda
     public function destroy(string $id)
     {
-        //
+        $perda = Perda::find($id);
+
+        if (!$perda) {
+            return response()->json(['message' => 'Registo de Perda não encontrado'], 404);
+        }
+
+        $perda->delete();
+        return response()->json(['message' => 'Registo de Perda apagado com sucesso']);
     }
 }
