@@ -16,16 +16,12 @@
             align-items: center;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            border: 1px solid #444;
-            padding: 80px 80px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.1);
-            background-color: #ffffff20;
-        }
+       .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
 
         .logo-container {
             font-size: 3rem;
@@ -43,6 +39,8 @@
             border-right: 2px solid white;
             color: white;
             animation: blink 0.7s step-end infinite;
+                text-shadow: 2px 2px 4px rgba(41, 41, 41, 0.3);
+
         }
 
         @keyframes blink {
@@ -51,7 +49,7 @@
         }
 
         .button {
-            background-color: #444;
+            background-color: #000000;
             color: white;
             text-decoration: none;
             padding: 14px 40px;
