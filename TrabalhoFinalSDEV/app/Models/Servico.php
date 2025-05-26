@@ -9,13 +9,13 @@ use App\Models\TiposServico;
 use App\Models\Localizacao;
 use App\Models\Avaria;
 use App\Models\Perda;
-use App\Models\ServicoDetalhesCasamento; 
+use App\Models\ServicoDetalhesCasamento;
 use App\Models\ServicoDetalhesBatizado;
 use App\Models\ServicoDetalhesComunhaoParticular;
 use App\Models\ServicoDetalhesComunhaoGeral;
 use App\Models\ServicoDetalhesEvCorporativo;
 use App\Models\ServicoFuncionario;
-use App\Models\ServicoEquipamento; 
+use App\Models\ServicoEquipamento;
 use App\Models\Funcionario;
 use App\Models\Material;
 
@@ -32,15 +32,15 @@ class Servico extends Model
     protected $fillable = [
         'cod_cliente',
         'cod_tipo_servico',
-        'cod_local_servico', 
+        'cod_local_servico',
         'data_inicio',
         'data_fim',
-        'nome_servico', 
+        'nome_servico',
     ];
 
     protected $casts = [
-        'data_inicio' => 'date', 
-        'data_fim' => 'date',    
+        'data_inicio' => 'date',
+        'data_fim' => 'date',
     ];
 
     public function cliente()
@@ -92,25 +92,20 @@ class Servico extends Model
          return $this->hasOne(ServicoDetalhesEvCorporativo::class, 'cod_servico', 'cod_servico');
     }
 
-     public function servicoFuncionarios()
-    {
 
-         return $this->hasMany(ServicoFuncionario::class, 'cod_servico', 'cod_servico');
-    }
-
-     public function servicoEquipamentos()
-    {
-         return $this->hasMany(ServicoEquipamento::class, 'cod_servico', 'cod_servico');
-    }
     public function funcionarios()
     {
-        return $this->belongsToMany(Funcionario::class, 'Servico_Funcionario', 'cod_servico', 'cod_funcionario')
-                    ->using(ServicoFuncionario::class);
-    }
- public function materiais()
-    {
-         return $this->belongsToMany(Material::class, 'Servico_Equipamento', 'cod_servico', 'cod_material')
-                    ->using(ServicoEquipamento::class); 
+        return $this->belongsToMany(Funcionario::class, 'servico_funcionario', 'cod_servico', 'cod_funcionario')
+            ->withPivot('data_alocacao_inicio', 'data_alocacao_fim', 'funcao_no_servico')
+            ->withTimestamps()
+            ->using(ServicoFuncionario::class);
     }
 
+    public function materiais()
+    {
+        return $this->belongsToMany(Material::class, 'servico_equipamento', 'cod_servico', 'cod_material')
+            ->withPivot('data_levantamento', 'data_devolucao')
+            ->withTimestamps()
+            ->using(ServicoEquipamento::class);
+    }
 }

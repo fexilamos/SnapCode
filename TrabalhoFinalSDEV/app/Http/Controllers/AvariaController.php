@@ -18,7 +18,8 @@ class AvariaController extends Controller
         return view('avarias.index', compact('avarias'));
     }
 
-    public function create(){
+    public function create()
+    {
         $materiais = Material::all();
         $servicos = Servico::all();
         return view('avarias.create', compact('materiais','servicos'));

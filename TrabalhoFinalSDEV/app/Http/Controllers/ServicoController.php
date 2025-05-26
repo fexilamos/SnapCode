@@ -11,15 +11,15 @@ use App\Models\ServicoDetalhesCasamento;
 use App\Models\ServicoDetalhesComunhaoGeral;
 use App\Models\ServicoDetalhesComunhaoParticular;
 use App\Models\ServicoDetalhesEvCorporativo;
+use App\Models\TiposServico;
+use App\Models\Localizacao;
 
 class ServicoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Listar serviços
     public function index()
     {
-         $servicos = Servico::with([
+        $servicos = Servico::with([
             'cliente',
             'tipoServico',
             'localizacao',
@@ -30,12 +30,18 @@ class ServicoController extends Controller
             'detalhesEvCorporativo'
         ])->get();
 
-        return response()->json($servicos);
+        return view('servicos.index', compact('servicos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Formulário para criar serviço
+    public function create()
+    {
+        $tipos = TiposServico::all();
+        $localizacoes = Localizacao::all();
+        return view('servicos.create', compact('tipos', 'localizacoes'));
+    }
+
+    // Guardar novo serviço
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -43,14 +49,12 @@ class ServicoController extends Controller
             'nome_cliente' => 'required|string|max:255',
             'email_cliente' => 'nullable|email',
             'telefone_cliente' => 'nullable|string|max:20',
-
             // Serviço
             'cod_tipo_servico' => 'required|exists:TiposServico,cod_tipo_servico',
             'cod_local_servico' => 'required|exists:Localizacao,cod_local_servico',
             'data_inicio' => 'required|date',
             'data_fim' => 'required|date|after_or_equal:data_inicio',
             'nome_servico' => 'required|string|max:255',
-
             // Detalhes (opcionais, dependendo do tipo)
             'detalhes' => 'nullable|array'
         ]);
@@ -58,14 +62,12 @@ class ServicoController extends Controller
         DB::beginTransaction();
 
         try {
-            // Criar cliente
             $cliente = Cliente::create([
                 'nome' => $validated['nome_cliente'],
                 'email' => $validated['email_cliente'] ?? null,
                 'telefone' => $validated['telefone_cliente'] ?? null,
             ]);
 
-            // Criar serviço
             $servico = Servico::create([
                 'cod_cliente' => $cliente->cod_cliente,
                 'cod_tipo_servico' => $validated['cod_tipo_servico'],
@@ -75,7 +77,6 @@ class ServicoController extends Controller
                 'nome_servico' => $validated['nome_servico'],
             ]);
 
-            // Criar detalhes específicos com base no tipo
             $tipo = (int) $validated['cod_tipo_servico'];
             $detalhes = $validated['detalhes'] ?? [];
 
@@ -99,20 +100,18 @@ class ServicoController extends Controller
 
             DB::commit();
 
-            return response()->json(['message' => 'Serviço criado com sucesso', 'servico' => $servico], 201);
+            return redirect()->route('servicos.index')->with('success', 'Serviço criado com sucesso.');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Erro ao criar serviço'], 500);
+            return back()->withErrors(['error' => 'Erro ao criar serviço.']);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Ver detalhes de um serviço
     public function show(string $id)
     {
-         $servico = Servico::with([
+        $servico = Servico::with([
             'cliente',
             'tipoServico',
             'localizacao',
@@ -124,22 +123,49 @@ class ServicoController extends Controller
         ])->find($id);
 
         if (!$servico) {
-            return response()->json(['message' => 'Serviço não encontrado'], 404);
+            return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
         }
 
-        return response()->json($servico);
+        return view('servicos.show', compact('servico'));
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Formulário de edição de serviço
+    public function edit($id)
     {
-        $servico = Servico::find($id);
+        $servico = Servico::with([
+            'cliente',
+            'tipoServico',
+            'localizacao',
+            'detalhesBatizado',
+            'detalhesCasamento',
+            'detalhesComunhaoGeral',
+            'detalhesComunhaoParticular',
+            'detalhesEvCorporativo'
+        ])->find($id);
 
         if (!$servico) {
-            return response()->json(['message' => 'Serviço não encontrado'], 404);
+            return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
+        }
+
+        $tipos = TiposServico::all();
+        $localizacoes = Localizacao::all();
+
+        return view('servicos.edit', compact('servico', 'tipos', 'localizacoes'));
+    }
+
+    // Atualizar serviço
+    public function update(Request $request, string $id)
+    {
+        $servico = Servico::with([
+            'detalhesBatizado',
+            'detalhesCasamento',
+            'detalhesComunhaoGeral',
+            'detalhesComunhaoParticular',
+            'detalhesEvCorporativo'
+        ])->find($id);
+
+        if (!$servico) {
+            return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
         }
 
         $validated = $request->validate([
@@ -199,17 +225,15 @@ class ServicoController extends Controller
             }
 
             DB::commit();
-            return response()->json(['message' => 'Serviço atualizado com sucesso']);
+            return redirect()->route('servicos.index')->with('success', 'Serviço atualizado com sucesso.');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Erro ao atualizar serviço'], 500);
+            return back()->withErrors(['error' => 'Erro ao atualizar serviço.']);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Apagar serviço
     public function destroy(string $id)
     {
         $servico = Servico::with([
@@ -221,32 +245,36 @@ class ServicoController extends Controller
         ])->find($id);
 
         if (!$servico) {
-            return response()->json(['message' => 'Serviço não encontrado'], 404);
+            return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
         }
 
         DB::beginTransaction();
 
         try {
-            // Eliminar detalhes conforme o tipo de serviço
+            // Apagar todos os detalhes associados (caso existam)
             if ($servico->detalhesBatizado) {
                 $servico->detalhesBatizado->delete();
-            } elseif ($servico->detalhesCasamento) {
+            }
+            if ($servico->detalhesCasamento) {
                 $servico->detalhesCasamento->delete();
-            } elseif ($servico->detalhesComunhaoGeral) {
+            }
+            if ($servico->detalhesComunhaoGeral) {
                 $servico->detalhesComunhaoGeral->delete();
-            } elseif ($servico->detalhesComunhaoParticular) {
+            }
+            if ($servico->detalhesComunhaoParticular) {
                 $servico->detalhesComunhaoParticular->delete();
-            } elseif ($servico->detalhesEvCorporativo) {
+            }
+            if ($servico->detalhesEvCorporativo) {
                 $servico->detalhesEvCorporativo->delete();
             }
 
             $servico->delete();
 
             DB::commit();
-            return response()->json(['message' => 'Serviço apagado com sucesso']);
+            return redirect()->route('servicos.index')->with('success', 'Serviço apagado com sucesso.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Erro ao apagar serviço'], 500);
+            return back()->withErrors(['error' => 'Erro ao apagar serviço.']);
         }
     }
 }
