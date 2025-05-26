@@ -39,11 +39,7 @@ require __DIR__.'/auth.php';
 Route::get('/teste', function () {
     return view('teste');
 });
-
-Route::get('/testeview', function () {
-    return view('testeview');
+Route::get('/', function () {
+    return view('welcome'); // Sem scripts React aqui
 });
 
-Route::get('/{any}', function () {
-    return view('react');
-})->where('any', '.*');

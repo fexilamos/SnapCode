@@ -7,7 +7,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #e2eff1;
+            background-color: #1f2937; /* igual ao dashboard */
             font-family: Helvetica, Arial, sans-serif;
             font-weight: bold;
             height: 100vh;
@@ -31,21 +31,23 @@
             font-size: 3rem;
             white-space: nowrap;
             margin-bottom: 40px;
+            color: white;
         }
 
         .arrow {
-            color: #000000;
+            color: white;
         }
 
         .snap {
             display: inline-block;
-            border-right: 2px solid #000000;
+            border-right: 2px solid white;
+            color: white;
             animation: blink 0.7s step-end infinite;
         }
 
         @keyframes blink {
             from, to { border-color: transparent; }
-            50% { border-color: #000000; }
+            50% { border-color: white; }
         }
 
         .button {
