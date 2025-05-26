@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Avaria;
+use App\Models\Material;
+use App\Models\Servico;
 use Illuminate\Http\Request;
 
 class AvariaController extends Controller
@@ -13,23 +15,34 @@ class AvariaController extends Controller
     public function index()
     {
         $avarias = Avaria::with(['material','servico'])->get();
-        return view('avaria.index');
+        return view('avarias.index', compact('avarias'));
     }
 
+    public function create(){
+        $materiais = Material::all();
+        $servicos = Servico::all();
+        return view('avarias.create', compact('materiais','servicos'));
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'cod_material' => 'required|exists:Material,cod_material',
             'cod_servico' => 'nullable|exists:Servico,cod_servico',
             'data_registo' => 'required|date',
             'observacoes' => 'nullable|string',
         ]);
 
-        $avarias = Avaria::create($validated);
-        return response()->json($avarias,201);
+        $avaria = Avaria::create([
+            'cod_material' => $request->cod_material,
+            'cod_servico' => $request->cod_servico,
+            'data_registo' => $request->data_registo,
+            'observacoes' => $request->observacoes,
+        ]);
+
+        return redirect()->route('avarias.index')->with('success', 'Avaria criada com sucesso!');
     }
 
     /**
@@ -40,10 +53,23 @@ class AvariaController extends Controller
         $avaria = Avaria::with(['material', 'servico'])->find($id);
 
         if (!$avaria) {
-            return response()->json(['message' => 'Registo de Avaria não encontrado'], 404);
+            return redirect()->route('avarias.index')->with('error', 'Avaria não encontrada');
         }
 
-        return response()->json($avaria);
+        return view('avarias.show', compact('avaria'));
+    }
+
+    public function edit($id)
+    {
+        $avaria = Avaria::find($id);
+
+        if (!$avaria) {
+            return redirect()->route('avarias.index')->with('error', 'Avaria não encontrada');
+        }
+
+        $materiais = Material::all();
+        $servicos = Servico::all();
+        return view('avarias.edit', compact('avaria', 'materiais', 'servicos'));
     }
 
     /**
@@ -54,18 +80,24 @@ class AvariaController extends Controller
         $avaria = Avaria::find($id);
 
         if (!$avaria) {
-            return response()->json(['message' => 'Registo de Avaria não encontrado'], 404);
+            return redirect()->route('avarias.index')->with('error', 'Avaria não encontrada');
         }
 
-        $validated = $request->validate([
+        $request->validate([
             'cod_material' => 'required|exists:Material,cod_material',
             'cod_servico' => 'nullable|exists:Servico,cod_servico',
             'data_registo' => 'required|date',
             'observacoes' => 'nullable|string',
         ]);
 
-        $avaria->update($validated);
-        return response()->json($avaria);
+        $avaria->update([
+            'cod_material' => $request->cod_material,
+            'cod_servico' => $request->cod_servico,
+            'data_registo' => $request->data_registo,
+            'observacoes' => $request->observacoes,
+        ]);
+
+        return redirect()->route('avarias.index')->with('success', 'Avaria editada com sucesso!');
     }
 
     /**
@@ -76,10 +108,10 @@ class AvariaController extends Controller
         $avaria = Avaria::find($id);
 
         if (!$avaria) {
-            return response()->json(['message'=>'Registo de Avaria não encontrado'],404);
+            return redirect()->route('avarias.index')->with('error', 'Avaria não encontrada');
         }
 
         $avaria->delete();
-        return response()->json(['message'=>'Registo de Avaria apagado com sucesso']);
+        return redirect()->route('avarias.index')->with('success', 'Avaria apagada com sucesso');
     }
 }

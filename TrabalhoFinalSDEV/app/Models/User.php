@@ -50,13 +50,7 @@ class User extends Authenticatable
 
     public function funcionario()
     {
-    // belongsTo(Nome do Modelo Relacionado, Chave Estrangeira NESTA tabela, Chave Referenciada NA OUTRA tabela)
-    return $this->belongsTo(Funcionario::class, 'cod_funcionario', 'cod_funcionario');
-}
-    public function isAdmin()
-{
-    // Verifica se este User tem um Funcionario associado através da relação ($this->funcionario)
-    // E se o cod_nivel desse Funcionario é igual a 1.
-    return $this->funcionario && $this->funcionario->cod_nivel === 1;
-}
+        // belongsTo(Nome do Modelo Relacionado, Chave Estrangeira NESTA tabela, Chave Referenciada NA OUTRA tabela)
+        return $this->belongsTo(Funcionario::class, 'cod_funcionario', 'cod_funcionario');
+    }
 }
