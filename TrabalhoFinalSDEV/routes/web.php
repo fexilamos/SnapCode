@@ -3,6 +3,8 @@
 use App\Http\Controllers\AvariaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventoController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,4 +44,8 @@ Route::get('/teste', function () {
 Route::get('/', function () {
     return view('welcome'); // Sem scripts React aqui
 });
+Route::get('/calendario', function () {
+    return view('calendario');
+})->middleware(['auth']);
+
 

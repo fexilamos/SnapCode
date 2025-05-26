@@ -1,10 +1,13 @@
 <!-- resources/views/layouts/dashboard.blade.php -->
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
     @vite('resources/css/app.css')
+    @stack('styles')
+
     <style>
 @keyframes typing {
     from { width: 0 }
@@ -73,5 +76,6 @@
     </div>
 
     <script src="//unpkg.com/alpinejs" defer></script>
+    @stack('scripts')
 </body>
 </html>
