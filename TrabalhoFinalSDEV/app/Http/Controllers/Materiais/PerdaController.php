@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Perda;
 use App\Models\Material;
 use App\Models\Servico;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreUpdatePerdaRequest;
 
 class PerdaController extends Controller
 {
@@ -25,21 +25,9 @@ class PerdaController extends Controller
     }
 
     // Criar nova perda
-    public function store(Request $request)
+    public function store(StoreUpdatePerdaRequest $request)
     {
-        $request->validate([
-            'cod_material' => 'required|exists:Material,cod_material',
-            'cod_servico' => 'nullable|exists:Servico,cod_servico',
-            'data_registo' => 'required|date',
-            'observacoes' => 'nullable|string',
-        ]);
-
-        $perda = Perda::create([
-            'cod_material' => $request->cod_material,
-            'cod_servico' => $request->cod_servico,
-            'data_registo' => $request->data_registo,
-            'observacoes' => $request->observacoes,
-        ]);
+        Perda::create($request->all());
         return redirect()->route('perdas.index')->with('success', 'Registo criado com sucesso!');
     }
 
@@ -68,28 +56,11 @@ class PerdaController extends Controller
         return view('perdas.edit', compact('perda', 'materiais', 'servicos'));
     }
     // Atualizar registo de perda
-    public function update(Request $request, string $id)
+    public function update(StoreUpdatePerdaRequest $request, string $id)
     {
-        $perda = Perda::find($id);
-
-        if (!$perda) {
-            return redirect()->route('perdas.index')->with('error', 'Registo não encontrado');
-        }
-
-        $request->validate([
-            'cod_material' => 'required|exists:Material,cod_material',
-            'cod_servico' => 'nullable|exists:Servico,cod_servico',
-            'data_registo' => 'required|date',
-            'observacoes' => 'nullable|string',
-        ]);
-
-        $perda->update([
-            'cod_material' => $request->cod_material,
-            'cod_servico' => $request->cod_servico,
-            'data_registo' => $request->data_registo,
-            'observacoes' => $request->observacoes,
-        ]);
-        return redirect()->route('perdas.index')->with('success', 'Registo criado com sucesso!');
+        $avaria = Perda::findOrFail($id);
+        $avaria->update($request->all());
+        return redirect()->route('perdas.index')->with('success', 'Registo atualizado com sucesso!');
     }
 
     // Eliminar perda

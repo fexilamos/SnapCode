@@ -8,7 +8,7 @@ use App\Models\Funcionario;
 use App\Models\Funcao;
 use App\Models\FuncionarioEstado;
 use App\Models\Nivel;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreUpdateFuncionarioRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -31,40 +31,24 @@ class FuncionariosController extends Controller
     }
 
     // Guardar novo funcionário
-    public function store(Request $request)
+    public function store(StoreUpdateFuncionarioRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
-            'cod_funcao' => 'required|exists:funcao,cod_funcao',
-            'cod_estado' => 'required|exists:funcionario_estado,cod_estado',
-            'cod_nivel'  => 'required|exists:nivel,cod_nivel',
-        ]);
+         DB::transaction(function () use ($request) {
+            // Cria o funcionário
+            $funcionario = Funcionario::create($request->only([
+                'nome', 'email', 'nif', 'telemovel', 'cod_funcao', 'cod_estado', 'cod_nivel'
+            ]));
 
-        DB::beginTransaction();
-
-        try {
-            $funcionario = Funcionario::create([
-                'cod_funcao' => $validated['cod_funcao'],
-                'cod_estado' => $validated['cod_estado'],
-                'cod_nivel'  => $validated['cod_nivel'],
-            ]);
-
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
+            // Cria o user associado (ajusta password conforme necessidade)
+            User::create([
+                'name' => $request->input('nome'),
+                'email' => $request->input('email'),
+                'password' => Hash::make('password'),
                 'cod_funcionario' => $funcionario->cod_funcionario,
             ]);
+        });
 
-            DB::commit();
-
-            return redirect()->route('funcionarios.index')->with('success', 'Funcionário e utilizador criados com sucesso.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Erro ao criar funcionário.']);
-        }
+        return redirect()->route('funcionarios.index')->with('success', 'Funcionário e utilizador criados com sucesso!');
     }
 
     // Mostrar um funcionário específico (detalhe)
@@ -96,47 +80,26 @@ class FuncionariosController extends Controller
     }
 
     // Atualizar funcionário
-    public function update(Request $request, $cod_funcionario)
+    public function update(StoreUpdateFuncionarioRequest $request, $cod_funcionario)
     {
-        $funcionario = Funcionario::with('user')->find($cod_funcionario);
+        DB::transaction(function () use ($request, $cod_funcionario) {
+            // Atualiza o funcionário
+            $funcionario = Funcionario::findOrFail($cod_funcionario);
+            $funcionario->update($request->only([
+                'nome', 'email', 'nif', 'telemovel', 'cod_funcao', 'cod_estado', 'cod_nivel'
+            ]));
 
-        if (!$funcionario || !$funcionario->user) {
-            return redirect()->route('funcionarios.index')->with('error', 'Funcionário não encontrado.');
-        }
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $funcionario->user->id,
-            'password' => 'nullable|string|min:6|confirmed',
-            'cod_funcao' => 'required|exists:funcao,cod_funcao',
-            'cod_estado' => 'required|exists:funcionario_estado,cod_estado',
-            'cod_nivel'  => 'required|exists:nivel,cod_nivel',
-        ]);
-
-        DB::beginTransaction();
-
-        try {
-            $user = $funcionario->user;
-            $user->name = $validated['name'];
-            $user->email = $validated['email'];
-            if (!empty($validated['password'])) {
-                $user->password = Hash::make($validated['password']);
+            // Atualiza também o User associado, se existir
+            $user = User::where('cod_funcionario', $funcionario->cod_funcionario)->first();
+            if ($user) {
+                $user->update([
+                    'name' => $request->input('nome'),
+                    'email' => $request->input('email'),
+                ]);
             }
-            $user->save();
+        });
 
-            $funcionario->update([
-                'cod_funcao' => $validated['cod_funcao'],
-                'cod_estado' => $validated['cod_estado'],
-                'cod_nivel'  => $validated['cod_nivel'],
-            ]);
-
-            DB::commit();
-
-            return redirect()->route('funcionarios.index')->with('success', 'Funcionário atualizado com sucesso.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Erro ao atualizar funcionário.']);
-        }
+        return redirect()->route('funcionarios.index')->with('success', 'Funcionário e utilizador atualizados com sucesso!');
     }
 
     // Eliminar funcionário e user associado
