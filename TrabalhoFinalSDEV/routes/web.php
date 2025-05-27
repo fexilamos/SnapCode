@@ -1,6 +1,6 @@
 <?php
 
-use app\Http\Controllers\Materiais\MaterialController;
+use App\Http\Controllers\Materiais\MaterialController;
 use App\Http\Controllers\Materiais\AvariaController;
 use App\Http\Controllers\Funcionarios\FuncionariosController;
 use App\Http\Controllers\Materiais\PerdaController;
@@ -34,6 +34,7 @@ Route::middleware('auth','nivel:1')->group(function () {
 
 //MATERIAIS
 Route::middleware('auth','nivel:1,2')->group(function () {
+    Route::get('/materiais/home', [MaterialController::class, 'home'])->name('materiais.home');
     Route::get('/materiais', [MaterialController::class, 'index'])->name('materiais.index');
     Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materiais.show');
 });

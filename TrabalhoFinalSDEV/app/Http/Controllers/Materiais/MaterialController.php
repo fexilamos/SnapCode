@@ -129,4 +129,11 @@ class MaterialController extends Controller
         $material->delete();
         return redirect()->route('materiais.index')->with('success', 'Material apagado com sucesso');
     }
+
+public function home()
+    {
+
+        return view('material.home');
+    }
+
 }
