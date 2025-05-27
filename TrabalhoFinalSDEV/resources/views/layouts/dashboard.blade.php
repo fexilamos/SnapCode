@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
-    @vite('resources/css/app.css')
+@vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
     <style>
@@ -40,7 +40,7 @@
 
                 <!-- Navegação -->
                 <nav class="px-6 space-y-4">
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Dashboard</a>
+                    <a href="{{ url('/dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Dashboard</a>
 
                     <!-- Gestão Dropdown -->
                     <div x-data="{ open: false }" class="space-y-1">
@@ -51,13 +51,15 @@
                             </svg>
                         </button>
                         <div x-show="open" class="pl-4 space-y-1">
-                            <a href="#" class="block py-2 px-2 rounded hover:bg-gray-700">Gestão de Material</a>
+                            <a href="{{ route('materiais.home') }}" class="block py-2 px-2 rounded hover:bg-gray-700">Gestão de Material</a>
                             <a href="#" class="block py-2 px-2 rounded hover:bg-gray-700">Gestão de Colaboradores</a>
                         </div>
                     </div>
 
                     <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Eventos</a>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Calendário</a>
+                    <a href="{{ url('/calendario') }}" class="block px-4 py-2 text-white hover:bg-gray-700">
+    Calendário
+</a>
                 </nav>
             </div>
 

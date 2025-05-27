@@ -45,24 +45,12 @@ class ServicoController extends Controller
     // Guardar novo serviço
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            // Cliente
-            'nome_cliente' => 'required|string|max:255',
-            'email_cliente' => 'nullable|email',
-            'telefone_cliente' => 'nullable|string|max:20',
-            // Serviço
-            'cod_tipo_servico' => 'required|exists:TiposServico,cod_tipo_servico',
-            'cod_local_servico' => 'required|exists:Localizacao,cod_local_servico',
-            'data_inicio' => 'required|date',
-            'data_fim' => 'required|date|after_or_equal:data_inicio',
-            'nome_servico' => 'required|string|max:255',
-            // Detalhes (opcionais, dependendo do tipo)
-            'detalhes' => 'nullable|array'
-        ]);
-
         DB::beginTransaction();
 
         try {
+            $validated = $request->validated();
+
+            // Cria Cliente (apenas no store)
             $cliente = Cliente::create([
                 'nome' => $validated['nome_cliente'],
                 'email' => $validated['email_cliente'] ?? null,
@@ -78,35 +66,35 @@ class ServicoController extends Controller
                 'nome_servico' => $validated['nome_servico'],
             ]);
 
-            $tipo = (int) $validated['cod_tipo_servico'];
-            $detalhes = $validated['detalhes'] ?? [];
+        $tipo = (int) $validated['cod_tipo_servico'];
+        $detalhes = $validated['detalhes'] ?? [];
 
-            switch ($tipo) {
-                case 1: // Batizado
-                    ServicoDetalhesBatizado::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
-                    break;
-                case 2: // Casamento
-                    ServicoDetalhesCasamento::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
-                    break;
-                case 3: // Comunhão Geral
-                    ServicoDetalhesComunhaoGeral::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
-                    break;
-                case 4: // Comunhão Particular
-                    ServicoDetalhesComunhaoParticular::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
-                    break;
-                case 5: // Evento Corporativo
-                    ServicoDetalhesEvCorporativo::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
-                    break;
-            }
-
-            DB::commit();
-
-            return redirect()->route('servicos.index')->with('success', 'Serviço criado com sucesso.');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Erro ao criar serviço.']);
+        switch ($tipo)
+        {
+            case 1:
+                ServicoDetalhesBatizado::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
+                break;
+            case 2:
+                ServicoDetalhesCasamento::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
+                break;
+            case 3:
+                ServicoDetalhesComunhaoGeral::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
+                break;
+            case 4:
+                ServicoDetalhesComunhaoParticular::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
+                break;
+            case 5:
+                ServicoDetalhesEvCorporativo::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
+                break;
         }
+
+        DB::commit();
+        return redirect()->route('servicos.index')->with('success', 'Serviço criado com sucesso.');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->withErrors(['error' => 'Erro ao criar serviço.']);
+    }
     }
 
     // Ver detalhes de um serviço
@@ -166,26 +154,20 @@ class ServicoController extends Controller
     // Atualizar serviço
     public function update(Request $request, string $id)
     {
-        $servico = Servico::with([
-            'detalhesBatizado',
-            'detalhesCasamento',
-            'detalhesComunhaoGeral',
-            'detalhesComunhaoParticular',
-            'detalhesEvCorporativo'
+         $servico = Servico::with([
+        'detalhesBatizado',
+        'detalhesCasamento',
+        'detalhesComunhaoGeral',
+        'detalhesComunhaoParticular',
+        'detalhesEvCorporativo'
         ])->find($id);
 
-        if (!$servico) {
+        if (!$servico)
+        {
             return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
         }
 
-        $validated = $request->validate([
-            'cod_tipo_servico' => 'required|exists:TiposServico,cod_tipo_servico',
-            'cod_local_servico' => 'required|exists:Localizacao,cod_local_servico',
-            'data_inicio' => 'required|date',
-            'data_fim' => 'required|date|after_or_equal:data_inicio',
-            'nome_servico' => 'required|string|max:255',
-            'detalhes' => 'nullable|array'
-        ]);
+    $validated = $request->validated();
 
         DB::beginTransaction();
 
@@ -198,46 +180,46 @@ class ServicoController extends Controller
                 'nome_servico' => $validated['nome_servico'],
             ]);
 
-            $tipo = (int) $validated['cod_tipo_servico'];
-            $detalhes = $validated['detalhes'] ?? [];
+        $tipo = (int) $validated['cod_tipo_servico'];
+        $detalhes = $validated['detalhes'] ?? [];
 
-            switch ($tipo) {
-                case 1:
-                    $servico->detalhesBatizado()->updateOrCreate(
-                        ['cod_servico' => $servico->cod_servico],
-                        $detalhes
-                    );
-                    break;
-                case 2:
-                    $servico->detalhesCasamento()->updateOrCreate(
-                        ['cod_servico' => $servico->cod_servico],
-                        $detalhes
-                    );
-                    break;
-                case 3:
-                    $servico->detalhesComunhaoGeral()->updateOrCreate(
-                        ['cod_servico' => $servico->cod_servico],
-                        $detalhes
-                    );
-                    break;
-                case 4:
-                    $servico->detalhesComunhaoParticular()->updateOrCreate(
-                        ['cod_servico' => $servico->cod_servico],
-                        $detalhes
-                    );
-                    break;
-                case 5:
-                    $servico->detalhesEvCorporativo()->updateOrCreate(
-                        ['cod_servico' => $servico->cod_servico],
-                        $detalhes
-                    );
-                    break;
+        switch ($tipo) {
+            case 1:
+                $servico->detalhesBatizado()->updateOrCreate(
+                    ['cod_servico' => $servico->cod_servico],
+                    $detalhes
+                );
+                break;
+            case 2:
+                $servico->detalhesCasamento()->updateOrCreate(
+                    ['cod_servico' => $servico->cod_servico],
+                    $detalhes
+                );
+                break;
+            case 3:
+                $servico->detalhesComunhaoGeral()->updateOrCreate(
+                    ['cod_servico' => $servico->cod_servico],
+                    $detalhes
+                );
+                break;
+            case 4:
+                $servico->detalhesComunhaoParticular()->updateOrCreate(
+                    ['cod_servico' => $servico->cod_servico],
+                    $detalhes
+                );
+                break;
+            case 5:
+                $servico->detalhesEvCorporativo()->updateOrCreate(
+                    ['cod_servico' => $servico->cod_servico],
+                    $detalhes
+                );
+                break;
             }
 
             DB::commit();
-            return redirect()->route('servicos.index')->with('success', 'Serviço atualizado com sucesso.');
+                return redirect()->route('servicos.index')->with('success', 'Serviço atualizado com sucesso.');
 
-        } catch (\Exception $e) {
+        }   catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Erro ao atualizar serviço.']);
         }

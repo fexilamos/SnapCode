@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Materiais;
 
+use App\Http\Requests\StoreAvariaRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Avaria;
 use App\Models\Material;
 use App\Models\Servico;
-use Illuminate\Http\Request;
+
 
 class AvariaController extends Controller
 {
@@ -28,23 +29,10 @@ class AvariaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAvariaRequest $request)
     {
-        $request->validate([
-            'cod_material' => 'required|exists:Material,cod_material',
-            'cod_servico' => 'nullable|exists:Servico,cod_servico',
-            'data_registo' => 'required|date',
-            'observacoes' => 'nullable|string',
-        ]);
-
-        $avaria = Avaria::create([
-            'cod_material' => $request->cod_material,
-            'cod_servico' => $request->cod_servico,
-            'data_registo' => $request->data_registo,
-            'observacoes' => $request->observacoes,
-        ]);
-
-        return redirect()->route('avarias.index')->with('success', 'Avaria criada com sucesso!');
+        Avaria::create($request->all());
+        return redirect()->route('avarias.index')->with('success', 'Avaria registada com sucesso!');
     }
 
     /**
@@ -77,29 +65,11 @@ class AvariaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreAvariaRequest $request, string $id)
     {
-        $avaria = Avaria::find($id);
-
-        if (!$avaria) {
-            return redirect()->route('avarias.index')->with('error', 'Avaria não encontrada');
-        }
-
-        $request->validate([
-            'cod_material' => 'required|exists:Material,cod_material',
-            'cod_servico' => 'nullable|exists:Servico,cod_servico',
-            'data_registo' => 'required|date',
-            'observacoes' => 'nullable|string',
-        ]);
-
-        $avaria->update([
-            'cod_material' => $request->cod_material,
-            'cod_servico' => $request->cod_servico,
-            'data_registo' => $request->data_registo,
-            'observacoes' => $request->observacoes,
-        ]);
-
-        return redirect()->route('avarias.index')->with('success', 'Avaria editada com sucesso!');
+        $avaria = Avaria::findOrFail($id);
+        $avaria->update($request->all());
+        return redirect()->route('avarias.index')->with('success', 'Avaria atualizada com sucesso!');
     }
 
     /**

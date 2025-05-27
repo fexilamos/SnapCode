@@ -1,77 +1,73 @@
-<!-- resources/views/layouts/dashboard.blade.php -->
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    @vite('resources/css/app.css')
-    <style>
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
-@keyframes blink {
-    50% { border-color: transparent }
-}
+@extends('layouts.dashboard')
 
-.typing-effect {
-    overflow: hidden;
-    border-right: 1px solid white;
-    white-space: nowrap;
-    width: 0;
-    animation:
-        typing 2s steps(10, end) forwards,
-        blink 0.7s step-end infinite;
-}
-</style>
-</head>
-<body class="bg-gray-800 text-white">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-black flex flex-col justify-between">
-            <div>
-                <!-- LOGO -->
-                <div class="p-6 text-white text-2xl font-bold tracking-wide">
-    <span class="typing-effect">&lt;SNAP/&gt;</span>
-</div>
+@section('content')
+<h1 class="text-3xl font-bold mb-6">Painel Principal</h1>
 
-                <!-- Navegação -->
-                <nav class="px-6 space-y-4">
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Dashboard</a>
+<!-- Cards Superiores -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                    <!-- Gestão Dropdown -->
-                    <div x-data="{ open: false }" class="space-y-1">
-                        <button @click="open = !open" class="w-full text-left py-2 px-4 rounded hover:bg-gray-700 flex justify-between items-center">
-                            Gestão
-                            <svg class="w-4 h-4 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-                        <div x-show="open" class="pl-4 space-y-1">
-                            <a href="#" class="block py-2 px-2 rounded hover:bg-gray-700">Gestão de Material</a>
-                            <a href="#" class="block py-2 px-2 rounded hover:bg-gray-700">Gestão de Colaboradores</a>
-                        </div>
-                    </div>
-
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Eventos</a>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Calendário</a>
-                </nav>
-            </div>
-
-            <!-- Logout -->
-            <div class="p-6">
-                <a href="{{ route('logout') }}" class="block py-2 px-4 bg-red-600 hover:bg-red-700 rounded text-center">
-                    Logout
-                </a>
-            </div>
-        </aside>
-
-        <!-- Conteúdo Principal -->
-        <main class="flex-1 p-10 overflow-y-auto">
-            @yield('content')
-        </main>
+    <!-- Estatísticas de Eventos -->
+    <div class="bg-gray-700 p-6 rounded-2xl shadow">
+        <h2 class="text-xl font-semibold mb-4">📊 Estatísticas de Eventos</h2>
+        <ul class="text-sm space-y-2">
+            <li>🎉 <strong>Casamentos:</strong> 14</li>
+            <li>👶 <strong>Batizados:</strong> 7</li>
+            <li>🙏 <strong>Comunhões:</strong> 5</li>
+            <li>🎓 <strong>Outros:</strong> 3</li>
+        </ul>
+        <a href="{{ url('/servicos') }}" class="text-blue-300 mt-3 inline-block hover:underline">Ver todos os serviços →</a>
     </div>
 
-    <script src="//unpkg.com/alpinejs" defer></script>
-</body>
-</html>
+    <!-- Funcionários em Serviço Hoje -->
+    <div class="bg-gray-700 p-6 rounded-2xl shadow">
+        <h2 class="text-xl font-semibold mb-2">👥Funcionarios Externos</h2>
+        <ul class="text-sm space-y-1">
+            <li>João Martins – Fotógrafo</li>
+            <li>Ana Costa – Videógrafo</li>
+            <li>Pedro Silva – Piloto de Drone</li>
+            <li>Maria Teixeira – Fotógrafo/Videógrafo</li>
+    </li>
+            <li>Luís Nogueira – Fotógrafo</li>
+            <li>Carla Santos – Estagiária</li>
+        </ul>
+    </div>
+
+    <!-- Materiais em Manutenção -->
+    <div class="bg-gray-700 p-6 rounded-2xl shadow">
+        <h2 class="text-xl font-semibold mb-2">🛠️ Manutenção</h2>
+        <ul class="text-sm space-y-1">
+            <li>Canon EOS R6 – substituição de bateria</li>
+            <li>Tripé Manfrotto – em reparação</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Card Inferior - Eventos Recentes e Futuros -->
+<div class="mt-8 bg-gray-700 p-6 rounded-2xl shadow">
+    <h2 class="text-xl font-semibold mb-4">📅 Eventos Recentes e Futuros</h2>
+
+    <div class="grid md:grid-cols-2 gap-6">
+        <!-- Passados -->
+        <div>
+            <h3 class="text-lg font-semibold mb-2">🕘 Eventos Passados</h3>
+            <ul class="text-sm space-y-1">
+                <li>✅ Casamento Santos – 18 Mai – Braga</li>
+                <li>✅ Comunhão Teixeira – 20 Mai – Porto</li>
+                <li>✅ Batizado Nogueira – 21 Mai – Coimbra</li>
+            </ul>
+        </div>
+
+        <!-- Futuros -->
+        <div>
+            <h3 class="text-lg font-semibold mb-2">⏳ Próximos Eventos</h3>
+            <ul class="text-sm space-y-1">
+                <li>📆 Casamento Silva – 25 Mai – Braga</li>
+                <li>📆 Batizado Costa – 28 Mai – Porto</li>
+                <li>📆 Comunhão Lopes – 2 Jun – Coimbra</li>
+            </ul>
+        </div>
+    </div>
+
+    <a href="{{ url('/calendario') }}" class="text-blue-300 mt-4 inline-block hover:underline">Ir para o calendário completo →</a>
+</div>
+@endsection
