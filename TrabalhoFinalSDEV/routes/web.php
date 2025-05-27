@@ -1,12 +1,12 @@
 <?php
 
-use app\Http\Controllers\MaterialController;
-use App\Http\Controllers\AvariaController;
-use App\Http\Controllers\FuncionariosController;
-use App\Http\Controllers\PerdaController;
+use app\Http\Controllers\Materiais\MaterialController;
+use App\Http\Controllers\Materiais\AvariaController;
+use App\Http\Controllers\Funcionarios\FuncionariosController;
+use App\Http\Controllers\Materiais\PerdaController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ServicoController;
-use App\Http\Controllers\ServicoCheckinController;
+use App\Http\Controllers\Servico\ServicoController;
+use App\Http\Controllers\Servico\ServicoCheckinController;
 
 
 Route::get('/', function () {
@@ -15,7 +15,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'nivel:1,2,3'])->name('dashboard');
 
 //SERVIÇOS
 
