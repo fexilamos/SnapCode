@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Servico;
 use App\Models\Funcionario;
 use App\Models\Material;
+use App\Http\Requests\StoreCheckinRequest;
+use App\Http\Requests\StoreCheckOutRequest;
 
 class ServicoCheckinController extends Controller
 {
@@ -19,16 +21,15 @@ class ServicoCheckinController extends Controller
         return view('servicos.checkin', compact('servico', 'funcionarios', 'materiais'));
     }
 
-    // Guarda as associações de funcionários e materiais (check-in)
-    public function store(Request $request, $servicoId)
-    {
-        $servico = Servico::findOrFail($servicoId);
 
-        // Preparar array para sync dos funcionários
+    public function store(StoreCheckinRequest $request, $servicoId)
+    {
+       $servico = Servico::findOrFail($servicoId);
+
+
         $funcionariosSync = [];
         if ($request->has('funcionarios')) {
             foreach ($request->input('funcionarios') as $funcionarioId => $dados) {
-                // Só associar se o checkbox estiver ativo ou se dados estiverem preenchidos
                 if (!empty($dados['active']) || !empty($dados['funcao_no_servico'])) {
                     $funcionariosSync[$funcionarioId] = [
                         'data_alocacao_inicio' => $dados['data_alocacao_inicio'] ?? null,
@@ -37,14 +38,11 @@ class ServicoCheckinController extends Controller
                     ];
                 }
             }
-            // Sincronizar os funcionários com os campos extra
             $servico->funcionarios()->sync($funcionariosSync);
         } else {
-            // Se não vier nenhum, remove todos
             $servico->funcionarios()->detach();
         }
 
-        // Preparar array para sync dos materiais
         $materiaisSync = [];
         if ($request->has('materiais')) {
             foreach ($request->input('materiais') as $materialId => $dados) {
@@ -55,7 +53,6 @@ class ServicoCheckinController extends Controller
                     ];
                 }
             }
-            // Sincronizar os materiais com os campos extra
             $servico->materiais()->sync($materiaisSync);
         } else {
             $servico->materiais()->detach();
@@ -73,21 +70,21 @@ class ServicoCheckinController extends Controller
     }
 
     // Guardar checkout (devolução de materiais)
-    public function checkoutStore(Request $request, $servicoId)
+    public function checkoutStore(StoreCheckoutRequest $request, $servicoId)
     {
-        $servico = Servico::with(['materiais'])->findOrFail($servicoId);
+         $servico = Servico::with(['materiais'])->findOrFail($servicoId);
 
-        $materiais = $request->input('materiais', []);
+        $materiais = $request->validated()['materiais'] ?? [];
         foreach ($materiais as $materialId => $dados) {
             $servico->materiais()->updateExistingPivot($materialId, [
                 'data_devolucao' => $dados['data_devolucao'] ?? now(),
-                // outros campos se quiseres, ex: 'observacoes' => $dados['observacoes'] ?? null
+                // outros campos, ex: 'observacoes' => $dados['observacoes'] ?? null
             ]);
         }
 
         return redirect()
             ->route('servicos.show', $servicoId)
             ->with('success', 'Checkout efetuado com sucesso!');
-    }
+        }
 }
 
