@@ -416,22 +416,6 @@ INSERT INTO Servico_Detalhes_EvCorporativo (
   '08:00', 'Cobrir chegada dos convidados e apresentações'
 );
 
-INSERT INTO Servico_Funcionario (
-  cod_servico, cod_funcionario, data_alocacao_inicio, data_alocacao_fim, funcao_no_servico
-) VALUES
-(1, 1, '2025-06-01', '2025-06-02', 'Fotógrafa principal'),
-(1, 2, '2025-06-01', '2025-06-02', 'Vídeo secundário'),
-(2, 3, '2025-07-15', '2025-07-15', 'Drone'),
-(3, 4, '2025-08-10', '2025-08-11', 'Editora de vídeo');
-
-INSERT INTO Servico_Equipamento (
-  cod_servico, cod_material, data_levantamento, data_devolucao
-) VALUES
-(1, 'MAT001', '2025-06-01', '2025-06-02'),
-(1, 'MAT002', '2025-06-01', '2025-06-02'),
-(2, 'MAT003', '2025-07-15', '2025-07-15'),
-(3, 'MAT005', '2025-08-10', '2025-08-11');
-
 INSERT INTO Avarias (
   cod_material, cod_servico, data_registo, observacoes
 ) VALUES
@@ -441,3 +425,100 @@ INSERT INTO Perdas (
   cod_material, cod_servico, data_registo, observacoes
 ) VALUES
 ('MAT003', 2, '2025-07-15', 'Drone perdido durante filmagem exterior');
+
+-- Inserindo Clientes
+INSERT INTO Clientes (nome, telefone, mail) VALUES
+('Rui e Sofia', '921234567', 'ruisofia@email.com'),
+('Carlos e Ana', '931234678', 'carlosana@email.com'),
+('Família Fernandes', '941234789', 'familiafernandes@email.com'),
+('Família Oliveira', '951234890', 'familiaoliveira@email.com'),
+('Empresa ABC', '961234901', 'contato@empresaabc.com');
+
+-- Inserindo Serviços
+INSERT INTO Servicos (cod_cliente, cod_tipo_servico, cod_local_servico, data_inicio, data_fim, nome_servico) VALUES
+(1, 1, 1, '2025-09-20', '2025-09-21', 'Casamento Rui e Sofia'),
+(2, 1, 2, '2025-10-10', '2025-10-11', 'Casamento Carlos e Ana'),
+(3, 2, 3, '2025-07-05', '2025-07-05', 'Batizado do João Fernandes'),
+(4, 2, 4, '2025-08-15', '2025-08-15', 'Batizado da Mariana Oliveira'),
+(3, 4, 3, '2025-06-15', '2025-06-15', 'Comunhão Geral dos Fernandes'),
+(4, 5, 4, '2025-06-30', '2025-06-30', 'Comunhão Privada da Mariana Oliveira'),
+(5, 3, 5, '2025-11-05', '2025-11-06', 'Evento Empresarial ABC');
+
+-- Inserindo Detalhes para Casamentos
+INSERT INTO Servico_Detalhes_Casamento (cod_servico, fotos, video, drone, sde, fotos_convidados, num_convidados_fotos, venda_fotos,
+  hora_chegada_casa_noivo, hora_saida_casa_noivo, nome_noivo, morada_noivo, agregado_noivo, info_extra_noivo,
+  hora_chegada_casa_noiva, nome_noiva, morada_noiva, agregado_noiva, info_extra_noiva,
+  morada_igreja, instrucoes_igreja, ordem_entrada, coro, coro_localizacao, ordem_leituras,
+  oferta_ramo, grupo_exterior, instrucoes_saida_igreja, info_extra_igreja,
+  nome_quinta, morada_quinta, instrucoes_quinta, timeline) VALUES
+(1, TRUE, TRUE, TRUE, TRUE, TRUE, 75, TRUE,
+  '09:00', '10:00', 'Rui Martins', 'Rua das Oliveiras, Braga', 'Família Martins', '',
+  '10:15', 'Sofia Costa', 'Rua das Rosas, Braga', 'Família Costa', '',
+  'Igreja da Sé', 'Entrada pelo lado esquerdo', 'Noivo, padrinhos, convidados', TRUE, 'Frente', 'Salmo, Leitura',
+  TRUE, FALSE, 'Saída organizada pelo altar', '',
+  'Quinta das Flores', 'Braga', 'Zona VIP reservada', '13:00 Chegada, 14:00 Almoço, 16:30 Corte do bolo'),
+
+(2, TRUE, TRUE, FALSE, TRUE, TRUE, 60, FALSE,
+  '08:30', '09:45', 'Carlos Ferreira', 'Rua da Liberdade, Porto', 'Família Ferreira', '',
+  '10:00', 'Ana Pinto', 'Rua do Sol, Porto', 'Família Pinto', '',
+  'Igreja de Santo André', 'Silêncio na entrada', 'Padrinhos primeiro', TRUE, 'Lado esquerdo', 'Leitura principal',
+  FALSE, FALSE, 'Fotos antes da saída', '',
+  'Solar do Cedro', 'Porto', 'Decoração temática azul', '12:30 Almoço, 15:00 Animação');
+
+-- Inserindo Detalhes para Batizados
+INSERT INTO Servico_Detalhes_Batizado (cod_servico, fotos, video, drone, sde, fotos_convidados, num_convidados_fotos, venda_fotos,
+  hora_chegada_casa_bebe, hora_saida_casa_bebe, nome_bebe, morada_bebe, agregado_bebe, info_extra_bebe,
+  morada_igreja, instrucoes_igreja, coro, coro_localizacao, grupo_exterior, info_extra_igreja,
+  nome_quinta, morada_quinta, instrucoes_quinta, timeline) VALUES
+(3, TRUE, FALSE, FALSE, FALSE, TRUE, 30, FALSE,
+  '10:00', '11:00', 'João Fernandes', 'Rua da Fonte, Coimbra', 'Família Fernandes', '',
+  'Igreja do Carmo', 'Padre pede silêncio', FALSE, '', FALSE, '',
+  'Quinta das Pedras', 'Coimbra', '', '12:30 Almoço, 14:30 fotos'),
+
+(4, TRUE, TRUE, FALSE, TRUE, TRUE, 40, TRUE,
+  '09:30', '10:45', 'Mariana Oliveira', 'Rua dos Lírios, Guimarães', 'Família Oliveira', '',
+  'Capela de São Bento', 'Entrada discreta', TRUE, 'Perto do altar', FALSE, '',
+  'Quinta do Lago', 'Guimarães', 'Buffet livre', '12:00 Almoço, 15:30 atividades');
+
+-- Inserindo Detalhes para Comunhões
+INSERT INTO Servico_Detalhes_ComunhaoGeral (cod_servico, fotos, video, drone, sde, formato_fotos, valor_foto, formato_video, valor_video,
+  hora_chegada_igreja, num_criancas, info_extra_comunhao, coro, coro_localizacao, diplomas, grupo_exterior) VALUES
+(5, TRUE, TRUE, FALSE, FALSE, 'JPEG', 5.00, 'MP4', 15.00,
+  '10:00', 20, 'Preparação a cargo da catequese', TRUE, 'Frente', TRUE, FALSE);
+
+INSERT INTO Servico_Detalhes_ComunhaoParticular (cod_servico, fotos, video, drone, sde, fotos_convidados, num_convidados_fotos, venda_fotos,
+  hora_chegada_casa_crianca, hora_saida_casa_crianca, nome_crianca, morada_crianca, agregado_crianca, info_extra_crianca,
+  morada_igreja, instrucoes_igreja, coro, coro_localizacao, grupo_exterior, info_extra_igreja,
+  nome_quinta, morada_quinta, instrucoes_quinta, timeline) VALUES
+(6, TRUE, TRUE, FALSE, TRUE, TRUE, 35, TRUE,
+  '09:00', '10:30', 'Mariana Oliveira', 'Rua dos Lírios, Guimarães', 'Família Oliveira', '',
+  'Capela de Nossa Senhora', 'Chegada discreta', FALSE, '', FALSE, '',
+  'Quinta da Serra', 'Guimarães', 'Espaço privado', '12:30 Almoço, 14:00 sessão de fotos');
+
+-- Inserindo Detalhes para Evento Corporativo
+INSERT INTO Servico_Detalhes_EvCorporativo (cod_servico, fotos, video, drone, sde, hora_chegada_corp, info_extra_corp) VALUES
+(7, TRUE, TRUE, TRUE, FALSE, '08:30', 'Capturar discursos principais e networking');
+
+
+-- Inserindo Funcionários para Serviços (usando IGNORE para evitar erros de duplicação)
+INSERT IGNORE INTO Servico_Funcionario (cod_servico, cod_funcionario, data_alocacao_inicio, data_alocacao_fim, funcao_no_servico) VALUES
+(1, 1, '2025-09-20', '2025-09-21', 'Fotógrafo principal'),
+(1, 2, '2025-09-20', '2025-09-21', 'Videógrafo'),
+(2, 3, '2025-10-10', '2025-10-11', 'Piloto de drone'),
+(3, 4, '2025-07-05', '2025-07-05', 'Assistente Técnico'),
+(4, 5, '2025-08-15', '2025-08-15', 'Editor de Vídeo'),
+(5, 6, '2025-06-15', '2025-06-15', 'Fotógrafo secundário'),
+(6, 7, '2025-06-30', '2025-06-30', 'Cameraman'),
+(7, 8, '2025-11-05', '2025-11-06', 'Suporte audiovisual');
+
+
+-- Inserindo Equipamentos para Serviços (usando IGNORE para evitar erros de duplicação)
+INSERT IGNORE INTO Servico_Equipamento (cod_servico, cod_material, data_levantamento, data_devolucao) VALUES
+(1, 'MAT001', '2025-09-20', '2025-09-21'),
+(1, 'MAT002', '2025-09-20', '2025-09-21'),
+(2, 'MAT003', '2025-10-10', '2025-10-11'),
+(3, 'MAT004', '2025-07-05', '2025-07-05'),
+(4, 'MAT005', '2025-08-15', '2025-08-15'),
+(5, 'MAT002', '2025-06-15', '2025-06-15'),
+(6, 'MAT003', '2025-06-30', '2025-06-30'),
+(7, 'MAT005', '2025-11-05', '2025-11-06');
