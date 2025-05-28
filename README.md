@@ -165,8 +165,8 @@ O projeto utiliza **migrações Laravel** para criar automaticamente toda a estr
 ## Autores
 
 Projeto desenvolvido por:
-- **Luis Mago**
 - **Bruna Silva**
 - **Tiago Cardona**
+- **Luis Mago**
 
 Curso: **CESAE Digital — Software Developer**
