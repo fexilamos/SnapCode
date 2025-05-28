@@ -1,61 +1,172 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Trabalho Final SDEV — Gestão de Serviços Fotográficos <Snap>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este projeto é um sistema backend desenvolvido em **Laravel 12.x** para a gestão de serviços fotográficos, materiais, funcionários e registos de eventos (casamentos, batizados, etc).  
+Foi criado como projeto final do curso de Desenvolvimento de Software, focando-se em boas práticas, segurança e separação de responsabilidades.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Índice
+- [Descrição Geral](#descrição-geral)
+- [Requisitos](#requisitos)
+- [Instalação](#instalação)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Autenticação e Permissões](#autenticação-e-permissões)
+- [Utilização](#utilização)
+- [Base de Dados e Seeds](#base-de-dados-e-seeds)
+- [Autores](#autores)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Descrição Geral
 
-## Learning Laravel
+O sistema permite:
+- Gerir funcionários, materiais e serviços fotográficos.
+- Controlar avarias e perdas de equipamento.
+- Alocar materiais e funcionários a eventos/serviços.
+- Registar check-in e check-out de recursos.
+- Garantir acesso diferenciado por nível de utilizador (admin, gestor, operador).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Requisitos
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP >= 8.2
+- Composer
+- MySQL ou MariaDB
+- Node.js (para assets front-end, se aplicável)
+- [Laravel 12.x](https://laravel.com/)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Instalação
 
-### Premium Partners
+1. **Clonar o repositório**
+    ```bash
+    git clone <url-do-repo>
+    cd TrabalhoFinalSDEV
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+2. **Instalar dependências**
+    ```bash
+    composer install
+    ```
 
-## Contributing
+3. **Copiar e configurar variáveis de ambiente**
+    ```bash
+    cp .env.example .env
+    # Editar .env conforme a base de dados local
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Gerar chave da aplicação**
+    ```bash
+    php artisan key:generate
+    ```
 
-## Code of Conduct
+5. **Migrar e popular a base de dados**
+    ```bash
+    php artisan migrate --seed
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. **(Opcional) Compilar assets front-end**
+    ```bash
+    npm install
+    npm run build
+    ```
 
-## Security Vulnerabilities
+7. **Iniciar o servidor**
+    ```bash
+    php artisan serve
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Estrutura do Projeto
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- `app/Models` — Modelos Eloquent para cada entidade (Funcionário, Material, Serviço, etc).
+- `app/Http/Controllers` — Controladores organizados por funcionalidade.
+- `app/Http/Middleware/CheckNivel.php` — Middleware de controlo de permissões por nível de utilizador.
+- `database/migrations` — Migrações para estrutura da base de dados.
+- `database/seeders` — Seeds de dados para testes e desenvolvimento.
+- `routes/web.php` — Rotas do projeto, agrupadas por nível de acesso.
+
+---
+
+## Autenticação e Permissões
+
+- **Autenticação:**  
+  Utiliza sistema de login do Laravel (guard padrão).
+- **Permissões por nível:**  
+  Cada utilizador pertence a um **Funcionário** com um determinado **nível** (`cod_nivel`).  
+  As permissões de acesso são controladas pelo middleware personalizado `CheckNivel`, aplicado nas rotas:
+
+  | Nível | Acesso                                |
+  |-------|---------------------------------------|
+  | 1     | Administrador (acesso total)          |
+  | 2     | Gestor (acesso a gestão de recursos)  |
+  | 3     | Operador (acesso restrito aos seus serviços) |
+
+  **Exemplo de proteção nas rotas:**
+  ```php
+  Route::middleware(['auth', 'nivel:1,2'])->group(function () {
+      Route::get('/servicos', [ServicoController::class, 'index']);
+      // ...
+  });
+
+## Utilização
+
+Após autenticação no sistema, cada utilizador terá acesso às funcionalidades conforme o seu nível de permissão:
+
+### Funcionários
+- Listar todos os funcionários
+- Criar novo funcionário
+- Editar ou eliminar funcionários existentes
+
+### Materiais
+- Listar todos os materiais disponíveis
+- Adicionar novos materiais ao inventário
+- Consultar detalhes, editar ou remover materiais
+- Registar perdas ou avarias nos materiais
+
+### Serviços/Eventos
+- Criar novos serviços (ex: casamentos, batizados, eventos empresariais)
+- Associar clientes aos serviços
+- Alocar materiais e funcionários a cada serviço
+- Registar check-in e check-out de recursos associados
+- Visualizar detalhes completos de cada serviço/evento
+
+### Check-in/Check-out
+- Atribuir e remover materiais ou funcionários de um serviço com datas de entrada e saída
+
+**Nota:**  
+Cada ação só está disponível se o nível de permissão do utilizador permitir. Utilizadores de nível 3, por exemplo, apenas veem e gerem os serviços a que estão alocados.
+
+## Base de Dados e Seeds
+
+O projeto utiliza **migrações Laravel** para criar automaticamente toda a estrutura da base de dados necessária ao sistema.
+
+### Como usar:
+
+1. **Migrar a base de dados:**
+    ```bash
+    php artisan migrate
+    ```
+
+2. **Popular com dados de exemplo (seeds):**
+    ```bash
+    php artisan db:seed
+    ```
+
+- Os seeds criam dados base como funções, estados, níveis, alguns materiais, etc.
+- Podes editar ou criar novos seeders em `database/seeders/` para acrescentar dados fictícios para testes e demonstração.
+
+> **Sugestão:**  
+> Após o seed, podes aceder com um utilizador admin ou criar o teu próprio.
+
+## Autores
+
+Projeto desenvolvido por:
+- **Luis Mago**
+- **Bruna Silva**
+- **Tiago Cardona**
+
+Curso: **CESAE Digital — Software Developer**

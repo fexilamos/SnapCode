@@ -1,204 +1,172 @@
-# TrabalhoFinalSDEV
-Trabalho final Software Developer Cesae 2025
+# Trabalho Final SDEV — Gestão de Serviços Fotográficos <Snap>
+
+Este projeto é um sistema backend desenvolvido em **Laravel 12.x** para a gestão de serviços fotográficos, materiais, funcionários e registos de eventos (casamentos, batizados, etc).  
+Foi criado como projeto final do curso de Desenvolvimento de Software, focando-se em boas práticas, segurança e separação de responsabilidades.
+
+---
+
+## Índice
+- [Descrição Geral](#descrição-geral)
+- [Requisitos](#requisitos)
+- [Instalação](#instalação)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Autenticação e Permissões](#autenticação-e-permissões)
+- [Utilização](#utilização)
+- [Base de Dados e Seeds](#base-de-dados-e-seeds)
+- [Autores](#autores)
+
+---
+
+## Descrição Geral
+
+O sistema permite:
+- Gerir funcionários, materiais e serviços fotográficos.
+- Controlar avarias e perdas de equipamento.
+- Alocar materiais e funcionários a eventos/serviços.
+- Registar check-in e check-out de recursos.
+- Garantir acesso diferenciado por nível de utilizador (admin, gestor, operador).
+
+---
+
+## Requisitos
+
+- PHP >= 8.2
+- Composer
+- MySQL ou MariaDB
+- Node.js (para assets front-end, se aplicável)
+- [Laravel 12.x](https://laravel.com/)
+
+---
+
+## Instalação
+
+1. **Clonar o repositório**
+    ```bash
+    git clone <url-do-repo>
+    cd TrabalhoFinalSDEV
+    ```
+
+2. **Instalar dependências**
+    ```bash
+    composer install
+    ```
+
+3. **Copiar e configurar variáveis de ambiente**
+    ```bash
+    cp .env.example .env
+    # Editar .env conforme a base de dados local
+    ```
+
+4. **Gerar chave da aplicação**
+    ```bash
+    php artisan key:generate
+    ```
+
+5. **Migrar e popular a base de dados**
+    ```bash
+    php artisan migrate --seed
+    ```
 
+6. **(Opcional) Compilar assets front-end**
+    ```bash
+    npm install
+    npm run build
+    ```
 
+7. **Iniciar o servidor**
+    ```bash
+    php artisan serve
+    ```
 
-Ideia para Projeto Final
+---
 
+## Estrutura do Projeto
 
-Ao longo dos  anos em que trabalhei na área da fotografia, identifiquei um problema recorrente. Colaborei com diversas empresas que oferecem um vasto leque de serviços e que, frequentemente, recorrem a colaboradores externos. Sempre que os fotógrafos ou videógrafos se deslocam para um serviço, é comum faltar material essencial e raramente se consegue identificar o responsável.
- 
+- `app/Models` — Modelos Eloquent para cada entidade (Funcionário, Material, Serviço, etc).
+- `app/Http/Controllers` — Controladores organizados por funcionalidade.
+- `app/Http/Middleware/CheckNivel.php` — Middleware de controlo de permissões por nível de utilizador.
+- `database/migrations` — Migrações para estrutura da base de dados.
+- `database/seeders` — Seeds de dados para testes e desenvolvimento.
+- `routes/web.php` — Rotas do projeto, agrupadas por nível de acesso.
 
+---
 
-A Solução
+## Autenticação e Permissões
 
-Desenvolver uma web app que permita catalogar de forma detalhada todo o material fotográfico e videográfico, bem como a informação dos colaboradores internos e externos.
+- **Autenticação:**  
+  Utiliza sistema de login do Laravel (guard padrão).
+- **Permissões por nível:**  
+  Cada utilizador pertence a um **Funcionário** com um determinado **nível** (`cod_nivel`).  
+  As permissões de acesso são controladas pelo middleware personalizado `CheckNivel`, aplicado nas rotas:
 
-Funcionalidades principais:
+  | Nível | Acesso                                |
+  |-------|---------------------------------------|
+  | 1     | Administrador (acesso total)          |
+  | 2     | Gestor (acesso a gestão de recursos)  |
+  | 3     | Operador (acesso restrito aos seus serviços) |
 
-Gestão de Material:
-Catálogo detalhado do equipamento, incluindo câmaras, lentes, tampas, baterias, mochilas, cartões de memória, entre outros.
+  **Exemplo de proteção nas rotas:**
+  ```php
+  Route::middleware(['auth', 'nivel:1,2'])->group(function () {
+      Route::get('/servicos', [ServicoController::class, 'index']);
+      // ...
+  });
 
-Gestão de Colaboradores:
-Registo de nome, contacto, função (fotógrafo, videógrafo ou ambos), indicação se utiliza material próprio, e tipos de eventos em que se destaca (ex.: o colaborador A tem melhor desempenho em casamentos, o colaborador B em comunhões).
+## Utilização
 
-Registo de Serviços:
-Para cada serviço (casamento, batizado, sessão corporativa, etc.), é possível associar os colaboradores atribuídos e o equipamento transportado.
-No início do serviço, o colaborador faz o check-in do material que leva consigo; no final do dia, realiza o check-out, validando o retorno de todos os itens.
+Após autenticação no sistema, cada utilizador terá acesso às funcionalidades conforme o seu nível de permissão:
 
-Histórico e Diagnóstico de Problemas:
-O gestor pode consultar facilmente quem participou em cada serviço e que material foi utilizado. Esta funcionalidade torna-se especialmente útil na fase de edição — se forem detetados problemas nas imagens (ex.: fotografias desfocadas, ficheiros corrompidos), será possível cruzar dados para perceber se a origem do problema é uma falha técnica (de hardware) ou humana.
+### Funcionários
+- Listar todos os funcionários
+- Criar novo funcionário
+- Editar ou eliminar funcionários existentes
 
-A base de dados será estruturada de forma a garantir flexibilidade e escalabilidade, permitindo adicionar novos tipos de material, funções de colaboradores e categorias de serviços conforme necessário.
+### Materiais
+- Listar todos os materiais disponíveis
+- Adicionar novos materiais ao inventário
+- Consultar detalhes, editar ou remover materiais
+- Registar perdas ou avarias nos materiais
 
+### Serviços/Eventos
+- Criar novos serviços (ex: casamentos, batizados, eventos empresariais)
+- Associar clientes aos serviços
+- Alocar materiais e funcionários a cada serviço
+- Registar check-in e check-out de recursos associados
+- Visualizar detalhes completos de cada serviço/evento
 
+### Check-in/Check-out
+- Atribuir e remover materiais ou funcionários de um serviço com datas de entrada e saída
 
+**Nota:**  
+Cada ação só está disponível se o nível de permissão do utilizador permitir. Utilizadores de nível 3, por exemplo, apenas veem e gerem os serviços a que estão alocados.
 
+## Base de Dados e Seeds
 
+O projeto utiliza **migrações Laravel** para criar automaticamente toda a estrutura da base de dados necessária ao sistema.
 
-IDEIAS / Funcionalidades
-- Criar 3 níveis de acesso: Administrador(acesso total), Funcionário Interno(consultas de serviços, report de avarias/perdas),  e Funcionário Externo (penas consulta).
-- 
-- Implementar um sistema de base de dados para gerir:
+### Como usar:
 
-    - Fotógrafos e colaboradores, com contactos e informação relevante (ex: estilo, funções: videógrafo, fotógrafo, ambos, etc).
+1. **Migrar a base de dados:**
+    ```bash
+    php artisan migrate
+    ```
 
-    - Material (lentes, tampas de lente, máquinas, baterias, tripés, etc).
+2. **Popular com dados de exemplo (seeds):**
+    ```bash
+    php artisan db:seed
+    ```
 
-- Associar cada serviço/evento a um fotógrafo/videógrafo e ao respectivo material utilizado.
-  
-- Associar códigos a cada elemento do material para uma gestão eficiente do stock e rastrear possíveis avarias e/ou perdas de material.
+- Os seeds criam dados base como funções, estados, níveis, alguns materiais, etc.
+- Podes editar ou criar novos seeders em `database/seeders/` para acrescentar dados fictícios para testes e demonstração.
 
-- Possibilidade de pesquisar, após o serviço, todo o material que foi utilizado.
+> **Sugestão:**  
+> Após o seed, podes aceder com um utilizador admin ou criar o teu próprio.
 
-- Implementar sistema para gerar PDFs com instruções sobre proximo serviço.
+## Autores
 
-- Criar apoio visual a cada "pack" de material, fotografia "top down" para identificar cada material usado.
- 
-- Para funcionários internos e externos, registar os serviços em que participaram e o respectivo saldo/salário (€).
-- nome para o projecto, minha sugestao "snapCode" (snap de foto, code de codigo, relacionado com a programacao.
+Projeto desenvolvido por:
+- **Luis Mago**
+- **Bruna Silva**
+- **Tiago Cardona**
 
-
-
- 
-
-
-
-
-
-Primeiro esboço via chatgpt
-
-Estou a realizar um trabalho de final de curso na área de desenvolvimento de software. O projeto consiste em criar uma web app para a gestão de uma empresa de fotografia. Idealmente, pretendemos criar uma base de dados com todo o material utilizado nas reportagens fotográficas, bem como os colaboradores internos e externos, entre outros.
-
-Pretendemos também guardar na base de dados todos os serviços realizados, sendo que cada serviço estará associado a funcionários e ao material utilizado. Gostaríamos ainda que a web app permitisse, para cada funcionário, realizar o check-out do material levado após o serviço, de forma a verificar se falta algum material.
-Que tipo de abordagem devemos seguir? Estavamos a pensar em Mysql+Laravel 
-
-
-
-A tua abordagem com MySQL e Laravel é excelente para este tipo de projeto! Laravel é um dos frameworks PHP mais modernos, com ótimas ferramentas para autenticação, gestão de permissões, ligação a bases de dados e construção rápida de web apps robustas. MySQL é uma base de dados relacional muito estável e largamente suportada. Vou deixar-te aqui um esquema de abordagem que te pode ajudar a estruturar o trabalho e o projeto.
-
-1. Planeamento do Projeto
-Análise de requisitos: Lista todas as funcionalidades necessárias, tipos de utilizadores, fluxos principais (exemplo: check-out/check-in de material, registo de serviços, gestão de colaboradores, etc.).
-
-Desenho da base de dados: Esboça as tabelas principais e as relações entre elas.
-
-Protótipo UI/UX: Cria esboços de como será a navegação e as páginas principais (podes usar Figma, papel, etc.).
-
-2. Modelação da Base de Dados
-De forma geral, vais precisar de tabelas como:
-
-users (funcionários, internos/externos)
-
-materials (equipamento de fotografia, acessórios, etc.)
-
-services (reportagens, eventos, etc.)
-
-material_service (pivot: material usado em cada serviço)
-
-user_service (pivot: funcionários associados a cada serviço)
-
-checkouts (controlo de saída/entrada de material por serviço)
-
-users
-- id
-- name
-- type (interno/externo)
-- ...
-
-materials
-- id
-- name
-- description
-- serial_number
-- ...
-
-services
-- id
-- title
-- date
-- description
-- ...
-
-material_service
-- id
-- material_id
-- service_id
-
-user_service
-- id
-- user_id
-- service_id
-
-checkouts
-- id
-- user_id
-- material_id
-- service_id
-- checked_out_at
-- checked_in_at
-
-
-
-
-
-
-
-
-3. Back-end com Laravel
-Eloquent Models: Cada tabela tem o seu modelo, com relações bem definidas (hasMany, belongsToMany, etc.).
-
-Controllers: Um para cada área (MaterialController, ServiceController, UserController, etc.).
-
-Autenticação & Autorização: Usa o sistema built-in do Laravel, que permite gerir permissões facilmente (por exemplo, só certos utilizadores podem fazer check-out de material).
-
-APIs/Views: Se quiseres uma SPA, podes usar Laravel como API + frontend em Vue.js, ou então o tradicional Blade/Laravel Livewire.
-
-4. Front-end
-Laravel Blade: Simples e eficaz para muitos projetos, já vem integrado.
-
-Laravel Livewire: Para interfaces reativas sem sair do Laravel.
-
-Vue.js: Se quiseres algo mais dinâmico/SPA.
-
-5. Funcionalidades-chave a considerar
-Gestão de stock de material (o que está disponível, em serviço, manutenção, etc.)
-
-Histórico de serviços e de material utilizado
-
-Check-out e check-in de material (com alertas se faltar algo ao devolver)
-
-Gestão de utilizadores e permissões.
-
-Notificações (opcional): Por exemplo, se um material não for devolvido a tempo.
-
-6. Sugestão de workflow para o check-out/check-in
-Quando um serviço é criado, associa-se o material e os colaboradores.
-
-Antes do serviço, cada colaborador faz o check-out do material que vai levar.
-
-No regresso, realiza-se o check-in: regista-se o material devolvido, marcando automaticamente o que ficou em falta.
-
-Podes depois gerar relatórios automáticos de material em falta ou histórico de movimentos.
-
-7. Vantagens da stack MySQL + Laravel
-Documentação e comunidade muito forte
-
-Ferramentas built-in para autenticação e permissões
-
-Facilidade de escalar e migrar para produção
-
-Migrations do Laravel facilitam criar e evoluir a base de dados
-
-8. Outros conselhos
-Começa por modelar bem os dados (é meio caminho andado!)
-
-Usa seeders/factories para gerar dados de teste
-
-Testa as relações entre tabelas com Eloquent logo desde início
-
-Documenta bem o processo (é ótimo para o relatório final!)
-
-
-
-
-
+Curso: **CESAE Digital — Software Developer**
