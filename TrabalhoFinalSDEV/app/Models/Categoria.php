@@ -9,6 +9,7 @@ use App\Models\Material;
 class Categoria extends Model
 {
     use HasFactory;
+    protected $table = 'Categoria';
     protected $primaryKey = 'cod_categoria';
     protected $keyType = 'string';
     public $incrementing = false;
@@ -17,7 +18,7 @@ class Categoria extends Model
 
  public function materiais()
     {
-        
+
         return $this->hasMany(Material::class, 'cod_categoria', 'cod_categoria');
     }
 }

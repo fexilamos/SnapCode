@@ -1,0 +1,57 @@
+@extends('layouts.dashboard')
+
+@section('content')
+<div class="container mx-auto px-4">
+    <h2 class="text-2xl text-white font-bold mb-6">Consultar Materiais</h2>
+    <div class="bg-gray-100 rounded-xl shadow p-6 mb-8">
+        <form method="GET" action="{{ route('materiais.index') }}" class="mb-4">
+            <div class="flex flex-col md:flex-row gap-2">
+                <input type="text" name="search" class="form-input flex-1 rounded border-gray-300 text-black" placeholder="Pesquisar por nome, marca, modelo..." value="{{ request('search') }}">
+                <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" type="submit">Pesquisar</button>
+            </div>
+        </form>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white rounded-xl shadow mt-4">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="py-2 px-4 text-black">ID</th>
+                        <th class="py-2 px-4 text-black">Número de Série</th>
+                        <th class="py-2 px-4 text-black">Categoria</th>
+                        <th class="py-2 px-4 text-black">Marca</th>
+                        <th class="py-2 px-4 text-black">Modelo</th>
+                        <th class="py-2 px-4 text-black">Estado</th>
+                        <th class="py-2 px-4 text-black">Observações</th>
+                        <th class="py-2 px-4 text-black">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($materiais as $material)
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-2 px-4 text-black">{{ $material->cod_material }}</td>
+                            <td class="py-2 px-4 text-black">{{ $material->num_serie }}</td>
+                            <td class="py-2 px-4 text-black">{{ $material->categoria->categoria ?? '-' }}</td>
+                            <td class="py-2 px-4 text-black">{{ $material->marca->marca ?? '-' }}</td>
+                            <td class="py-2 px-4 text-black">{{ $material->modelo->modelo ?? '-' }}</td>
+                            <td class="py-2 px-4 text-black">{{ $material->estado->estado_nome ?? '-' }}</td>
+                            <td class="py-2 px-4 text-black">{{ $material->observacoes }}</td>
+                            <td class="py-2 px-4 flex flex-col gap-1 md:flex-row md:gap-2 justify-center">
+                                <a href="{{ route('materiais.show', $material->cod_material) }}" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-xs">Ver</a>
+                                <a href="{{ route('materiais.edit', $material->cod_material) }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 text-xs">Editar</a>
+                                <form action="{{ route('materiais.destroy', $material->cod_material) }}" method="POST" style="display:inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-xs" onclick="return confirm('Tem certeza que deseja eliminar este material?')">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8" class="py-4 text-center text-gray-500">Nenhum material encontrado.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endsection

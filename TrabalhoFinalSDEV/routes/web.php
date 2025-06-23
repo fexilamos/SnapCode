@@ -36,15 +36,12 @@ Route::middleware('auth','nivel:1')->group(function () {
 Route::middleware('auth','nivel:1,2')->group(function () {
     Route::get('/materiais/home', [MaterialController::class, 'home'])->name('materiais.home');
     Route::get('/materiais', [MaterialController::class, 'index'])->name('materiais.index');
-    Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materiais.show');
-});
-
-Route::middleware('auth','nivel:1')->group(function () {
     Route::get('/materiais/create', [MaterialController::class, 'create'])->name('materiais.create');
     Route::post('/materiais', [MaterialController::class, 'store'])->name('materiais.store');
     Route::get('/materiais/{material}/edit', [MaterialController::class, 'edit'])->name('materiais.edit');
     Route::put('/materiais/{material}', [MaterialController::class, 'update'])->name('materiais.update');
     Route::delete('/materiais/{material}', [MaterialController::class, 'destroy'])->name('materiais.destroy');
+    Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materiais.show');
 });
 
 //FUNCIONARIOS
