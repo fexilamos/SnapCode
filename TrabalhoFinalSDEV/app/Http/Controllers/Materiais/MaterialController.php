@@ -95,7 +95,7 @@ class MaterialController extends Controller
 public function home()
     {
 
-        return view('material.home');
+        return view('materiais.home');
     }
 
 }

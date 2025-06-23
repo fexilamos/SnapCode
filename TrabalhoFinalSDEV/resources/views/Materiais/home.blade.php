@@ -1,54 +1,42 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="container mt-5">
-
-    <h2 class="text-white mb-4">Gestão de Material</h2>
+<div class="container mx-auto px-4">
+    <h2 class="text-2xl text-white font-bold mb-6">Gestão de Material</h2>
 
     <!-- Linha com 3 cards lado a lado -->
-    <div class="row mb-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <!-- Registar -->
-        <div class="col-md-4">
-            <div class="card">
-                <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Imagem Registar">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Registar Material</h5>
-                    <a href="{{ route('materiais.create') }}" class="btn btn-primary">Registar</a>
-                </div>
-            </div>
+        <div class="bg-gray-100 rounded-xl shadow p-4 text-center">
+                       <img src="{{ asset('images/registar.jpg') }}" class="w-full h-36 object-cover rounded mb-4" alt="...">
+
+
+            <a href="{{ route('materiais.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Registar Material</a>
         </div>
 
         <!-- Avarias -->
-        <div class="col-md-4">
-            <div class="card">
-                <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Imagem Avarias">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Avarias</h5>
-                    <a href="{{ route('avarias.index') }}" class="btn btn-warning">Ver Avarias</a>
-                </div>
-            </div>
+        <div class="bg-gray-100 rounded-xl shadow p-4 text-center">
+            <img src="{{ asset('images/avarias.jpg') }}" class="w-full h-36 object-cover rounded mb-4" alt="...">
+
+
+            <a href="{{ route('avarias.index') }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Avarias</a>
         </div>
 
         <!-- Perdas -->
-        <div class="col-md-4">
-            <div class="card">
-                <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Imagem Perdas">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Perdas</h5>
-                    <a href="{{ route('perdas.index') }}" class="btn btn-danger">Ver Perdas</a>
-                </div>
-            </div>
+        <div class="bg-gray-100 rounded-xl shadow p-4 text-center">
+                        <img src="{{ asset('images/perdas.jpg') }}" class="w-full h-36 object-cover rounded mb-4" alt="...">
+
+
+            <a href="{{ route('perdas.index') }}" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Perdas</a>
         </div>
     </div>
 
-    <!-- Card grande para Consultar -->
-    <div class="card">
-        <img src="{{ asset('images/consultar-material.jpg') }}" class="card-img-top" alt="Imagem Consulta de Materiais">
-        <div class="card-body text-center">
-            <h4 class="card-title">Consultar Materiais</h4>
-            <a href="{{ route('materiais.index') }}" class="btn btn-success">Consultar</a>
-        </div>
-    </div>
+    <!-- Card grande por baixo -->
+    <div class="bg-gray-100 rounded-xl shadow p-6 text-center">
+                    <img src="{{ asset('images/pesquisa.webp') }}" class="w-full h-36 object-cover rounded mb-4" alt="...">
 
+
+        <a href="{{ route('materiais.index') }}" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Consultar Materiais</a>
+    </div>
 </div>
 @endsection
