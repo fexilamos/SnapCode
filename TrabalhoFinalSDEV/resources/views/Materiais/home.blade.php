@@ -1,42 +1,73 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="container mx-auto px-4">
-    <h2 class="text-2xl text-white font-bold mb-6">Gestão de Material</h2>
-
-    <!-- Linha com 3 cards lado a lado -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <!-- Registar -->
-        <div class="bg-gray-100 rounded-xl shadow p-4 text-center">
-                       <img src="{{ asset('images/registar.jpg') }}" class="w-full h-36 object-cover rounded mb-4" alt="...">
-
-
-            <a href="{{ route('materiais.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Registar Material</a>
+    <h1 class="text-2xl font-bold text-white text-center mt-8 mb-12">Gestão de Materiais</h1>
+    <main class="p-8 flex justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
+            <!-- Card Consultar -->
+            <a href="{{ route('materiais.index') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-green-400 block">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-green-500 rounded-lg flex items-center justify-center">
+                            <img src="{{ asset('images/pesquisar.png') }}" class="w-10 h-10 object-contain" alt="Consultar">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-white mb-2">Consultar Materiais</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Visualize e pesquise todos os materiais registados no sistema.
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <!-- Card Registar -->
+            <a href="{{ route('materiais.create') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-blue-400 block">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center">
+                            <img src="{{ asset('images/registar.png') }}" class="w-10 h-10 object-contain" alt="Registar">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-white mb-2">Registar Material</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Adicione novos materiais e equipamento ao inventário.
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <!-- Card Avarias -->
+            <a href="{{ route('avarias.index') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-yellow-400 block">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-yellow-500 rounded-lg flex items-center justify-center">
+                            <img src="{{ asset('images/avarias.png') }}" class="w-10 h-10 object-contain" alt="Avarias">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-white mb-2">Avarias</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Registe e acompanhe avarias de materiais.
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <!-- Card Perdas -->
+            <a href="{{ route('perdas.index') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-red-400 block">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-red-500 rounded-lg flex items-center justify-center">
+                            <img src="{{ asset('images/perdas.png') }}" class="w-10 h-10 object-contain" alt="Perdas">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-white mb-2">Perdas</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Registe perdas de materiais e mantenha o inventário atualizado.
+                        </p>
+                    </div>
+                </div>
+            </a>
         </div>
-
-        <!-- Avarias -->
-        <div class="bg-gray-100 rounded-xl shadow p-4 text-center">
-            <img src="{{ asset('images/avarias.jpg') }}" class="w-full h-36 object-cover rounded mb-4" alt="...">
-
-
-            <a href="{{ route('avarias.index') }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Avarias</a>
-        </div>
-
-        <!-- Perdas -->
-        <div class="bg-gray-100 rounded-xl shadow p-4 text-center">
-                        <img src="{{ asset('images/perdas.jpg') }}" class="w-full h-36 object-cover rounded mb-4" alt="...">
-
-
-            <a href="{{ route('perdas.index') }}" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Perdas</a>
-        </div>
-    </div>
-
-    <!-- Card grande por baixo -->
-    <div class="bg-gray-100 rounded-xl shadow p-6 text-center">
-                    <img src="{{ asset('images/pesquisa.webp') }}" class="w-full h-36 object-cover rounded mb-4" alt="...">
-
-
-        <a href="{{ route('materiais.index') }}" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Consultar Materiais</a>
-    </div>
-</div>
+    </main>
 @endsection

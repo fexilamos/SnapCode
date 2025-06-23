@@ -23,6 +23,7 @@ class Material extends Model
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = [
+        'cod_material', // <-- Adicionado para permitir preenchimento
         'cod_categoria',
         'cod_marca',
         'cod_modelo',

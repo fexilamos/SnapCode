@@ -22,11 +22,10 @@ class StoreUpdateMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cod_categoria' => 'required|exists:Categorias,cod_categoria',
-            'cod_marca' => 'required|exists:Marcas,cod_marca',
-            'cod_modelo' => 'required|exists:Modelos,cod_modelo',
-            'cod_localizacao' => 'required|exists:Localizacoes,cod_localizacao',
-            'cod_estado' => 'required|exists:MaterialEstados,cod_estado',
+            'cod_categoria' => 'required|exists:Categoria,cod_categoria',
+            'cod_marca' => 'required|exists:Marca,cod_marca',
+            'cod_modelo' => 'required|exists:Modelo,cod_modelo',
+            'cod_estado' => 'required|exists:Material_Estado,cod_estado',
             'observacoes' => 'nullable|string|max:255'
         ];
     }
@@ -40,8 +39,6 @@ class StoreUpdateMaterialRequest extends FormRequest
             'cod_marca.exists' => 'Marca inválida.',
             'cod_modelo.required' => 'O modelo é obrigatório.',
             'cod_modelo.exists' => 'Modelo inválido.',
-            'cod_localizacao.required' => 'A localização é obrigatória.',
-            'cod_localizacao.exists' => 'Localização inválida.',
             'cod_estado.required' => 'O estado é obrigatório.',
             'cod_estado.exists' => 'Estado inválido.',
             'observacoes.max' => 'As observações não podem ter mais de 255 caracteres.',

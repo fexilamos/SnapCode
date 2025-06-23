@@ -36,8 +36,22 @@
     <div class="bg-gray-700 p-6 rounded-2xl shadow">
         <h2 class="text-xl font-semibold mb-2">🛠️ Manutenção</h2>
         <ul class="text-sm space-y-1">
-            <li>Canon EOS R6 – substituição de bateria</li>
-            <li>Tripé Manfrotto – em reparação</li>
+            @php
+                $materiais_manutencao = \App\Models\Material::with(['estado','marca','modelo'])
+                    ->whereHas('estado', function($q) {
+                        $q->where('estado_nome', 'Em Manutenção');
+                    })->get();
+            @endphp
+            @forelse($materiais_manutencao as $material)
+                <li>
+                    {{ $material->cod_material }}
+                    {{ $material->marca ? ' - ' . $material->marca->marca : '' }}
+                    {{ $material->modelo ? ' ' . $material->modelo->modelo : '' }}
+                    {{ $material->observacoes ? ' – ' . $material->observacoes : '' }}
+                </li>
+            @empty
+                <li class="text-gray-400">Nenhum material em manutenção.</li>
+            @endforelse
         </ul>
     </div>
 </div>
