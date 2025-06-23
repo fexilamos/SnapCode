@@ -52,7 +52,7 @@
                         </button>
                         <div x-show="open" class="pl-4 space-y-1">
                             <a href="{{ route('materiais.home') }}" class="block py-2 px-2 rounded hover:bg-gray-700">Gestão de Material</a>
-                            <a href="#" class="block py-2 px-2 rounded hover:bg-gray-700">Gestão de Colaboradores</a>
+                            <a href="{{ route('funcionarios.home') }}" class="block py-2 px-2 rounded hover:bg-gray-700">Gestão de Colaboradores</a>
                         </div>
                     </div>
 

@@ -48,6 +48,8 @@ Route::middleware('auth','nivel:1')->group(function () {
 });
 
 //FUNCIONARIOS
+
+Route::get('funcionarios/home', [FuncionariosController::class, 'home'])->name('funcionarios.home');
 Route::resource('funcionarios', FuncionariosController::class)->middleware('auth','nivel:1');
 
 //AVARIAS
@@ -100,5 +102,7 @@ Route::get('/', function () {
 Route::get('/calendario', function () {
     return view('calendario');
 })->middleware(['auth']);
+
+
 
 

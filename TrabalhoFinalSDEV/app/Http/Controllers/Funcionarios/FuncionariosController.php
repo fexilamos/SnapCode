@@ -11,6 +11,7 @@ use App\Models\Nivel;
 use App\Http\Requests\StoreUpdateFuncionarioRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class FuncionariosController extends Controller
 {
@@ -20,6 +21,13 @@ class FuncionariosController extends Controller
         $funcionarios = Funcionario::with(['user', 'funcao', 'estado', 'nivel'])->get();
         return view('funcionarios.index', compact('funcionarios'));
     }
+
+   public function home()
+    {
+        $funcionarios = Funcionario::with(['user', 'funcao', 'estado', 'nivel'])->get();
+        return view('funcionarios.home', compact('funcionarios'));
+    }
+
 
     // Formulário de criar novo funcionário
     public function create()
