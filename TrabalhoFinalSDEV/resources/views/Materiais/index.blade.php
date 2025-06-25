@@ -33,10 +33,10 @@
                                     $icons = [
                                         'Câmara' => 'camera.png',
                                         'Lente' => 'lente.png',
-                                        'Bateria' => 'bateria.png',
-                                        'Tripe' => 'tripe.png',
+                                        'Baterias' => 'bateria.png',
+                                        'Tripé' => 'tripe.png',
                                         'Iluminação' => 'iluminacao.png',
-                                        'Cartão de memória' => 'cartaomemoria.png',
+                                        'Cartões de Memoria' => 'cartaomemoria.png',
                                         'Microfone' => 'microfone.png',
                                         'Drone' => 'drone.png'
                                     ];
