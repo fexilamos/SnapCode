@@ -7,27 +7,6 @@
             {{ session('success') }}
         </div>
     @endif
-    @if(session('success'))
-        <script>
-            window.onload = function() {
-                alert(@json(session('success')));
-            }
-        </script>
-    @endif
-    @if(session('success'))
-        <div id="toast-success" style="position: fixed; top: 30px; left: 50%; transform: translateX(-50%); background: #198754; color: #fff; padding: 16px 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-weight: bold; z-index: 9999; display: none;">
-            {{ session('success') }}
-        </div>
-        <script>
-            window.onload = function() {
-                var toast = document.getElementById('toast-success');
-                toast.style.display = 'block';
-                setTimeout(function() {
-                    toast.style.display = 'none';
-                }, 3000);
-            }
-        </script>
-    @endif
     <div class="bg-gray-100 rounded-xl shadow p-8 mt-8">
         <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Registar Material</h2>
         <form method="POST" action="{{ route('materiais.store') }}">
