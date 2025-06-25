@@ -52,12 +52,9 @@ Route::resource('funcionarios', FuncionariosController::class)->middleware('auth
 //AVARIAS
 Route::middleware('auth','nivel:1,2')->group(function () {
     Route::get('/avarias', [AvariaController::class, 'index'])->name('avarias.index');
-    Route::get('/avarias/{avaria}', [AvariaController::class, 'show'])->name('avarias.show');
-});
-
-Route::middleware('auth','nivel:1')->group(function () {
     Route::get('/avarias/create', [AvariaController::class, 'create'])->name('avarias.create');
     Route::post('/avarias', [AvariaController::class, 'store'])->name('avarias.store');
+    Route::get('/avarias/{avaria}', [AvariaController::class, 'show'])->name('avarias.show');
     Route::get('/avarias/{avaria}/edit', [AvariaController::class, 'edit'])->name('avarias.edit');
     Route::put('/avarias/{avaria}', [AvariaController::class, 'update'])->name('avarias.update');
     Route::delete('/avarias/{avaria}', [AvariaController::class, 'destroy'])->name('avarias.destroy');

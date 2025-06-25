@@ -66,7 +66,17 @@ class MaterialController extends Controller
             ->max();
         $nextNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
         $data['cod_material'] = 'MAT' . $nextNumber;
-        Material::create($data);
+        $material = Material::create($data);
+
+        // Se o estado for avariado (3) ou em manutenção (2), cria registo em Avarias
+        if (in_array($material->cod_estado, [2, 3])) {
+            \App\Models\Avaria::create([
+                'cod_material' => $material->cod_material,
+                'data_registo' => now(),
+                'observacoes' => 'Avaria registada automaticamente',
+            ]);
+        }
+
         return redirect()->route('materiais.index')->with('success', 'Material criado com sucesso!');
     }
 
@@ -105,7 +115,21 @@ class MaterialController extends Controller
     public function update(StoreUpdateMaterialRequest $request, string $id)
     {
         $material = Material::findOrFail($id);
+        $old_estado = $material->cod_estado;
         $material->update($request->all());
+
+        // Se o novo estado for avariado (3) ou em manutenção (2) E não existir já uma avaria para este material, cria registo em Avarias
+        if (in_array($material->cod_estado, [2, 3])) {
+            $hasAvaria = \App\Models\Avaria::where('cod_material', $material->cod_material)->exists();
+            if (!$hasAvaria) {
+                \App\Models\Avaria::create([
+                    'cod_material' => $material->cod_material,
+                    'data_registo' => now(),
+                    'observacoes' => 'Avaria registada automaticamente (edição)',
+                ]);
+            }
+        }
+
         return redirect()->route('materiais.index')->with('success', 'Material atualizado com sucesso!');
     }
 
