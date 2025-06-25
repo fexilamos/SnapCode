@@ -20,7 +20,14 @@ class MaterialController extends Controller
      public function index()
     {
         $query = Material::with(['categoria','marca','modelo','estado']);
-        if ($search = request('search')) {
+        $categoriasSelecionadas = request('categorias', []);
+        $search = request('search');
+
+        if (!empty($categoriasSelecionadas)) {
+            $query->whereIn('cod_categoria', $categoriasSelecionadas);
+        }
+
+        if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('num_serie', 'like', "%$search%")
                   ->orWhereHas('marca', function($q) use ($search) {
@@ -78,20 +85,6 @@ class MaterialController extends Controller
         }
 
         return redirect()->route('materiais.index')->with('success', 'Material criado com sucesso!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $material = Material::with(['categoria','marca','modelo','estado'])->find($id);
-
-        if (!$material) {
-            return redirect()->route('materiais.index')->with('error', 'Material não encontrada');
-        }
-
-        return view('materiais.show', compact('material'));
     }
 
     public function edit($id)
