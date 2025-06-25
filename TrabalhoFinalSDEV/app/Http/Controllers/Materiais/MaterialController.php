@@ -70,20 +70,6 @@ class MaterialController extends Controller
         return redirect()->route('materiais.index')->with('success', 'Material criado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $material = Material::with(['categoria','marca','modelo','estado'])->find($id);
-
-        if (!$material) {
-            return redirect()->route('materiais.index')->with('error', 'Material não encontrada');
-        }
-
-        return view('materiais.show', compact('material'));
-    }
-
     public function edit($id)
     {
         $material = Material::find($id);
