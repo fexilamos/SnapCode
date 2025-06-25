@@ -26,30 +26,31 @@ class StoreUpdateFuncionarioRequest extends FormRequest
 
         return [
             'nome'        => 'required|string|max:255',
-            'email'       => 'required|email|max:255|unique:users,email', Rule::unique('users', 'email')->ignore($cod_funcionario, 'cod_funcionario'),
-            'nif'         => 'required|digits:9',
+            'email'       => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($cod_funcionario, 'cod_funcionario'),
+            ],
             'telemovel'   => 'required|string|max:20',
-            'cod_funcao'  => 'required|exists:Funcoes,cod_funcao',
-            'cod_estado'  => 'required|exists:FuncionarioEstados,cod_estado',
-            'cod_nivel'   => 'required|exists:Niveis,cod_nivel',
+            'funcoes'     => 'required|array|min:1',
+            'funcoes.*'   => 'exists:Funcao,cod_funcao',
+            'cod_nivel'   => 'required|exists:Nivel,cod_nivel',
         ];
     }
 
     public function messages()
-{
-    return [
-        'nome.required'         => 'O nome é obrigatório.',
-        'email.required'        => 'O email é obrigatório.',
-        'email.email'           => 'O email não é válido.',
-        'nif.required'          => 'O NIF é obrigatório.',
-        'nif.digits'            => 'O NIF deve ter exatamente 9 dígitos.',
-        'telemovel.required'    => 'O telemóvel é obrigatório.',
-        'cod_funcao.required'   => 'A função é obrigatória.',
-        'cod_funcao.exists'     => 'Função inválida.',
-        'cod_estado.required'   => 'O estado é obrigatório.',
-        'cod_estado.exists'     => 'Estado inválido.',
-        'cod_nivel.required'    => 'O nível é obrigatório.',
-        'cod_nivel.exists'      => 'Nível inválido.',
-    ];
-}
+    {
+        return [
+            'nome.required'         => 'O nome é obrigatório.',
+            'email.required'        => 'O email é obrigatório.',
+            'email.email'           => 'O email não é válido.',
+            'telemovel.required'    => 'O telemóvel é obrigatório.',
+            'funcoes.required'      => 'A função é obrigatória.',
+            'funcoes.array'         => 'Selecione pelo menos uma função.',
+            'funcoes.*.exists'      => 'Função inválida.',
+            'cod_nivel.required'    => 'O nível é obrigatório.',
+            'cod_nivel.exists'      => 'Nível inválido.',
+        ];
+    }
 }

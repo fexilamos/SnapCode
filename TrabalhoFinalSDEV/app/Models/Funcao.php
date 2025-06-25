@@ -16,8 +16,8 @@ class Funcao extends Model
     public $timestamps = false;
     protected $fillable = ['cod_funcao', 'funcao'];
 
-     public function funcionarios()
-    {
-        return $this->hasMany(Funcionario::class, 'cod_funcao', 'cod_funcao');
-    }
+public function funcionarios()
+{
+    return $this->belongsToMany(Funcionario::class, 'funcionario_funcao', 'cod_funcao', 'cod_funcionario');
+}
 }

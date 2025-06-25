@@ -16,9 +16,16 @@ use Illuminate\Http\Request;
 class FuncionariosController extends Controller
 {
     // Listar funcionários
-    public function index()
+    public function index(Request $request)
     {
-        $funcionarios = Funcionario::with(['user', 'funcao', 'estado', 'nivel'])->get();
+        $query = Funcionario::with(['user', 'funcao', 'estado', 'nivel']);
+
+        // Filtro por função
+        if ($request->filled('searchFunction')) {
+            $query->where('cod_funcao', $request->input('searchFunction'));
+        }
+
+        $funcionarios = $query->get();
         return view('funcionarios.index', compact('funcionarios'));
     }
 
@@ -33,25 +40,39 @@ class FuncionariosController extends Controller
     public function create()
     {
         $funcoes = Funcao::all();
-        $estados = FuncionarioEstado::all();
         $niveis = Nivel::all();
-        return view('funcionarios.create', compact('funcoes', 'estados', 'niveis'));
+        return view('funcionarios.create', compact('funcoes', 'niveis'));
     }
 
     // Guardar novo funcionário
     public function store(StoreUpdateFuncionarioRequest $request)
     {
          DB::transaction(function () use ($request) {
-            // Cria o funcionário
-            $funcionario = Funcionario::create($request->only([
-                'nome', 'email', 'nif', 'telemovel', 'cod_funcao', 'cod_estado', 'cod_nivel'
-            ]));
+            $funcoes = $request->input('funcoes');
+            $cod_funcao = is_array($funcoes) && count($funcoes) > 0 ? $funcoes[0] : null;
 
-            // Cria o user associado (ajusta password conforme necessidade)
+            // Cria o funcionário
+            $funcionario = Funcionario::create([
+                'nome' => $request->input('nome'),
+                'telefone' => $request->input('telemovel'),
+                'mail' => $request->input('email'),
+                'morada' => $request->input('morada'),
+                'cod_nivel' => $request->input('cod_nivel'),
+                'tem_equipamento_proprio' => $request->input('tem_equipamento_proprio'),
+                'cod_funcao' => $cod_funcao,
+                'cod_estado' => 1, // Estado padrão
+            ]);
+
+            // Relaciona funções (many-to-many)
+            if ($funcoes) {
+                $funcionario->funcoes()->sync($funcoes);
+            }
+
+            // Cria o user associado
             User::create([
                 'name' => $request->input('nome'),
-                'email' => $request->input('email'),
-                'password' => Hash::make('password'),
+                'email' => $request->input('email'), // Corrigido de 'mail' para 'email'
+                'password' => Hash::make($request->input('password')),
                 'cod_funcionario' => $funcionario->cod_funcionario,
             ]);
         });

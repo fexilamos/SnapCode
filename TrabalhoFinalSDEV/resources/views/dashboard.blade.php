@@ -20,16 +20,25 @@
 
     <!-- Funcionários em Serviço Hoje -->
     <div class="bg-gray-700 p-6 rounded-2xl shadow">
-        <h2 class="text-xl font-semibold mb-2">👥Funcionarios Externos</h2>
+        <h2 class="text-xl font-semibold mb-2">👥Funcionarios</h2>
         <ul class="text-sm space-y-1">
-            <li>João Martins – Fotógrafo</li>
-            <li>Ana Costa – Videógrafo</li>
-            <li>Pedro Silva – Piloto de Drone</li>
-            <li>Maria Teixeira – Fotógrafo/Videógrafo</li>
-    </li>
-            <li>Luís Nogueira – Fotógrafo</li>
-            <li>Carla Santos – Estagiária</li>
+            @php
+                // Considera-se "externo" quem NÃO é Admin (ajuste conforme sua lógica)
+                $funcionarios_externos = \App\Models\Funcionario::with('funcoes')
+                    ->whereHas('funcoes', function($q) {
+                        $q->where('funcao', '!=', 'Admin');
+                    })->get();
+            @endphp
+            @forelse($funcionarios_externos as $funcionario)
+                <li>
+                    {{ $funcionario->nome }} –
+                    {{ $funcionario->funcoes->pluck('funcao')->join('/') }}
+                </li>
+            @empty
+                <li class="text-gray-400">Nenhum funcionário externo encontrado.</li>
+            @endforelse
         </ul>
+        <a href="{{ route('funcionarios.index') }}" class="text-blue-300 mt-3 inline-block hover:underline">Ver todos os funcionários →</a>
     </div>
 
     <!-- Materiais em Manutenção -->
