@@ -20,7 +20,14 @@ class MaterialController extends Controller
      public function index()
     {
         $query = Material::with(['categoria','marca','modelo','estado']);
-        if ($search = request('search')) {
+        $categoriasSelecionadas = request('categorias', []);
+        $search = request('search');
+
+        if (!empty($categoriasSelecionadas)) {
+            $query->whereIn('cod_categoria', $categoriasSelecionadas);
+        }
+
+        if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('num_serie', 'like', "%$search%")
                   ->orWhereHas('marca', function($q) use ($search) {

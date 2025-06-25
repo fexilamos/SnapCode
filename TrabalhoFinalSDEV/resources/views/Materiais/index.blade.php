@@ -7,6 +7,20 @@
         <form method="GET" action="{{ route('materiais.index') }}" class="mb-4">
             <div class="flex flex-col md:flex-row gap-2">
                 <input type="text" name="search" class="form-input flex-1 rounded border-gray-300 text-black" placeholder="Pesquisar por nome, marca, modelo..." value="{{ request('search') }}">
+            </div>
+            <div class="flex flex-wrap gap-2 mt-4">
+                @php
+                    $categorias = \App\Models\Categoria::all();
+                    $categoriasSelecionadas = request('categorias', []);
+                @endphp
+                @foreach($categorias as $categoria)
+                    <label class="inline-flex items-center bg-white rounded px-2 py-1 shadow border border-gray-300">
+                        <input type="checkbox" name="categorias[]" value="{{ $categoria->cod_categoria }}" class="form-checkbox text-green-600" {{ in_array($categoria->cod_categoria, (array)$categoriasSelecionadas) ? 'checked' : '' }}>
+                        <span class="ml-2 text-black">{{ $categoria->categoria }}</span>
+                    </label>
+                @endforeach
+            </div>
+            <div class="mt-4">
                 <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" type="submit">Pesquisar</button>
             </div>
         </form>
@@ -38,7 +52,8 @@
                                         'Iluminação' => 'iluminacao.png',
                                         'Cartões de Memoria' => 'cartaomemoria.png',
                                         'Microfone' => 'microfone.png',
-                                        'Drone' => 'drone.png'
+                                        'Drone' => 'drone.png',
+                                        'Mochilas' => 'mochila.png',
                                     ];
                                     $categoriaNome = $material->categoria->categoria ?? '';
                                     $icon = $icons[$categoriaNome] ?? 'LOGO.png';
