@@ -1,7 +1,9 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1 class="text-2xl font-bold text-white text-center mt-8 mb-12">Gestão de Materiais</h1>
+    <h1 class="text-3xl md:text-4xl font-bold text-white text-center">Gestão de Materiais</h1>
+    <br>
+    <br>
     <main class="p-8 flex justify-center">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
             <!-- Card Consultar -->
