@@ -9,7 +9,7 @@
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
-                            <img src="{{ asset('images/pesquisar.png') }}" alt="Consultar" width="32">
+                            <img src="{{ asset('images/colab.png') }}" alt="Consultar" width="52">
                         </div>
                     </div>
                     <div class="flex-1">
@@ -26,7 +26,7 @@
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
-                            <img src="{{ asset('images/registar.png') }}" alt="Registar" width="32">
+                            <img src="{{ asset('images/addcolab.png') }}" alt="Registar" width="42">
                         </div>
                     </div>
                     <div class="flex-1">

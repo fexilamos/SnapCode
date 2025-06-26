@@ -9,7 +9,7 @@
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
-                            <img src="{{ asset('images/casamento.png') }}" class="w-10 h-10 object-contain" alt="Casamentos">
+                            <img src="{{ asset('images/casamentos.png') }}" class="w-10 h-10 object-contain" alt="Casamentos">
                         </div>
                     </div>
                     <div class="flex-1">
@@ -25,7 +25,7 @@
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
-                            <img src="{{ asset('images/batizado.png') }}" class="w-10 h-10 object-contain" alt="Batizados">
+                            <img src="{{ asset('images/batismo.png') }}" class="w-10 h-10 object-contain" alt="Batizados">
                         </div>
                     </div>
                     <div class="flex-1">
@@ -41,7 +41,7 @@
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
-                            <img src="{{ asset('images/comunhao.png') }}" class="w-10 h-10 object-contain" alt="Comunhão Geral">
+                            <img src="{{ asset('images/comunhaogeral.png') }}" class="w-10 h-10 object-contain" alt="Comunhão Geral">
                         </div>
                     </div>
                     <div class="flex-1">
@@ -57,7 +57,7 @@
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
-                            <img src="{{ asset('images/comunhao_particular.png') }}" class="w-10 h-10 object-contain" alt="Comunhão Particular">
+                            <img src="{{ asset('images/comunhaopart.png') }}" class="w-10 h-10 object-contain" alt="Comunhão Particular">
                         </div>
                     </div>
                     <div class="flex-1">
@@ -74,7 +74,7 @@
                     <div class="flex items-start space-x-4">
                         <div class="flex-shrink-0">
                             <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
-                                <img src="{{ asset('images/corporativo.png') }}" class="w-10 h-10 object-contain" alt="Corporativos">
+                                <img src="{{ asset('images/corporate.png') }}" class="w-10 h-10 object-contain" alt="Corporativos">
                             </div>
                         </div>
                         <div class="flex-1">
