@@ -1,1 +1,91 @@
 @extends('layouts.dashboard')
+
+@section('content')
+    <h1 class="text-3xl font-bold text-white text-center mt-8 mb-12">Consultar Eventos</h1>
+    <main class="p-8 flex justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
+            <!-- Card Casamentos -->
+            <a href="{{ route('servicos.tipo', ['tipo' => 'casamento']) }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
+                            <img src="{{ asset('images/casamento.png') }}" class="w-10 h-10 object-contain" alt="Casamentos">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-white mb-2">Casamentos</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Veja todos os eventos de casamento registados.
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <!-- Card Batizados -->
+            <a href="{{ route('servicos.tipo', ['tipo' => 'batizado']) }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
+                            <img src="{{ asset('images/batizado.png') }}" class="w-10 h-10 object-contain" alt="Batizados">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-white mb-2">Batizados</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Veja todos os eventos de batizado registados.
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <!-- Card Comunhão Geral -->
+            <a href="{{ route('servicos.tipo', ['tipo' => 'comunhao_geral']) }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
+                            <img src="{{ asset('images/comunhao.png') }}" class="w-10 h-10 object-contain" alt="Comunhão Geral">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-white mb-2">Comunhão Geral</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Veja todos os eventos de comunhão geral registados.
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <!-- Card Comunhão Particular -->
+            <a href="{{ route('servicos.tipo', ['tipo' => 'comunhao_particular']) }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
+                            <img src="{{ asset('images/comunhao_particular.png') }}" class="w-10 h-10 object-contain" alt="Comunhão Particular">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-white mb-2">Comunhão Particular</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Veja todos os eventos de comunhão particular registados.
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <!-- Card Corporativos -->
+            <div class="md:col-span-2 flex justify-center">
+                <a href="{{ route('servicos.tipo', ['tipo' => 'corporativo']) }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block w-full max-w-md">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
+                                <img src="{{ asset('images/corporativo.png') }}" class="w-10 h-10 object-contain" alt="Corporativos">
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold text-white mb-2">Eventos Corporativos</h3>
+                            <p class="text-gray-300 mb-4 leading-relaxed">
+                                Veja todos os eventos corporativos registados.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+@endsection

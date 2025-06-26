@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Servico; 
+use App\Models\Servico;
 
 class ServicoDetalhesEvCorporativo extends Model
 {
     use HasFactory;
 
-    protected $table = 'Servico_Detalhes_EvCorporativo';
+    protected $table = 'servico_detalhes_evcorporativo';
     protected $primaryKey = 'cod_servico';
     protected $keyType = 'int';
     public $incrementing = false;
