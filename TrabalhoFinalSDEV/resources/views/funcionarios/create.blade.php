@@ -145,11 +145,11 @@
                     <!-- Botões Cancelar/Salvar -->
                     <div class="flex justify-end space-x-4 pt-6">
                         <a href="{{ route('funcionarios.create') }}"
-                           class="px-6 py-3 bg-slate-500 hover:bg-slate-400 text-white rounded-lg font-medium transition-colors">
+                           class="px-6 py-3 bg-slate-700 hover:bg-slate-400 text-white rounded-lg font-medium transition-colors">
                             Cancelar
                         </a>
                         <button type="submit"
-                                class="px-6 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium transition-colors flex items-center space-x-2">
+                                class="px-6 py-3 bg-slate-700 hover:bg-slate-400 text-white rounded-lg font-medium transition-colors flex items-center space-x-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>

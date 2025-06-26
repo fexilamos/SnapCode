@@ -26,7 +26,7 @@
                     </select>
                 </div>
                 <div class="flex-shrink-0 flex items-end pt-6 md:pt-0">
-                    <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow transition-all duration-200">Filtrar</button>
+                    <button type="submit" class="px-8 py-3 bg-slate-700 hover:bg-slate-400 text-white rounded-lg font-semibold shadow transition-all duration-200">Filtrar</button>
                 </div>
             </form>
             <!-- Resultados -->

@@ -67,9 +67,12 @@
             <div class="p-6">
                 <p class="text-center">Olá, {{ Auth::user()->name }}</p>
                 <br>
-                <a href="{{ route('logout') }}" class="block py-2 px-4 bg-red-600 hover:bg-red-700 rounded text-center">
-                    Logout
-                </a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="block w-full py-2 px-4 bg-red-600 hover:bg-red-700 rounded text-center">
+                        Logout
+                    </button>
+                </form>
             </div>
         </aside>
 
