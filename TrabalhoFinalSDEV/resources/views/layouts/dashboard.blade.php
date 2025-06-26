@@ -56,7 +56,7 @@
                         </div>
                     </div>
 
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Eventos</a>
+                    <a href="{{ route('servicos.home') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Eventos</a>
                     <a href="{{ url('/calendario') }}" class="block px-4 py-2 text-white hover:bg-gray-700">
     Calendário
 </a>

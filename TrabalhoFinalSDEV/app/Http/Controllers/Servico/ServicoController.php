@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Servico;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\Servico;
 use App\Models\Cliente;
 use App\Models\ServicoDetalhesBatizado;
@@ -14,6 +15,7 @@ use App\Models\ServicoDetalhesComunhaoParticular;
 use App\Models\ServicoDetalhesEvCorporativo;
 use App\Models\TiposServico;
 use App\Models\Localizacao;
+use App\Http\Requests\StoreUpdateServicoRequest;
 
 class ServicoController extends Controller
 {
@@ -43,7 +45,7 @@ class ServicoController extends Controller
     }
 
     // Guardar novo serviço
-    public function store(Request $request)
+    public function store(StoreUpdateServicoRequest $request)
     {
         DB::beginTransaction();
 
@@ -51,11 +53,13 @@ class ServicoController extends Controller
             $validated = $request->validated();
 
             // Cria Cliente (apenas no store)
+            Log::debug('A criar cliente', $validated);
             $cliente = Cliente::create([
                 'nome' => $validated['nome_cliente'],
-                'email' => $validated['email_cliente'] ?? null,
+                'mail' => $validated['email_cliente'] ?? null,
                 'telefone' => $validated['telefone_cliente'] ?? null,
             ]);
+            Log::debug('Cliente criado', ['cliente' => $cliente->toArray()]);
 
             $servico = Servico::create([
                 'cod_cliente' => $cliente->cod_cliente,
@@ -65,37 +69,83 @@ class ServicoController extends Controller
                 'data_fim' => $validated['data_fim'],
                 'nome_servico' => $validated['nome_servico'],
             ]);
+            Log::debug('Serviço criado', ['servico' => $servico->toArray()]);
 
-        $tipo = (int) $validated['cod_tipo_servico'];
-        $detalhes = $validated['detalhes'] ?? [];
+            $tipo = (int) $validated['cod_tipo_servico'];
+            $detalhes = $request->input('detalhes', []);
 
-        switch ($tipo)
-        {
-            case 1:
-                ServicoDetalhesBatizado::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
-                break;
-            case 2:
-                ServicoDetalhesCasamento::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
-                break;
-            case 3:
-                ServicoDetalhesComunhaoGeral::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
-                break;
-            case 4:
-                ServicoDetalhesComunhaoParticular::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
-                break;
-            case 5:
-                ServicoDetalhesEvCorporativo::create(array_merge($detalhes, ['cod_servico' => $servico->cod_servico]));
-                break;
+            Log::debug('A criar detalhes', [
+                'tipo' => $tipo,
+                'detalhes' => $detalhes
+            ]);
+
+            // Filtragem dos detalhes para gravar só os campos do modelo correto
+            $model = null;
+            switch ($tipo) {
+                case 1:
+                    $model = new ServicoDetalhesCasamento();
+                    break;
+                case 2:
+                    $model = new ServicoDetalhesBatizado();
+                    break;
+                case 3:
+                    $model = new ServicoDetalhesEvCorporativo();
+                    break;
+                case 4:
+                    $model = new ServicoDetalhesComunhaoParticular();
+                    break;
+                case 5:
+                    $model = new ServicoDetalhesComunhaoGeral();
+                    break;
+            }
+            if ($model) {
+                $fillable = $model->getFillable();
+                $detalhes_filtrados = array_intersect_key($detalhes, array_flip($fillable));
+
+                // Preenche campos boolean a 0 se não enviados
+                $camposBooleanos = [
+                    'fotos',
+                    'video',
+                    'drone',
+                    'sde',
+                    'fotos_convidados',
+                    'venda_fotos',
+                    'coro',
+                    'grupo_exterior',
+                    'oferta_ramo',
+                    'diplomas'
+                ];
+                foreach ($camposBooleanos as $campo) {
+                    if (in_array($campo, $fillable) && !isset($detalhes_filtrados[$campo])) {
+                        $detalhes_filtrados[$campo] = 0;
+                    }
+                }
+                // Log para confirmar antes de criar
+                Log::debug('A inserir detalhes', [
+                    'tabela' => $model->getTable(),
+                    'data' => array_merge($detalhes_filtrados, ['cod_servico' => $servico->cod_servico])
+                ]);
+                $model::create(array_merge($detalhes_filtrados, [
+                    'cod_servico' => $servico->cod_servico
+                ]));
+                Log::debug('Detalhes criados');
+            } else {
+                Log::warning('Tipo de serviço inválido ou não encontrado', ['tipo' => $tipo]);
+            }
+
+            DB::commit();
+            Log::debug('Commit realizado com sucesso!');
+            return redirect()->route('servicos.home')->with('success', 'Serviço criado com sucesso.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Erro ao criar serviço', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withErrors(['error' => 'Erro ao criar serviço: ' . $e->getMessage()]);
         }
-
-        DB::commit();
-        return redirect()->route('servicos.index')->with('success', 'Serviço criado com sucesso.');
-
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return back()->withErrors(['error' => 'Erro ao criar serviço.']);
     }
-    }
+
 
     // Ver detalhes de um serviço
     public function show(string $id)
@@ -115,10 +165,9 @@ class ServicoController extends Controller
 
         if ($user->funcionario->cod_nivel == 3) {
             $alocado = $servico->funcionarios->contains('cod_funcionario', $user->funcionario->cod_funcionario);
-                if (!$alocado)
-                {
-                    abort(403, 'Acesso não autorizado!');
-                }
+            if (!$alocado) {
+                abort(403, 'Acesso não autorizado!');
+            }
         }
         if (!$servico) {
             return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
@@ -154,20 +203,19 @@ class ServicoController extends Controller
     // Atualizar serviço
     public function update(Request $request, string $id)
     {
-         $servico = Servico::with([
-        'detalhesBatizado',
-        'detalhesCasamento',
-        'detalhesComunhaoGeral',
-        'detalhesComunhaoParticular',
-        'detalhesEvCorporativo'
+        $servico = Servico::with([
+            'detalhesBatizado',
+            'detalhesCasamento',
+            'detalhesComunhaoGeral',
+            'detalhesComunhaoParticular',
+            'detalhesEvCorporativo'
         ])->find($id);
 
-        if (!$servico)
-        {
+        if (!$servico) {
             return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
         }
 
-    $validated = $request->validated();
+        $validated = $request->validated();
 
         DB::beginTransaction();
 
@@ -180,46 +228,45 @@ class ServicoController extends Controller
                 'nome_servico' => $validated['nome_servico'],
             ]);
 
-        $tipo = (int) $validated['cod_tipo_servico'];
-        $detalhes = $validated['detalhes'] ?? [];
+            $tipo = (int) $validated['cod_tipo_servico'];
+            $detalhes = $validated['detalhes'] ?? [];
 
-        switch ($tipo) {
-            case 1:
-                $servico->detalhesBatizado()->updateOrCreate(
-                    ['cod_servico' => $servico->cod_servico],
-                    $detalhes
-                );
-                break;
-            case 2:
-                $servico->detalhesCasamento()->updateOrCreate(
-                    ['cod_servico' => $servico->cod_servico],
-                    $detalhes
-                );
-                break;
-            case 3:
-                $servico->detalhesComunhaoGeral()->updateOrCreate(
-                    ['cod_servico' => $servico->cod_servico],
-                    $detalhes
-                );
-                break;
-            case 4:
-                $servico->detalhesComunhaoParticular()->updateOrCreate(
-                    ['cod_servico' => $servico->cod_servico],
-                    $detalhes
-                );
-                break;
-            case 5:
-                $servico->detalhesEvCorporativo()->updateOrCreate(
-                    ['cod_servico' => $servico->cod_servico],
-                    $detalhes
-                );
-                break;
+            switch ($tipo) {
+                case 1:
+                    $servico->detalhesBatizado()->updateOrCreate(
+                        ['cod_servico' => $servico->cod_servico],
+                        $detalhes
+                    );
+                    break;
+                case 2:
+                    $servico->detalhesCasamento()->updateOrCreate(
+                        ['cod_servico' => $servico->cod_servico],
+                        $detalhes
+                    );
+                    break;
+                case 3:
+                    $servico->detalhesComunhaoGeral()->updateOrCreate(
+                        ['cod_servico' => $servico->cod_servico],
+                        $detalhes
+                    );
+                    break;
+                case 4:
+                    $servico->detalhesComunhaoParticular()->updateOrCreate(
+                        ['cod_servico' => $servico->cod_servico],
+                        $detalhes
+                    );
+                    break;
+                case 5:
+                    $servico->detalhesEvCorporativo()->updateOrCreate(
+                        ['cod_servico' => $servico->cod_servico],
+                        $detalhes
+                    );
+                    break;
             }
 
             DB::commit();
-                return redirect()->route('servicos.index')->with('success', 'Serviço atualizado com sucesso.');
-
-        }   catch (\Exception $e) {
+            return redirect()->route('servicos.index')->with('success', 'Serviço atualizado com sucesso.');
+        } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Erro ao atualizar serviço.']);
         }
@@ -268,5 +315,11 @@ class ServicoController extends Controller
             DB::rollBack();
             return back()->withErrors(['error' => 'Erro ao apagar serviço.']);
         }
+    }
+
+    public function home()
+    {
+
+        return view('servicos.home');
     }
 }

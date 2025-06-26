@@ -18,14 +18,13 @@ class StoreUpdateServicoRequest extends FormRequest
             'nome_cliente'      => 'sometimes|required|string|max:255',
             'email_cliente'     => 'nullable|email',
             'telefone_cliente'  => 'nullable|string|max:20',
-
             'cod_tipo_servico'  => 'required|exists:TiposServico,cod_tipo_servico',
-            'cod_local_servico' => 'required|exists:Localizacao,cod_local_servico',
+            'cod_local_servico' => 'required|exists:Localizacoes,cod_local_servico',
             'data_inicio'       => 'required|date',
             'data_fim'          => 'required|date|after_or_equal:data_inicio',
             'nome_servico'      => 'required|string|max:255',
-
             'detalhes'          => 'nullable|array',
+            'detalhes.*'        => 'nullable',
         ];
     }
 
