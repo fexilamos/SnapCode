@@ -16,6 +16,7 @@ use App\Models\ServicoDetalhesEvCorporativo;
 use App\Models\TiposServico;
 use App\Models\Localizacao;
 use App\Http\Requests\StoreUpdateServicoRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ServicoController extends Controller
 {
@@ -322,4 +323,27 @@ class ServicoController extends Controller
 
         return view('servicos.home');
     }
+
+    
+    public function exportPdf($id)
+{
+    $servico = Servico::with([
+        'cliente',
+        'tipoServico',
+        'localizacao',
+        'detalhesCasamento',
+        'detalhesBatizado',
+        'detalhesComunhaoGeral',
+        'detalhesComunhaoParticular',
+        'detalhesEVCorporativo'
+    ])->findOrFail($id);
+
+    $dados = \App\Models\PDF::dadosServico($servico);
+
+    $pdf = DomPdf::loadView('servicos.pdf', [
+        'servico' => $servico,
+        'dados' => $dados // se preferir usar o array em vez do objeto
+    ]);
+    return $pdf->download('servico_' . $servico->cod_servico . '.pdf');
+}
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Servico\ServicoController;
 use App\Http\Controllers\Servico\ServicoCheckinController;
 
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -17,7 +18,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'nivel:1,2,3'])->name('dashboard');
 
-//SERVIÇOS
+//SERVIÇOS/EVENTOS
 
 Route::middleware('auth','nivel:1')->group(function () {
     Route::get('/servicos/create', [ServicoController::class, 'create'])->name('servicos.create');
@@ -25,12 +26,14 @@ Route::middleware('auth','nivel:1')->group(function () {
     Route::get('/servicos/{servico}/edit', [ServicoController::class, 'edit'])->name('servicos.edit');
     Route::put('/servicos/{servico}', [ServicoController::class, 'update'])->name('servicos.update');
     Route::delete('/servicos/{servico}', [ServicoController::class, 'destroy'])->name('servicos.destroy');
+    Route::get('/servicos/{id}/pdf', [ServicoController::class, 'exportPdf'])->name('servicos.pdf');
 });
 
 Route::middleware('auth','nivel:1,2')->group(function () {
     Route::get('/servicos/home', [ServicoController::class, 'home'])->name('servicos.home');
     Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
     Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
+    Route::get('/servicos/{id}/pdf', [ServicoController::class, 'exportPdf'])->name('servicos.pdf');
 });
 
 //MATERIAIS
@@ -45,7 +48,7 @@ Route::middleware('auth','nivel:1,2')->group(function () {
     Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materiais.show');
 });
 
-//FUNCIONARIOS
+//FUNCIONARIOS/Colaboradores
 
 Route::get('funcionarios/home', [FuncionariosController::class, 'home'])->name('funcionarios.home');
 Route::resource('funcionarios', FuncionariosController::class)->middleware('auth','nivel:1');
@@ -87,7 +90,7 @@ Route::middleware(['auth', 'nivel:1'])->group(function () {
     Route::post('/servicos/{servico}/checkin', [ServicoCheckinController::class, 'store'])->name('servicos.checkin.store');
 });
 
-//EVENTOS FUNC 3
+//EVENTOS FUNC Externo (Nivel 3)
 
 Route::middleware(['auth', 'nivel:3'])->get('/meus-servicos', [ServicoController::class, 'meusServicos'])->name('servicos.meus');
 
