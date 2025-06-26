@@ -1,8 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1
-        class="text-3xl font-extrabold text-center mt-14 mb-12 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 drop-shadow-xl">
+    <h1 class="text-3xl font-extrabold text-center mt-14 mb-12 tracking-tight text-white drop-shadow-xl">
         Detalhes do Evento
     </h1>
     <div class="p-8 max-w-3xl mx-auto bg-slate-800/95 rounded-3xl shadow-2xl border border-slate-700">
@@ -23,12 +22,6 @@ Corporativo: {{ print_r($servico->detalhesEvCorporativo ? $servico->detalhesEvCo
         {{-- Informações Gerais --}}
         <div class="mb-12">
             <h2 class="text-lg md:text-xl font-bold text-slate-100 mb-6 flex items-center gap-3">
-                <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-blue-600/15">
-                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                    </svg>
-                </span>
                 Informações Gerais
             </h2>
             <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 text-slate-100">
@@ -62,12 +55,6 @@ Corporativo: {{ print_r($servico->detalhesEvCorporativo ? $servico->detalhesEvCo
         {{-- Detalhes Específicos --}}
         <div class="mb-12">
             <h2 class="text-lg md:text-xl font-bold text-slate-100 mb-6 flex items-center gap-3">
-                <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-purple-600/15">
-                    <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2a4 4 0 014-4h0a4 4 0 014 4v2" />
-                    </svg>
-                </span>
                 Detalhes do Evento
             </h2>
             @php $tipo_id = $servico->cod_tipo_servico; @endphp
@@ -134,10 +121,7 @@ Corporativo: {{ print_r($servico->detalhesEvCorporativo ? $servico->detalhesEvCo
 
         <div class="mt-12 text-center">
             <a href="{{ route('servicos.tipo', ['tipo' => $tipo]) }}"
-                class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
+                class="px-8 py-3 bg-white text-slate-800 font-semibold rounded-2xl shadow hover:bg-slate-100 transition-all duration-200 border border-slate-200">
                 Voltar à Lista
             </a>
         </div>
