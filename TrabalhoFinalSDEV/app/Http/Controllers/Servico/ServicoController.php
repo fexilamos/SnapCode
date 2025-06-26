@@ -336,4 +336,31 @@ class ServicoController extends Controller
 
         return view('servicos.home');
     }
+
+<<<<<<< HEAD
+
+=======
+
+    public function exportPdf($id)
+{
+    $servico = Servico::with([
+        'cliente',
+        'tipoServico',
+        'localizacao',
+        'detalhesCasamento',
+        'detalhesBatizado',
+        'detalhesComunhaoGeral',
+        'detalhesComunhaoParticular',
+        'detalhesEVCorporativo'
+    ])->findOrFail($id);
+
+    $dados = \App\Models\PDF::dadosServico($servico);
+
+    $pdf = DomPdf::loadView('servicos.pdf', [
+        'servico' => $servico,
+        'dados' => $dados // se preferir usar o array em vez do objeto
+    ]);
+    return $pdf->download('servico_' . $servico->cod_servico . '.pdf');
+}
+>>>>>>> 4e5aee7eb3a8bb1fdc134aad8c06aa9db1b3c9a7
 }
