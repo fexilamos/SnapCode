@@ -35,8 +35,8 @@
         </div>
     </div>
     <div class="flex flex-col sm:flex-row gap-4 items-center justify-center w-full pt-4">
-        <button type="submit" class="px-8 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-lg font-semibold shadow transition-all duration-200 text-center">Filtrar</button>
-        <a href="{{ route('materiais.index') }}" class="px-8 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-lg font-semibold shadow transition-all duration-200 text-center">Limpar Filtros</a>
+        <button type="submit" class="px-8 py-3 bg-sky-800 hover:bg-slate-700 text-white rounded-lg font-semibold shadow transition-all duration-200 text-center">Filtrar</button>
+        <a href="{{ route('materiais.index') }}" class="px-8 py-3 bg-slate-700  hover:bg-sky-800 text-white rounded-lg font-semibold shadow transition-all duration-200 text-center">Limpar Filtros</a>
     </div>
 </form>
 
@@ -88,7 +88,7 @@
                                     <td class="px-4 py-3 text-white text-center align-middle">{{ $material->observacoes }}</td>
                                     <td class="px-4 py-3">
                                         <div class="flex flex-col md:flex-row gap-2 justify-center items-center">
-                                            <a href="{{ route('materiais.edit', $material->cod_material) }}" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs">Editar</a>
+                                            <a href="{{ route('materiais.edit', $material->cod_material) }}" class="bg-sky-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs">Editar</a>
                                             <form action="{{ route('materiais.destroy', $material->cod_material) }}" method="POST" style="display:inline-block">
                                                 @csrf
                                                 @method('DELETE')
