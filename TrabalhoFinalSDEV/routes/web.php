@@ -91,6 +91,9 @@ Route::middleware(['auth', 'nivel:1'])->group(function () {
 
 Route::middleware(['auth', 'nivel:3'])->get('/meus-servicos', [ServicoController::class, 'meusServicos'])->name('servicos.meus');
 
+// Rotas para filtrar eventos por tipo
+Route::get('/servicos/tipo/{tipo}', [ServicoController::class, 'listarPorTipo'])->name('servicos.tipo');
+
 
 require __DIR__.'/auth.php';
 Route::get('/teste', function () {

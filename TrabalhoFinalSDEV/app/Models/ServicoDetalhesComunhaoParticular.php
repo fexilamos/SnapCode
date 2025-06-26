@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Servico; 
+use App\Models\Servico;
 
 class ServicoDetalhesComunhaoParticular extends Model
 {
     use HasFactory;
 
-    protected $table = 'Servico_Detalhes_ComunhaoParticular';
-    protected $primaryKey = 'cod_servico'; 
+    protected $table = 'servico_detalhes_comunhaoparticular';
+    protected $primaryKey = 'cod_servico';
     protected $keyType = 'int';
     public $incrementing = false;
     public $timestamps = false;

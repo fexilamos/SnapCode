@@ -4,20 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Servico; 
+use App\Models\Servico;
 
 class ServicoDetalhesComunhaoGeral extends Model
 {
     use HasFactory;
 
-    protected $table = 'Servico_Detalhes_ComunhaoGeral';
-    protected $primaryKey = 'cod_servico'; 
+    protected $table = 'servico_detalhes_comunhaogeral';
+    protected $primaryKey = 'cod_servico';
     protected $keyType = 'int';
     public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
-        'cod_servico', 
+        'cod_servico',
         'video',
         'drone',
         'sde',
@@ -39,7 +39,7 @@ class ServicoDetalhesComunhaoGeral extends Model
          'video' => 'boolean',
          'drone' => 'boolean',
          'sde' => 'boolean',
-         'valor_foto' => 'decimal:2', 
+         'valor_foto' => 'decimal:2',
          'valor_video' => 'decimal:2',
          'num_criancas' => 'integer',
          'coro' => 'boolean',

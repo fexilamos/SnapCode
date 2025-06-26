@@ -81,21 +81,23 @@ class ServicoController extends Controller
 
             // Filtragem dos detalhes para gravar só os campos do modelo correto
             $model = null;
+            // Mapeamento explícito para evitar erros de ordem
+            // 1: Casamento, 2: Batizado, 3: Comunhão Geral, 4: Comunhão Particular, 5: Corporativo
             switch ($tipo) {
-                case 1:
+                case 1: // Casamento
                     $model = new ServicoDetalhesCasamento();
                     break;
-                case 2:
+                case 2: // Batizado
                     $model = new ServicoDetalhesBatizado();
                     break;
-                case 3:
-                    $model = new ServicoDetalhesEvCorporativo();
+                case 3: // Comunhão Geral
+                    $model = new ServicoDetalhesComunhaoGeral();
                     break;
-                case 4:
+                case 4: // Comunhão Particular
                     $model = new ServicoDetalhesComunhaoParticular();
                     break;
-                case 5:
-                    $model = new ServicoDetalhesComunhaoGeral();
+                case 5: // Corporativo
+                    $model = new ServicoDetalhesEvCorporativo();
                     break;
             }
             if ($model) {
@@ -149,32 +151,43 @@ class ServicoController extends Controller
 
     // Ver detalhes de um serviço
     public function show(string $id)
-    {
-        $servico = Servico::with([
-            'cliente',
-            'tipoServico',
-            'localizacao',
-            'detalhesBatizado',
-            'detalhesCasamento',
-            'detalhesComunhaoGeral',
-            'detalhesComunhaoParticular',
-            'detalhesEvCorporativo'
-        ])->find($id);
+{
+    $servico = Servico::with([
+        'cliente',
+        'tipoServico',
+        'localizacao',
+        'detalhesBatizado',
+        'detalhesCasamento',
+        'detalhesComunhaoGeral',
+        'detalhesComunhaoParticular',
+        'detalhesEvCorporativo'
+    ])->find($id);
 
-        $user = auth()->user();
+    $user = auth()->user();
 
-        if ($user->funcionario->cod_nivel == 3) {
-            $alocado = $servico->funcionarios->contains('cod_funcionario', $user->funcionario->cod_funcionario);
-            if (!$alocado) {
-                abort(403, 'Acesso não autorizado!');
-            }
+    if ($user->funcionario->cod_nivel == 3) {
+        $alocado = $servico->funcionarios->contains('cod_funcionario', $user->funcionario->cod_funcionario);
+        if (!$alocado) {
+            abort(403, 'Acesso não autorizado!');
         }
-        if (!$servico) {
-            return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
-        }
-
-        return view('servicos.show', compact('servico'));
     }
+    if (!$servico) {
+        return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
+    }
+
+    // NOVO MAPEAMENTO PARA O SLUG
+    $tipoSlugMap = [
+        1 => 'casamento',
+        2 => 'batizado',
+        3 => 'corporativo',
+        4 => 'comunhao_particular',
+        5 => 'comunhao_geral'
+    ];
+    $tipo = $tipoSlugMap[$servico->cod_tipo_servico] ?? null;
+
+    return view('servicos.show', compact('servico', 'tipo'));
+}
+
 
     // Formulário de edição de serviço
     public function edit($id)
@@ -232,31 +245,31 @@ class ServicoController extends Controller
             $detalhes = $validated['detalhes'] ?? [];
 
             switch ($tipo) {
-                case 1:
-                    $servico->detalhesBatizado()->updateOrCreate(
-                        ['cod_servico' => $servico->cod_servico],
-                        $detalhes
-                    );
-                    break;
-                case 2:
+                case 1: // Casamento
                     $servico->detalhesCasamento()->updateOrCreate(
                         ['cod_servico' => $servico->cod_servico],
                         $detalhes
                     );
                     break;
-                case 3:
+                case 2: // Batizado
+                    $servico->detalhesBatizado()->updateOrCreate(
+                        ['cod_servico' => $servico->cod_servico],
+                        $detalhes
+                    );
+                    break;
+                case 3: // Comunhão Geral
                     $servico->detalhesComunhaoGeral()->updateOrCreate(
                         ['cod_servico' => $servico->cod_servico],
                         $detalhes
                     );
                     break;
-                case 4:
+                case 4: // Comunhão Particular
                     $servico->detalhesComunhaoParticular()->updateOrCreate(
                         ['cod_servico' => $servico->cod_servico],
                         $detalhes
                     );
                     break;
-                case 5:
+                case 5: // Corporativo
                     $servico->detalhesEvCorporativo()->updateOrCreate(
                         ['cod_servico' => $servico->cod_servico],
                         $detalhes
@@ -321,5 +334,25 @@ class ServicoController extends Controller
     {
 
         return view('servicos.home');
+    }
+
+    // Listar eventos por tipo
+    public function listarPorTipo($tipo)
+    {
+        $tiposMap = [
+            'casamento' => 1,
+            'batizado' => 2,
+            'corporativo' => 3,
+            'comunhao_particular' => 4,
+            'comunhao_geral' => 5,
+        ];
+        if (!isset($tiposMap[$tipo])) {
+            abort(404);
+        }
+        $servicos = Servico::with(['cliente', 'tipoServico', 'localizacao'])
+            ->where('cod_tipo_servico', $tiposMap[$tipo])
+            ->orderBy('data_inicio', 'desc')
+            ->get();
+        return view('servicos.lista-tipo', compact('servicos', 'tipo'));
     }
 }
