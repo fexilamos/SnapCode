@@ -10,11 +10,11 @@
         </a>
     </div>
     <main class="p-8">
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-6xl mx-auto">
             <!-- Filtros -->
-            <form class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-                <div>
-                    <label for="searchFunction" class="block text-sm font-medium text-white mb-2">Função</label>
+            <form method="GET" action="{{ route('funcionarios.index') }}" class="w-full flex flex-col md:flex-row gap-4 mb-12 bg-slate-800 rounded-xl p-8 shadow-lg border border-slate-600 items-end">
+                <div class="flex-1 flex flex-col">
+                    <label for="searchFunction" class="block text-base font-semibold text-blue-200 mb-3">Função</label>
                     <select id="searchFunction" name="searchFunction" class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option value="">Selecione a função</option>
                         <option value="0">Admin</option>
@@ -25,65 +25,52 @@
                         <option value="5">Assistente Técnico</option>
                     </select>
                 </div>
-                <div>
-                    <label for="searchPhone" class="block text-sm font-medium text-white mb-2">Telefone</label>
-                    <input type="tel" id="searchPhone" name="searchPhone" class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Número de telefone">
-                </div>
-                <div>
-                    <label for="searchEmail" class="block text-sm font-medium text-white mb-2">Email</label>
-                    <input type="email" id="searchEmail" name="searchEmail" class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="endereco@email.com">
-                </div>
-                <div>
-                    <label for="searchAddress" class="block text-sm font-medium text-white mb-2">Morada</label>
-                    <textarea id="searchAddress" name="searchAddress" rows="1" class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Morada completa"></textarea>
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-white mb-2">Competências e Equipamentos</label>
-                    <div class="flex flex-wrap gap-4">
-                        <div class="flex items-center space-x-2">
-                            <input type="checkbox" id="fotografia" value="fotografia" class="w-4 h-4 text-blue-600 bg-slate-600 border-slate-500 rounded focus:ring-blue-500 focus:ring-2">
-                            <label for="fotografia" class="text-white font-medium">Fotografia</label>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <input type="checkbox" id="video" value="video" class="w-4 h-4 text-blue-600 bg-slate-600 border-slate-500 rounded focus:ring-blue-500 focus:ring-2">
-                            <label for="video" class="text-white font-medium">Vídeo</label>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <input type="checkbox" id="drone" value="drone" class="w-4 h-4 text-blue-600 bg-slate-600 border-slate-500 rounded focus:ring-blue-500 focus:ring-2">
-                            <label for="drone" class="text-white font-medium">Drone</label>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <input type="checkbox" id="edicao" value="edicao" class="w-4 h-4 text-blue-600 bg-slate-600 border-slate-500 rounded focus:ring-blue-500 focus:ring-2">
-                            <label for="edicao" class="text-white font-medium">Edição</label>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <input type="checkbox" id="som" value="som" class="w-4 h-4 text-blue-600 bg-slate-600 border-slate-500 rounded focus:ring-blue-500 focus:ring-2">
-                            <label for="som" class="text-white font-medium">Som</label>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <input type="checkbox" id="iluminacao" value="iluminacao" class="w-4 h-4 text-blue-600 bg-slate-600 border-slate-500 rounded focus:ring-blue-500 focus:ring-2">
-                            <label for="iluminacao" class="text-white font-medium">Iluminação</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="md:col-span-2 flex justify-end">
-                    <button type="button" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition-colors" onclick="filterEmployees()">Filtrar</button>
+                <div class="flex-shrink-0 flex items-end pt-6 md:pt-0">
+                    <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow transition-all duration-200">Filtrar</button>
                 </div>
             </form>
             <!-- Resultados -->
-            <div class="bg-slate-700 rounded-lg p-6 border border-slate-500">
-                <h3 class="text-xl font-semibold text-white mb-4">Resultados da Pesquisa</h3>
-                <div id="resultsContent" class="space-y-4">
-                    <div class="text-slate-300 text-center">Use os filtros acima para pesquisar funcionários</div>
+            <div class="bg-slate-700 rounded-xl p-8 border border-slate-600 mt-10 shadow-lg">
+                <h3 class="text-2xl font-bold text-blue-200 mb-6 tracking-wide">Lista de Funcionários</h3>
+                <div class="w-full">
+                    <table class="w-full min-w-full divide-y divide-slate-600 rounded-lg overflow-hidden">
+                        <thead class="bg-slate-800">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Nome</th>
+                                <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Localização</th>
+                                <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Telemóvel</th>
+                                <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Função</th>
+                                <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Nível</th>
+                                <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Equipamento Próprio</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-600">
+                            @forelse($funcionarios as $funcionario)
+                                <tr class="hover:bg-slate-800 transition-colors {{ $loop->even ? 'bg-slate-700' : 'bg-slate-600' }}">
+                                    <td class="px-6 py-3 text-white break-words whitespace-normal">{{ $funcionario->nome }}</td>
+                                    <td class="px-6 py-3 text-white break-words whitespace-normal">{{ $funcionario->morada }}</td>
+                                    <td class="px-6 py-3 text-white break-words whitespace-normal">{{ $funcionario->mail ?? $funcionario->email }}</td>
+                                    <td class="px-6 py-3 text-white break-words whitespace-normal">{{ $funcionario->telefone }}</td>
+                                    <td class="px-6 py-3 text-white break-words whitespace-normal">
+                                        @if($funcionario->funcoes && $funcionario->funcoes->count())
+                                            {{ $funcionario->funcoes->pluck('funcao')->join(', ') }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-3 text-white break-words whitespace-normal">{{ $funcionario->nivel ? $funcionario->nivel->nivel : '-' }}</td>
+                                    <td class="px-6 py-3 text-white break-words whitespace-normal">{{ $funcionario->tem_equipamento_proprio ? 'Sim' : 'Não' }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="px-4 py-8 text-center text-slate-400 text-lg">Nenhum funcionário encontrado.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </main>
-    <script>
-        // Aqui podes colocar a lógica JS para filtrar funcionários (AJAX ou JS puro)
-        function filterEmployees() {
-            // Exemplo: mostrar mensagem de "Nenhum funcionário encontrado"
-            document.getElementById('resultsContent').innerHTML = '<div class="text-slate-400 text-center py-8">Nenhum funcionário encontrado com os critérios especificados</div>';
-        }
-    </script>
 @endsection

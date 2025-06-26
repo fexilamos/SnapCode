@@ -16,15 +16,19 @@ class AvariaController extends Controller
      */
     public function index()
     {
-        $avarias = Avaria::with(['material','servico'])->get();
-        return view('avarias.index', compact('avarias'));
+        // Listar registos reais de avarias, com os relacionamentos necessários, paginados
+        $avarias = Avaria::with(['material.categoria', 'material.marca', 'material.modelo', 'material.estado', 'servico'])
+            ->orderByDesc('data_registo')
+            ->paginate(10);
+        return view('materiais.avarias.index', compact('avarias'));
     }
 
     public function create()
     {
-        $materiais = Material::all();
+        $materiais = Material::with(['categoria', 'marca', 'modelo'])->get();
         $servicos = Servico::all();
-        return view('avarias.create', compact('materiais','servicos'));
+        $estados = \App\Models\MaterialEstado::all();
+        return view('materiais.avarias.create', compact('materiais','servicos','estados'));
     }
     /**
      * Store a newly created resource in storage.
@@ -59,7 +63,8 @@ class AvariaController extends Controller
 
         $materiais = Material::all();
         $servicos = Servico::all();
-        return view('avarias.edit', compact('avaria', 'materiais', 'servicos'));
+        $estados = \App\Models\MaterialEstado::all(); // Adicionado para dropdown de estados
+        return view('materiais.avarias.edit', compact('avaria', 'materiais', 'servicos', 'estados'));
     }
 
     /**
@@ -69,7 +74,12 @@ class AvariaController extends Controller
     {
         $avaria = Avaria::findOrFail($id);
         $avaria->update($request->all());
-        return redirect()->route('avarias.index')->with('success', 'Avaria atualizada com sucesso!');
+        // Atualizar estado do material se enviado
+        if ($request->filled('cod_estado') && $avaria->material) {
+            $avaria->material->cod_estado = $request->cod_estado;
+            $avaria->material->save();
+        }
+        return redirect()->route('avarias.index')->with('success', 'Atualização feita com sucesso');
     }
 
     /**

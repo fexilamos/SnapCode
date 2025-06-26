@@ -53,12 +53,9 @@ Route::resource('funcionarios', FuncionariosController::class)->middleware('auth
 //AVARIAS
 Route::middleware('auth','nivel:1,2')->group(function () {
     Route::get('/avarias', [AvariaController::class, 'index'])->name('avarias.index');
-    Route::get('/avarias/{avaria}', [AvariaController::class, 'show'])->name('avarias.show');
-});
-
-Route::middleware('auth','nivel:1')->group(function () {
     Route::get('/avarias/create', [AvariaController::class, 'create'])->name('avarias.create');
     Route::post('/avarias', [AvariaController::class, 'store'])->name('avarias.store');
+    Route::get('/avarias/{avaria}', [AvariaController::class, 'show'])->name('avarias.show');
     Route::get('/avarias/{avaria}/edit', [AvariaController::class, 'edit'])->name('avarias.edit');
     Route::put('/avarias/{avaria}', [AvariaController::class, 'update'])->name('avarias.update');
     Route::delete('/avarias/{avaria}', [AvariaController::class, 'destroy'])->name('avarias.destroy');
@@ -66,8 +63,13 @@ Route::middleware('auth','nivel:1')->group(function () {
 
 //PERDAS
 Route::middleware('auth','nivel:1,2')->group(function () {
+    Route::resource('perdas', PerdaController::class);
     Route::get('/perdas', [PerdaController::class, 'index'])->name('perdas.index');
     Route::get('/perdas/{perda}', [PerdaController::class, 'show'])->name('perdas.show');
+    Route::get('/perdas/create', [PerdaController::class, 'create'])->name('perdas.create');
+    Route::post('/perdas', [PerdaController::class, 'store'])->name('perdas.store');
+    Route::get('/perdas/{perda}/edit', [PerdaController::class, 'edit'])->name('perdas.edit');
+    Route::put('/perdas/{perda}', [PerdaController::class, 'update'])->name('perdas.update');
 });
 
 Route::middleware('auth','nivel:1')->group(function () {
