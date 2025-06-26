@@ -7,7 +7,7 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
     <!-- Estatísticas de Eventos -->
-    <div class="bg-gray-700 p-6 rounded-2xl shadow">
+    <div class="bg-gray-700 p-6 rounded-2xl shadow-xl">
         <h2 class="text-xl font-semibold mb-4">📊 Estatísticas de Eventos</h2>
         <ul class="text-sm space-y-2">
             <li>🎉 <strong>Casamentos:</strong> 14</li>
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Funcionários em Serviço Hoje -->
-    <div class="bg-gray-700 p-6 rounded-2xl shadow">
+    <div class="bg-gray-700 p-6 rounded-2xl shadow-xl">
         <h2 class="text-xl font-semibold mb-2">👥Funcionarios</h2>
         <ul class="text-sm space-y-1">
             @php
@@ -42,13 +42,13 @@
     </div>
 
     <!-- Materiais em Manutenção -->
-    <div class="bg-gray-700 p-6 rounded-2xl shadow">
+    <div class="bg-gray-700 p-6 rounded-2xl shadow-xl">
         <h2 class="text-xl font-semibold mb-2">🛠️ Manutenção</h2>
         <ul class="text-sm space-y-1">
             @php
                 $materiais_manutencao = \App\Models\Material::with(['estado','marca','modelo'])
                     ->whereHas('estado', function($q) {
-                        $q->where('estado_nome', 'Em Manutenção');
+                        $q->whereIn('estado_nome', ['Em Manutenção', 'Avariado']);
                     })->get();
             @endphp
             @forelse($materiais_manutencao as $material)
@@ -62,11 +62,12 @@
                 <li class="text-gray-400">Nenhum material em manutenção.</li>
             @endforelse
         </ul>
+        <a href="{{ route('avarias.index') }}" class="text-blue-300 mt-3 inline-block hover:underline">Ver equipamento em manutenção →</a>
     </div>
 </div>
 
 <!-- Card Inferior - Eventos Recentes e Futuros -->
-<div class="mt-8 bg-gray-700 p-6 rounded-2xl shadow">
+<div class="mt-8 bg-gray-700 p-6 rounded-2xl shadow-xl">
     <h2 class="text-xl font-semibold mb-4">📅 Eventos Recentes e Futuros</h2>
 
     <div class="grid md:grid-cols-2 gap-6">

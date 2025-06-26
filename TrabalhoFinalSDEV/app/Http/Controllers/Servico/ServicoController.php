@@ -16,6 +16,7 @@ use App\Models\ServicoDetalhesEvCorporativo;
 use App\Models\TiposServico;
 use App\Models\Localizacao;
 use App\Http\Requests\StoreUpdateServicoRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ServicoController extends Controller
 {
@@ -334,25 +335,5 @@ class ServicoController extends Controller
     {
 
         return view('servicos.home');
-    }
-
-    // Listar eventos por tipo
-    public function listarPorTipo($tipo)
-    {
-        $tiposMap = [
-            'casamento' => 1,
-            'batizado' => 2,
-            'corporativo' => 3,
-            'comunhao_particular' => 4,
-            'comunhao_geral' => 5,
-        ];
-        if (!isset($tiposMap[$tipo])) {
-            abort(404);
-        }
-        $servicos = Servico::with(['cliente', 'tipoServico', 'localizacao'])
-            ->where('cod_tipo_servico', $tiposMap[$tipo])
-            ->orderBy('data_inicio', 'desc')
-            ->get();
-        return view('servicos.lista-tipo', compact('servicos', 'tipo'));
     }
 }

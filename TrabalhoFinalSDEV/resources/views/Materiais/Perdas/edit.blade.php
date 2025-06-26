@@ -7,7 +7,7 @@
         <div style="background: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; padding: 12px; border-radius: 6px; margin-bottom: 16px; text-align:center; font-weight:bold;">
             {{ session('success') }}
         </div>
-        <!-- <script>
+        <script>
             window.onload = function() {
                 alert(@json(session('success')));
                 var toast = document.getElementById('toast-success');
@@ -19,43 +19,33 @@
         </script>
         <div id="toast-success" style="position: fixed; top: 30px; left: 50%; transform: translateX(-50%); background: #198754; color: #fff; padding: 16px 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-weight: bold; z-index: 9999; display: none;">
             {{ session('success') }}
-        </div> -->
+        </div>
     @endif
 
-    <div class="bg-gray-100 rounded-xl shadow p-8 mt-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Editar Perda</h2>
+    <div class="bg-slate-700 rounded-xl shadow-xl p-8 mt-8">
+        <h2 class="text-2xl font-semibold text-white mb-6 text-center">Editar Perda</h2>
         <form method="POST" action="{{ route('perdas.update', $perda->cod_perda) }}">
             @csrf
             @method('PUT')
 
-            <!-- @if ($errors->any())
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                    <ul class="list-disc pl-5">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif -->
-
             <div class="mb-4">
-                <label class="block text-gray-700 font-semibold mb-2">Código da Perda</label>
+                <label class="block text-white font-semibold mb-2">Código da Perda</label>
                 <input type="text" value="{{ $perda->cod_perda }}" disabled class="form-input w-full rounded border-gray-300 text-black">
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 font-semibold mb-2">Material</label>
+                <label class="block text-white font-semibold mb-2">Material</label>
                 <input type="text" value="{{ $perda->cod_material }}" disabled class="form-input w-full rounded border-gray-300 text-black">
                 <input type="hidden" name="cod_material" value="{{ $perda->cod_material }}">
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 font-semibold mb-2">Data de Registo</label>
+                <label class="block text-white font-semibold mb-2">Data de Registo</label>
                 <input type="date" name="data_registo" value="{{ old('data_registo', $perda->data_registo ? $perda->data_registo->format('Y-m-d') : '') }}" class="form-input w-full rounded border-gray-300 text-black" required>
             </div>
 
             <div class="mb-4">
-                <label for="cod_servico" class="block text-gray-700 font-semibold mb-2">Serviço (opcional)</label>
+                <label for="cod_servico" class="block text-white font-semibold mb-2">Serviço (opcional)</label>
                 <select name="cod_servico" id="cod_servico" class="form-select w-full rounded border-gray-300 text-black">
                     <option value="">Sem serviço associado</option>
                     @foreach($servicos as $servico)
@@ -67,7 +57,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="cod_estado" class="block text-gray-700 font-semibold mb-2">Estado do Material</label>
+                <label for="cod_estado" class="block text-white font-semibold mb-2">Estado do Material</label>
                 <select name="cod_estado" id="cod_estado" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione o estado</option>
                     @foreach($estados as $estado)
@@ -79,12 +69,12 @@
             </div>
 
             <div class="mb-4">
-                <label for="observacoes" class="block text-gray-700 font-semibold mb-2">Observações</label>
+                <label for="observacoes" class="block text-white font-semibold mb-2">Observações</label>
                 <textarea name="observacoes" id="observacoes" rows="4" class="form-textarea w-full rounded border-gray-300 text-black">{{ old('observacoes', $perda->observacoes) }}</textarea>
             </div>
 
             <div class="flex justify-center">
-                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-semibold">
+                <button type="submit" class="px-8 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-lg font-semibold shadow transition-all duration-200 text-center">
                     Atualizar Perda
                 </button>
             </div>

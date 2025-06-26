@@ -92,7 +92,7 @@
                                             <form action="{{ route('materiais.destroy', $material->cod_material) }}" method="POST" style="display:inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs" onclick="return confirm('Tem certeza que deseja eliminar este material?')">Eliminar</button>
+                                                <button type="submit" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs" onclick="return confirm('Tem certeza que deseja eliminar este material? Esta acção é irreversível!')">Eliminar</button>
                                             </form>
                                         </div>
                                     </td>
