@@ -19,17 +19,18 @@ Route::get('/dashboard', function () {
 
 //SERVIÇOS
 
-Route::middleware('auth','nivel:1,2')->group(function () {
-    Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
-    Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
-});
-
 Route::middleware('auth','nivel:1')->group(function () {
     Route::get('/servicos/create', [ServicoController::class, 'create'])->name('servicos.create');
     Route::post('/servicos', [ServicoController::class, 'store'])->name('servicos.store');
     Route::get('/servicos/{servico}/edit', [ServicoController::class, 'edit'])->name('servicos.edit');
     Route::put('/servicos/{servico}', [ServicoController::class, 'update'])->name('servicos.update');
     Route::delete('/servicos/{servico}', [ServicoController::class, 'destroy'])->name('servicos.destroy');
+});
+
+Route::middleware('auth','nivel:1,2')->group(function () {
+    Route::get('/servicos/home', [ServicoController::class, 'home'])->name('servicos.home');
+    Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
+    Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
 });
 
 //MATERIAIS
@@ -94,7 +95,7 @@ Route::get('/teste', function () {
     return view('teste');
 });
 Route::get('/', function () {
-    return view('welcome'); // Sem scripts React aqui
+    return view('welcome');
 });
 Route::get('/calendario', function () {
     return view('calendario');

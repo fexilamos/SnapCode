@@ -15,11 +15,12 @@ class Cliente extends Model
     protected $keyType = 'int';
     public $timestamps = false;
 
-    
-    protected $fillable = ['nome', 'telefone', 'mail']; 
+
+    protected $fillable = ['nome', 'telefone', 'mail'];
+
     public function servicos()
     {
-       
+
         return $this->hasMany(Servico::class, 'cod_cliente', 'cod_cliente');
     }
 }
