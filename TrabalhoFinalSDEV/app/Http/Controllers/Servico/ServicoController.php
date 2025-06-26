@@ -152,42 +152,42 @@ class ServicoController extends Controller
 
     // Ver detalhes de um serviço
     public function show(string $id)
-{
-    $servico = Servico::with([
-        'cliente',
-        'tipoServico',
-        'localizacao',
-        'detalhesBatizado',
-        'detalhesCasamento',
-        'detalhesComunhaoGeral',
-        'detalhesComunhaoParticular',
-        'detalhesEvCorporativo'
-    ])->find($id);
+    {
+        $servico = Servico::with([
+            'cliente',
+            'tipoServico',
+            'localizacao',
+            'detalhesBatizado',
+            'detalhesCasamento',
+            'detalhesComunhaoGeral',
+            'detalhesComunhaoParticular',
+            'detalhesEvCorporativo'
+        ])->find($id);
 
-    $user = auth()->user();
+        $user = auth()->user();
 
-    if ($user->funcionario->cod_nivel == 3) {
-        $alocado = $servico->funcionarios->contains('cod_funcionario', $user->funcionario->cod_funcionario);
-        if (!$alocado) {
-            abort(403, 'Acesso não autorizado!');
+        if ($user->funcionario->cod_nivel == 3) {
+            $alocado = $servico->funcionarios->contains('cod_funcionario', $user->funcionario->cod_funcionario);
+            if (!$alocado) {
+                abort(403, 'Acesso não autorizado!');
+            }
         }
-    }
-    if (!$servico) {
-        return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
-    }
+        if (!$servico) {
+            return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
+        }
 
-    // NOVO MAPEAMENTO PARA O SLUG
-    $tipoSlugMap = [
-        1 => 'casamento',
-        2 => 'batizado',
-        3 => 'corporativo',
-        4 => 'comunhao_particular',
-        5 => 'comunhao_geral'
-    ];
-    $tipo = $tipoSlugMap[$servico->cod_tipo_servico] ?? null;
+        // NOVO MAPEAMENTO PARA O SLUG
+        $tipoSlugMap = [
+            1 => 'casamento',
+            2 => 'batizado',
+            3 => 'corporativo',
+            4 => 'comunhao_particular',
+            5 => 'comunhao_geral'
+        ];
+        $tipo = $tipoSlugMap[$servico->cod_tipo_servico] ?? null;
 
-    return view('servicos.show', compact('servico', 'tipo'));
-}
+        return view('servicos.show', compact('servico', 'tipo'));
+    }
 
 
     // Formulário de edição de serviço
@@ -337,30 +337,46 @@ class ServicoController extends Controller
         return view('servicos.home');
     }
 
-<<<<<<< HEAD
 
-=======
+    // Listar eventos por tipo
+    public function listarPorTipo($tipo)
+    {
+        $tiposMap = [
+            'casamento' => 1,
+            'batizado' => 2,
+            'corporativo' => 3,
+            'comunhao_particular' => 4,
+            'comunhao_geral' => 5,
+        ];
+        if (!isset($tiposMap[$tipo])) {
+            abort(404);
+        }
+        $servicos = Servico::with(['cliente', 'tipoServico', 'localizacao'])
+            ->where('cod_tipo_servico', $tiposMap[$tipo])
+            ->orderBy('data_inicio', 'desc')
+            ->get();
+        return view('servicos.lista-tipo', compact('servicos', 'tipo'));
+    }
 
     public function exportPdf($id)
-{
-    $servico = Servico::with([
-        'cliente',
-        'tipoServico',
-        'localizacao',
-        'detalhesCasamento',
-        'detalhesBatizado',
-        'detalhesComunhaoGeral',
-        'detalhesComunhaoParticular',
-        'detalhesEVCorporativo'
-    ])->findOrFail($id);
+    {
+        $servico = Servico::with([
+            'cliente',
+            'tipoServico',
+            'localizacao',
+            'detalhesCasamento',
+            'detalhesBatizado',
+            'detalhesComunhaoGeral',
+            'detalhesComunhaoParticular',
+            'detalhesEVCorporativo'
+        ])->findOrFail($id);
 
-    $dados = \App\Models\PDF::dadosServico($servico);
+        $dados = \App\Models\PDF::dadosServico($servico);
 
-    $pdf = DomPdf::loadView('servicos.pdf', [
-        'servico' => $servico,
-        'dados' => $dados // se preferir usar o array em vez do objeto
-    ]);
-    return $pdf->download('servico_' . $servico->cod_servico . '.pdf');
-}
->>>>>>> 4e5aee7eb3a8bb1fdc134aad8c06aa9db1b3c9a7
+        $pdf = Pdf::loadView('servicos.pdf', [
+            'servico' => $servico,
+            'dados' => $dados // se preferir usar o array em vez do objeto
+        ]);
+        return $pdf->download('servico_' . $servico->cod_servico . '.pdf');
+    }
 }
