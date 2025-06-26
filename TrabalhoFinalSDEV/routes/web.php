@@ -62,8 +62,13 @@ Route::middleware('auth','nivel:1,2')->group(function () {
 
 //PERDAS
 Route::middleware('auth','nivel:1,2')->group(function () {
+    Route::resource('perdas', PerdaController::class);
     Route::get('/perdas', [PerdaController::class, 'index'])->name('perdas.index');
     Route::get('/perdas/{perda}', [PerdaController::class, 'show'])->name('perdas.show');
+    Route::get('/perdas/create', [PerdaController::class, 'create'])->name('perdas.create');
+    Route::post('/perdas', [PerdaController::class, 'store'])->name('perdas.store');
+    Route::get('/perdas/{perda}/edit', [PerdaController::class, 'edit'])->name('perdas.edit');
+    Route::put('/perdas/{perda}', [PerdaController::class, 'update'])->name('perdas.update');
 });
 
 Route::middleware('auth','nivel:1')->group(function () {
