@@ -22,29 +22,29 @@
         </div>
     @endif
 
-    <div class="bg-gray-100 rounded-xl shadow p-8 mt-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Editar Avaria</h2>
+    <div class="bg-slate-700 rounded-xl shadow-xl p-8 mt-8">
+        <h2 class="text-2xl font-semibold text-white mb-6 text-center">Editar Avaria</h2>
         <form method="POST" action="{{ route('avarias.update', $avaria->cod_avaria) }}">
             @csrf
             @method('PUT')
 
             <div class="mb-4">
-                <label class="block text-gray-700 font-semibold mb-2">Código da Avaria</label>
+                <label class="block text-white font-semibold mb-2">Código da Avaria</label>
                 <input type="text" value="{{ $avaria->cod_avaria }}" disabled class="form-input w-full rounded border-gray-300 text-black">
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 font-semibold mb-2">Material</label>
+                <label class="block text-white font-semibold mb-2">Material</label>
                 <input type="text" value="{{ $avaria->cod_material }}" disabled class="form-input w-full rounded border-gray-300 text-black">
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 font-semibold mb-2">Data de Registo</label>
+                <label class="block text-white font-semibold mb-2">Data de Registo</label>
                 <input type="date" name="data_registo" value="{{ old('data_registo', $avaria->data_registo ? $avaria->data_registo->format('Y-m-d') : '') }}" class="form-input w-full rounded border-gray-300 text-black" required>
             </div>
 
             <div class="mb-4">
-                <label for="cod_servico" class="block text-gray-700 font-semibold mb-2">Serviço (opcional)</label>
+                <label for="cod_servico" class="block text-white font-semibold mb-2">Serviço (opcional)</label>
                 <select name="cod_servico" id="cod_servico" class="form-select w-full rounded border-gray-300 text-black">
                     <option value="">Sem serviço associado</option>
                     @foreach($servicos as $servico)
@@ -56,7 +56,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="cod_estado" class="block text-gray-700 font-semibold mb-2">Estado do Material</label>
+                <label for="cod_estado" class="block text-white font-semibold mb-2">Estado do Material</label>
                 <select name="cod_estado" id="cod_estado" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione o estado</option>
                     @foreach($estados as $estado)
@@ -68,12 +68,12 @@
             </div>
 
             <div class="mb-4">
-                <label for="observacoes" class="block text-gray-700 font-semibold mb-2">Observações</label>
+                <label for="observacoes" class="block text-white font-semibold mb-2">Observações</label>
                 <textarea name="observacoes" id="observacoes" rows="4" class="form-textarea w-full rounded border-gray-300 text-black">{{ old('observacoes', $avaria->observacoes) }}</textarea>
             </div>
 
             <div class="flex justify-center">
-                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-semibold">
+                <button type="submit" class="px-8 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-lg font-semibold shadow transition-all duration-200 text-center">
                     Atualizar Avaria
                 </button>
             </div>

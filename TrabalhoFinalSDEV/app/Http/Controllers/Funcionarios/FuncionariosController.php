@@ -18,14 +18,14 @@ class FuncionariosController extends Controller
     // Listar funcionários
     public function index(Request $request)
     {
-        $query = Funcionario::with(['user', 'funcao', 'estado', 'nivel']);
+        $query = Funcionario::with(['user', 'funcao', 'estado', 'nivel', 'funcoes']);
 
         // Filtro por função
         if ($request->filled('searchFunction')) {
             $query->where('cod_funcao', $request->input('searchFunction'));
         }
 
-        $funcionarios = $query->get();
+        $funcionarios = $query->paginate(10);
         return view('funcionarios.index', compact('funcionarios'));
     }
 

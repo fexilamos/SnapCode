@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="container mx-auto px-4 max-w-lg">
-    <div class="bg-gray-100 rounded-xl shadow p-8 mt-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Registar Nova Avaria</h2>
+    <div class="bg-slate-700 rounded-xl shadow-xl p-8 mt-8">
+        <h2 class="text-2xl font-semibold text-white mb-6 text-center">Registar Nova Avaria</h2>
         <form method="POST" action="{{ route('avarias.store') }}">
             @csrf
 
             <div class="mb-4">
-                <label for="cod_categoria" class="block text-gray-700 font-semibold mb-2">Tipo de Material</label>
+                <label for="cod_categoria" class="block text-white font-semibold mb-2">Tipo de Material</label>
                 <select name="cod_categoria" id="cod_categoria" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione a Categoria</option>
                     @foreach($materiais->unique('cod_categoria') as $material)
@@ -18,33 +18,33 @@
             </div>
 
             <div class="mb-4">
-                <label for="cod_marca" class="block text-gray-700 font-semibold mb-2">Marca</label>
+                <label for="cod_marca" class="block text-white font-semibold mb-2">Marca</label>
                 <select name="cod_marca" id="cod_marca" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione a Marca</option>
                 </select>
             </div>
 
             <div class="mb-4">
-                <label for="cod_modelo" class="block text-gray-700 font-semibold mb-2">Modelo</label>
+                <label for="cod_modelo" class="block text-white font-semibold mb-2">Modelo</label>
                 <select name="cod_modelo" id="cod_modelo" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione o Modelo</option>
                 </select>
             </div>
 
             <div class="mb-4">
-                <label for="num_serie" class="block text-gray-700 font-semibold mb-2">Número de Série</label>
+                <label for="num_serie" class="block text-white font-semibold mb-2">Número de Série</label>
                 <select name="num_serie" id="num_serie" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione o Número de Série</option>
                 </select>
             </div>
 
             <div class="mb-4">
-                <label for="data_registo" class="block text-gray-700 font-semibold mb-2">Data de Registo</label>
+                <label for="data_registo" class="block text-white font-semibold mb-2">Data de Registo</label>
                 <input type="date" name="data_registo" id="data_registo" value="{{ old('data_registo', date('Y-m-d')) }}" class="form-input w-full rounded border-gray-300 text-black" required>
             </div>
 
             <div class="mb-4">
-                <label for="cod_servico" class="block text-gray-700 font-semibold mb-2">Serviço (opcional)</label>
+                <label for="cod_servico" class="block text-white font-semibold mb-2">Serviço (opcional)</label>
                 <select name="cod_servico" id="cod_servico" class="form-select w-full rounded border-gray-300 text-black">
                     <option value="">Sem serviço associado</option>
                     @foreach($servicos as $servico)
@@ -54,7 +54,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="cod_estado" class="block text-gray-700 font-semibold mb-2">Estado do Material</label>
+                <label for="cod_estado" class="block text-white font-semibold mb-2">Estado do Material</label>
                 <select name="cod_estado" id="cod_estado" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione o estado</option>
                     @foreach($estados as $estado)
@@ -64,17 +64,17 @@
             </div>
 
             <div class="mb-4">
-                <label for="observacoes" class="block text-gray-700 font-semibold mb-2">Observações</label>
+                <label for="observacoes" class="block text-white font-semibold mb-2">Observações</label>
                 <textarea name="observacoes" id="observacoes" rows="4" class="form-textarea w-full rounded border-gray-300 text-black">{{ old('observacoes') }}</textarea>
             </div>
 
             <div class="mb-4">
-                <label for="cod_material" class="block text-gray-700 font-semibold mb-2">Código do Material Selecionado</label>
+                <label for="cod_material" class="block text-white font-semibold mb-2">Código do Material Selecionado</label>
                 <input type="text" name="cod_material" id="cod_material" class="form-input w-full rounded border-gray-300 text-black bg-gray-200" readonly required>
             </div>
 
             <div class="flex justify-center">
-                <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 font-semibold">
+                <button type="submit" class="px-8 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-lg font-semibold shadow transition-all duration-200 text-center">
                     Registar Avaria
                 </button>
             </div>
@@ -169,7 +169,7 @@
             document.getElementById('cod_material').value = '';
             return;
         }
-        const material = materiais.find(m => 
+        const material = materiais.find(m =>
             String(m.cod_categoria) === String(categoria) &&
             String(m.cod_marca) === String(marca) &&
             String(m.cod_modelo) === String(modelo) &&

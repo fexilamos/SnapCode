@@ -7,12 +7,12 @@
             {{ session('success') }}
         </div>
     @endif
-    <div class="bg-gray-100 rounded-xl shadow p-8 mt-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Registar Material</h2>
+    <div class="bg-slate-700 rounded-xl shadow-xl p-8 mt-8">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">Registar Material</h2>
         <form method="POST" action="{{ route('materiais.store') }}">
             @csrf
             <div class="mb-4">
-                <label for="cod_categoria" class="block text-gray-700 font-semibold mb-2">Categoria</label>
+                <label for="cod_categoria" class="block text-white font-semibold mb-2">Categoria</label>
                 <select name="cod_categoria" id="cod_categoria" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione a categoria</option>
                     @foreach($categorias as $categoria)
@@ -21,7 +21,7 @@
                 </select>
             </div>
             <div class="mb-4">
-                <label for="cod_marca" class="block text-gray-700 font-semibold mb-2">Marca</label>
+                <label for="cod_marca" class="block text-white font-semibold mb-2">Marca</label>
                 <select name="cod_marca" id="cod_marca" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione a marca</option>
                     @foreach($marcas as $marca)
@@ -30,7 +30,7 @@
                 </select>
             </div>
             <div class="mb-4">
-                <label for="cod_modelo" class="block text-gray-700 font-semibold mb-2">Modelo</label>
+                <label for="cod_modelo" class="block text-white font-semibold mb-2">Modelo</label>
                 <select name="cod_modelo" id="cod_modelo" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione o modelo</option>
                     @foreach($modelos as $modelo)
@@ -39,11 +39,11 @@
                 </select>
             </div>
             <div class="mb-4">
-                <label for="num_serie" class="block text-gray-700 font-semibold mb-2">Número de Série</label>
+                <label for="num_serie" class="block text-white font-semibold mb-2">Número de Série</label>
                 <input type="text" name="num_serie" id="num_serie" class="form-input w-full rounded border-gray-300 text-black" required>
             </div>
             <div class="mb-4">
-                <label for="cod_estado" class="block text-gray-700 font-semibold mb-2">Estado</label>
+                <label for="cod_estado" class="block text-white font-semibold mb-2">Estado</label>
                 <select name="cod_estado" id="cod_estado" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione o estado</option>
                     @foreach($estados as $estado)
@@ -52,12 +52,12 @@
                 </select>
             </div>
             <div class="mb-4">
-                <label for="observacoes" class="block text-gray-700 font-semibold mb-2">Observações</label>
+                <label for="observacoes" class="block text-white font-semibold mb-2">Observações</label>
                 <textarea name="observacoes" id="observacoes" rows="3" class="form-textarea w-full rounded border-gray-300 text-black"></textarea>
             </div>
 
             <div class="flex justify-center">
-                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-semibold">Registar</button>
+                <button type="submit"class="px-8 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-lg font-semibold shadow transition-all duration-200 text-center">Registar</button>
             </div>
         </form>
     </div>

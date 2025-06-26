@@ -31,7 +31,7 @@
 <body class="bg-gray-800 text-white">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-black flex flex-col justify-between">
+        <aside class="w-64 bg-gray-900 flex flex-col justify-between shadow-2xl z-10">
             <div>
                 <!-- LOGO -->
                 <div class="p-6 text-white text-2xl font-bold tracking-wide">
@@ -65,6 +65,8 @@
 
             <!-- Logout -->
             <div class="p-6">
+                <p class="text-center">Olá, {{ Auth::user()->name }}</p>
+                <br>
                 <a href="{{ route('logout') }}" class="block py-2 px-4 bg-red-600 hover:bg-red-700 rounded text-center">
                     Logout
                 </a>

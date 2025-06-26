@@ -32,8 +32,8 @@
             <!-- Resultados -->
             <div class="bg-slate-700 rounded-xl p-8 border border-slate-600 mt-10 shadow-lg">
                 <h3 class="text-2xl font-bold text-blue-200 mb-6 tracking-wide">Lista de Funcionários</h3>
-                <div class="w-full">
-                    <table class="w-full min-w-full divide-y divide-slate-600 rounded-lg overflow-hidden">
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full min-w-[900px] divide-y divide-slate-600 rounded-lg overflow-hidden">
                         <thead class="bg-slate-800">
                             <tr>
                                 <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Nome</th>
@@ -69,6 +69,9 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="mt-8 flex justify-center">
+                    {{ $funcionarios->links('pagination::tailwind') }}
                 </div>
             </div>
         </div>

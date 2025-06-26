@@ -41,7 +41,7 @@ class MaterialController extends Controller
                   });
             });
         }
-        $materiais = $query->get();
+        $materiais = $query->paginate(10);
         return view('materiais.index', compact('materiais'));
     }
 
