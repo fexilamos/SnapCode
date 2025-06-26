@@ -58,7 +58,9 @@
                 <select name="cod_estado" id="cod_estado" class="form-select w-full rounded border-gray-300 text-black" required>
                     <option value="">Selecione o estado</option>
                     @foreach($estados as $estado)
-                        <option value="{{ $estado->cod_estado }}">{{ $estado->estado_nome }}</option>
+                        @if(in_array($estado->estado_nome, ['Avariado', 'Em manutenção']))
+                            <option value="{{ $estado->cod_estado }}">{{ $estado->estado_nome }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>

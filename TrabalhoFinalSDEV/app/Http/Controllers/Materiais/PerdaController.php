@@ -43,7 +43,8 @@ class PerdaController extends Controller
     {
         $materiais = Material::with(['categoria', 'marca', 'modelo'])->get();
         $servicos = Servico::all();
-        $estados = \App\Models\MaterialEstado::all();
+        // Filtrar apenas o estado "Perdido" para o dropdown
+        $estados = \App\Models\MaterialEstado::where('estado_nome', 'Perdido')->get();
         return view('materiais.perdas.create', compact('materiais','servicos','estados'));
     }
 
@@ -51,11 +52,13 @@ class PerdaController extends Controller
     public function store(StoreUpdatePerdaRequest $request)
     {
         $perda = Perda::create($request->all());
-        // Atualizar o estado do material para 4 (perdido)
+        // Atualizar o estado do material para 4 (perdido) e observações
         if ($perda && $perda->cod_material) {
             $material = \App\Models\Material::find($perda->cod_material);
             if ($material) {
                 $material->cod_estado = 4;
+                // Atualiza observações do material com o texto da perda
+                $material->observacoes = $perda->observacoes;
                 $material->save();
             }
         }
