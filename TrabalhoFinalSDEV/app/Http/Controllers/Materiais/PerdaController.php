@@ -13,38 +13,18 @@ class PerdaController extends Controller
     // Listar todas as perdas
     public function index()
     {
-        $search = request('search');
-        $perdas = Perda::with(['material.categoria', 'material.marca', 'material.modelo','material.estado', 'servico'])
-            ->whereHas('material', function($query) use ($search) {
-                if ($search) {
-                    $query->where(function($q) use ($search) {
-                        $q->where('num_serie', 'like', "%$search%")
-                          ->orWhereHas('categoria', function($qc) use ($search) {
-                              $qc->where('categoria', 'like', "%$search%")
-                          ;})
-                          ->orWhereHas('marca', function($qm) use ($search) {
-                              $qm->where('marca', 'like', "%$search%")
-                          ;})
-                          ->orWhereHas('modelo', function($qmo) use ($search) {
-                              $qmo->where('modelo', 'like', "%$search%")
-                          ;});
-                    });
-                }
-                // Estado 4 = Perdido
-                $query->where('cod_estado', 4);
-            })
+        // Listar registos reais de perdas, com os relacionamentos necessários, paginados
+        $perdas = Perda::with(['material.categoria', 'material.marca', 'material.modelo', 'material.estado', 'servico'])
             ->orderByDesc('data_registo')
             ->paginate(10);
-
-        return view('materiais.perdas.index', compact('perdas', 'search'));
+        return view('materiais.perdas.index', compact('perdas'));
     }
 
     public function create()
     {
         $materiais = Material::with(['categoria', 'marca', 'modelo'])->get();
         $servicos = Servico::all();
-        // Filtrar apenas o estado "Perdido" para o dropdown
-        $estados = \App\Models\MaterialEstado::where('estado_nome', 'Perdido')->get();
+        $estados = \App\Models\MaterialEstado::all();
         return view('materiais.perdas.create', compact('materiais','servicos','estados'));
     }
 
@@ -52,13 +32,15 @@ class PerdaController extends Controller
     public function store(StoreUpdatePerdaRequest $request)
     {
         $perda = Perda::create($request->all());
-        // Atualizar o estado do material para 4 (perdido) e observações
-        if ($perda && $perda->cod_material) {
-            $material = \App\Models\Material::find($perda->cod_material);
+        // Atualiza o estado do material para o estado selecionado na perda
+        if ($request->filled('cod_material') && $request->filled('cod_estado')) {
+            $material = \App\Models\Material::find($request->cod_material);
             if ($material) {
-                $material->cod_estado = 4;
-                // Atualiza observações do material com o texto da perda
-                $material->observacoes = $perda->observacoes;
+                $material->cod_estado = $request->cod_estado;
+                // Se houver observações, atualiza também no material
+                if ($request->filled('observacoes')) {
+                    $material->observacoes = $request->observacoes;
+                }
                 $material->save();
             }
         }
@@ -95,9 +77,36 @@ class PerdaController extends Controller
     {
         $perda = Perda::findOrFail($id);
         $perda->update($request->all());
+        // Atualizar estado do material se enviado
         if ($request->filled('cod_estado') && $perda->material) {
             $perda->material->cod_estado = $request->cod_estado;
-            $perda->material->save();
+            $estadoOperacional = \App\Models\MaterialEstado::where('estado_nome', 'Operacional')->first();
+            if ($estadoOperacional && $request->cod_estado == $estadoOperacional->cod_estado) {
+                // Guardar histórico das observações do material antes de limpar
+                $old_observacoes = $perda->material->observacoes;
+                if (!empty($old_observacoes)) {
+                    \App\Models\Perda::create([
+                        'cod_material' => $perda->material->cod_material,
+                        'data_registo' => now(),
+                        'observacoes' => $old_observacoes,
+                        'cod_servico' => null,
+                    ]);
+                }
+                // Limpa as observações do material ao passar para Operacional
+                $perda->material->observacoes = null;
+                $perda->material->save();
+                // Limpa as observações da perda antes de remover
+                $perda->observacoes = null;
+                $perda->save();
+                $perda->delete();
+                return redirect()->route('perdas.index')->with('success', 'Perda resolvida e removida da lista!');
+            } else {
+                // Atualizar observações do material conforme o campo de perda (apenas se não for Operacional)
+                if ($request->has('observacoes')) {
+                    $perda->material->observacoes = $request->observacoes;
+                }
+                $perda->material->save();
+            }
         }
         return redirect()->route('perdas.index')->with('success', 'Registo atualizado com sucesso!');
     }

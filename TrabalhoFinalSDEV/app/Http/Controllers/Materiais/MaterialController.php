@@ -109,7 +109,21 @@ class MaterialController extends Controller
     {
         $material = Material::findOrFail($id);
         $old_estado = $material->cod_estado;
+        $old_observacoes = $material->observacoes;
         $material->update($request->all());
+
+        // Se o novo estado for "Operacional!", guardar histórico das observações e limpar campo
+        $estadoOperacional = MaterialEstado::where('estado_nome', 'Operacional')->first();
+        if ($estadoOperacional && $material->cod_estado == $estadoOperacional->cod_estado && !empty($old_observacoes)) {
+            \App\Models\Avaria::create([
+                'cod_material' => $material->cod_material,
+                'data_registo' => now(),
+                'observacoes' => $old_observacoes,
+                'cod_servico' => null,
+            ]);
+            $material->observacoes = null;
+            $material->save();
+        }
 
         // Se o novo estado for avariado (3) ou em manutenção (2) E não existir já uma avaria para este material, cria registo em Avarias
         if (in_array($material->cod_estado, [2, 3])) {

@@ -89,18 +89,33 @@ class AvariaController extends Controller
         // Atualizar estado do material se enviado
         if ($request->filled('cod_estado') && $avaria->material) {
             $avaria->material->cod_estado = $request->cod_estado;
-            // Atualizar observações do material conforme o campo de avaria
-            if ($request->has('observacoes')) {
-                $avaria->material->observacoes = $request->observacoes;
-            }
-            // Se o estado for "Operacional!", remove a avaria da lista (deleta o registro)
-            $estadoOperacional = \App\Models\MaterialEstado::where('estado_nome', 'Operacional!')->first();
+            $estadoOperacional = \App\Models\MaterialEstado::where('estado_nome', 'Operacional')->first();
             if ($estadoOperacional && $request->cod_estado == $estadoOperacional->cod_estado) {
+                // Guardar histórico das observações do material antes de limpar
+                $old_observacoes = $avaria->material->observacoes;
+                if (!empty($old_observacoes)) {
+                    \App\Models\Avaria::create([
+                        'cod_material' => $avaria->material->cod_material,
+                        'data_registo' => now(),
+                        'observacoes' => $old_observacoes,
+                        'cod_servico' => null,
+                    ]);
+                }
+                // Limpa as observações do material ao passar para Operacional
+                $avaria->material->observacoes = null;
                 $avaria->material->save();
+                // Limpa as observações da avaria antes de remover
+                $avaria->observacoes = null;
+                $avaria->save();
                 $avaria->delete();
                 return redirect()->route('avarias.index')->with('success', 'Avaria resolvida e removida da lista!');
+            } else {
+                // Atualizar observações do material conforme o campo de avaria (apenas se não for Operacional)
+                if ($request->has('observacoes')) {
+                    $avaria->material->observacoes = $request->observacoes;
+                }
+                $avaria->material->save();
             }
-            $avaria->material->save();
         }
         return redirect()->route('avarias.index')->with('success', 'Atualização feita com sucesso');
     }
