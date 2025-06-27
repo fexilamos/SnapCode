@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1 class="text-3xl md:text-4xl font-bold text-white text-center">Gestão de Materiais</h1>
+    <h1 class="text-3xl md:text-4xl font-bold text-white text-center font-mono">GESTÃO DE MATERIAL</h1>
     <br>
     <br>
     <main class="p-8 flex justify-center">
@@ -15,8 +15,8 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">Consultar Materiais</h3>
-                        <p class="text-gray-300 mb-4 leading-relaxed">
+                        <h3 class="text-xl font-semibold text-white mb-2 font-mono ">CONSULTAR MATERIAIS</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed font-mono">
                             Visualizar e pesquisar todos os materiais registados no sistema.
                         </p>
                     </div>
@@ -31,8 +31,8 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">Registar Material</h3>
-                        <p class="text-gray-300 mb-4 leading-relaxed">
+                        <h3 class="text-xl font-semibold text-white mb-2 font-mono">REGISTAR MATERIAL</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed font-mono">
                             Adicionar novos materiais e equipamento ao inventário.
                         </p>
                     </div>
@@ -47,8 +47,8 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">Avarias</h3>
-                        <p class="text-gray-300 mb-4 leading-relaxed">
+                        <h3 class="text-xl font-semibold text-white mb-2 font-mono">AVARIAS</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed font-mono">
                             Registar e acompanhar avarias de materiais.
                         </p>
                     </div>
@@ -63,8 +63,8 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">Perdas</h3>
-                        <p class="text-gray-300 mb-4 leading-relaxed">
+                        <h3 class="text-xl font-semibold text-white mb-2 font-mono">PERDAS</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed font-mono">
                             Registo de perdas de materiais.
                         </p>
                     </div>
