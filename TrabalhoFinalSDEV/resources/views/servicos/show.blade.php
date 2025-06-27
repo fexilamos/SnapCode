@@ -120,6 +120,10 @@
                 class="px-8 py-3 bg-white text-slate-800 font-semibold rounded-2xl shadow hover:bg-slate-100 transition-all duration-200 border border-slate-200">
                 Voltar à Lista
             </a>
+            <a href="{{ route('servicos.pdf', ['id' => $servico->cod_servico]) }}"
+                class="px-8 py-3 bg-white text-slate-800 font-semibold rounded-2xl shadow hover:bg-slate-100 transition-all duration-200 border border-slate-200">
+                Criar PDF
+            </a>
         </div>
     </div>
 @endsection
