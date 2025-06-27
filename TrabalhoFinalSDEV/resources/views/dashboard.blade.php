@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<h1 class="text-3xl font-bold mb-6">Painel Principal</h1>
+<h1 class="text-3xl font-bold mb-6 font-helvetica">PAINEL PRINCIPAL</h1>
 
 <!-- Cards Superiores -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -20,7 +20,7 @@
 
     <!-- Funcionários em Serviço Hoje -->
     <div class="bg-gray-700 p-6 rounded-2xl shadow-xl">
-        <h2 class="text-xl font-semibold mb-2">👥Funcionarios</h2>
+        <h2 class="text-xl font-semibold mb-2">👥FUNCIONÁRIOS</h2>
         <ul class="text-sm space-y-1">
             @php
                 // Considera-se "externo" quem NÃO é Admin (ajuste conforme sua lógica)
