@@ -1,23 +1,19 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1 class="text-3xl font-extrabold text-center mt-14 mb-12 tracking-tight text-white drop-shadow-xl">
-        Detalhes do Evento
-    </h1>
+    <div class="relative mb-12 mt-8 max-w-7xl mx-auto px-4">
+        <a href="{{ route('servicos.home') }}"
+            class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white transition-colors">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+        </a>
+        <h1 class="text-3xl md:text-4xl font-bold text-center mt-14 mb-12 tracking-tight text-white drop-shadow-xl">
+            Detalhes do Evento
+        </h1>
+    </div>
     <div class="p-8 max-w-3xl mx-auto bg-slate-800/95 rounded-3xl shadow-2xl border border-slate-700">
-        {{-- DEBUG Detalhes --}}
-        @if (session('debug_detalhes'))
-            <div class="mb-8 p-4 bg-yellow-900/80 text-yellow-200 rounded shadow text-xs overflow-x-auto">
-                <strong>DEBUG Detalhes carregados:</strong>
-                <pre>
-Casamento: {{ print_r($servico->detalhesCasamento ? $servico->detalhesCasamento->toArray() : null, true) }}
-Batizado: {{ print_r($servico->detalhesBatizado ? $servico->detalhesBatizado->toArray() : null, true) }}
-Comunhao Geral: {{ print_r($servico->detalhesComunhaoGeral ? $servico->detalhesComunhaoGeral->toArray() : null, true) }}
-Comunhao Particular: {{ print_r($servico->detalhesComunhaoParticular ? $servico->detalhesComunhaoParticular->toArray() : null, true) }}
-Corporativo: {{ print_r($servico->detalhesEvCorporativo ? $servico->detalhesEvCorporativo->toArray() : null, true) }}
-                </pre>
-            </div>
-        @endif
+
 
         {{-- Informações Gerais --}}
         <div class="mb-12">
@@ -119,10 +115,18 @@ Corporativo: {{ print_r($servico->detalhesEvCorporativo ? $servico->detalhesEvCo
             @endswitch
         </div>
 
-        <div class="mt-12 text-center">
+        <div class="mt-12 flex flex-col md:flex-row justify-center items-center gap-4">
+            <a href="{{ route('servicos.edit', ['servico' => $servico->cod_servico]) }}"
+                class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-2xl shadow hover:bg-blue-700 transition-all duration-200 border border-blue-700">
+                Editar
+            </a>
             <a href="{{ route('servicos.tipo', ['tipo' => $tipo]) }}"
                 class="px-8 py-3 bg-white text-slate-800 font-semibold rounded-2xl shadow hover:bg-slate-100 transition-all duration-200 border border-slate-200">
                 Voltar à Lista
+            </a>
+            <a href="{{ route('servicos.pdf', ['id' => $servico->cod_servico]) }}"
+                class="px-8 py-3 bg-white text-slate-800 font-semibold rounded-2xl shadow hover:bg-slate-100 transition-all duration-200 border border-slate-200">
+                Criar PDF
             </a>
         </div>
     </div>
