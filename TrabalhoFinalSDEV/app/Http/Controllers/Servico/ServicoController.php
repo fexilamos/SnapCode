@@ -215,11 +215,11 @@ class ServicoController extends Controller
     }
 
     // Atualizar serviço
-    public function update(Request $request, string $id)
+    public function update(StoreUpdateServicoRequest $request, string $id)
     {
         $servico = Servico::with([
-            'detalhesBatizado',
             'detalhesCasamento',
+            'detalhesBatizado',
             'detalhesComunhaoGeral',
             'detalhesComunhaoParticular',
             'detalhesEvCorporativo'
@@ -232,8 +232,8 @@ class ServicoController extends Controller
         $validated = $request->validated();
 
         DB::beginTransaction();
-
         try {
+            // Atualiza dados principais do serviço
             $servico->update([
                 'cod_tipo_servico' => $validated['cod_tipo_servico'],
                 'cod_local_servico' => $validated['cod_local_servico'],
@@ -242,47 +242,77 @@ class ServicoController extends Controller
                 'nome_servico' => $validated['nome_servico'],
             ]);
 
+            if ($servico->cliente) {
+                $servico->cliente->update([
+                    'nome' => $validated['nome_cliente'],
+                    'mail' => $validated['email_cliente'],
+                    'telefone' => $validated['telefone_cliente'],
+                ]);
+            }
+
             $tipo = (int) $validated['cod_tipo_servico'];
-            $detalhes = $validated['detalhes'] ?? [];
+            $detalhesForm = $validated['detalhes'] ?? [];
+
+            Log::debug('DETALHES RECEBIDOS:', $detalhesForm);
 
             switch ($tipo) {
                 case 1: // Casamento
+                    $model = new ServicoDetalhesCasamento();
+                    $detalhesAntigos = $servico->detalhesCasamento ? $servico->detalhesCasamento->toArray() : [];
+                    $fillable = $model->getFillable();
+                    $detalhesCompletos = $this->mergeDetalhes($detalhesForm, $detalhesAntigos, $fillable);
                     $servico->detalhesCasamento()->updateOrCreate(
                         ['cod_servico' => $servico->cod_servico],
-                        $detalhes
+                        $detalhesCompletos
                     );
                     break;
                 case 2: // Batizado
+                    $model = new ServicoDetalhesBatizado();
+                    $detalhesAntigos = $servico->detalhesBatizado ? $servico->detalhesBatizado->toArray() : [];
+                    $fillable = $model->getFillable();
+                    $detalhesCompletos = $this->mergeDetalhes($detalhesForm, $detalhesAntigos, $fillable);
                     $servico->detalhesBatizado()->updateOrCreate(
                         ['cod_servico' => $servico->cod_servico],
-                        $detalhes
+                        $detalhesCompletos
                     );
                     break;
                 case 3: // Comunhão Geral
+                    $model = new ServicoDetalhesComunhaoGeral();
+                    $detalhesAntigos = $servico->detalhesComunhaoGeral ? $servico->detalhesComunhaoGeral->toArray() : [];
+                    $fillable = $model->getFillable();
+                    $detalhesCompletos = $this->mergeDetalhes($detalhesForm, $detalhesAntigos, $fillable);
                     $servico->detalhesComunhaoGeral()->updateOrCreate(
                         ['cod_servico' => $servico->cod_servico],
-                        $detalhes
+                        $detalhesCompletos
                     );
                     break;
                 case 4: // Comunhão Particular
+                    $model = new ServicoDetalhesComunhaoParticular();
+                    $detalhesAntigos = $servico->detalhesComunhaoParticular ? $servico->detalhesComunhaoParticular->toArray() : [];
+                    $fillable = $model->getFillable();
+                    $detalhesCompletos = $this->mergeDetalhes($detalhesForm, $detalhesAntigos, $fillable);
                     $servico->detalhesComunhaoParticular()->updateOrCreate(
                         ['cod_servico' => $servico->cod_servico],
-                        $detalhes
+                        $detalhesCompletos
                     );
                     break;
                 case 5: // Corporativo
+                    $model = new ServicoDetalhesEvCorporativo();
+                    $detalhesAntigos = $servico->detalhesEvCorporativo ? $servico->detalhesEvCorporativo->toArray() : [];
+                    $fillable = $model->getFillable();
+                    $detalhesCompletos = $this->mergeDetalhes($detalhesForm, $detalhesAntigos, $fillable);
                     $servico->detalhesEvCorporativo()->updateOrCreate(
                         ['cod_servico' => $servico->cod_servico],
-                        $detalhes
+                        $detalhesCompletos
                     );
                     break;
             }
 
             DB::commit();
-            return redirect()->route('servicos.index')->with('success', 'Serviço atualizado com sucesso.');
+            return redirect()->route('servicos.show', [$servico->cod_servico])->with('success', 'Serviço atualizado com sucesso.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Erro ao atualizar serviço.']);
+            return back()->withErrors(['error' => 'Erro ao atualizar serviço: ' . $e->getMessage()]);
         }
     }
 
@@ -351,7 +381,16 @@ class ServicoController extends Controller
         if (!isset($tiposMap[$tipo])) {
             abort(404);
         }
-        $servicos = Servico::with(['cliente', 'tipoServico', 'localizacao'])
+        $servicos = Servico::with([
+            'cliente',
+            'tipoServico',
+            'localizacao',
+            'detalhesBatizado',
+            'detalhesCasamento',
+            'detalhesComunhaoGeral',
+            'detalhesComunhaoParticular',
+            'detalhesEvCorporativo'
+        ])
             ->where('cod_tipo_servico', $tiposMap[$tipo])
             ->orderBy('data_inicio', 'desc')
             ->get();
@@ -375,8 +414,35 @@ class ServicoController extends Controller
 
         $pdf = Pdf::loadView('servicos.pdf', [
             'servico' => $servico,
-            'dados' => $dados // se preferir usar o array em vez do objeto
+            'dados' => $dados
         ]);
         return $pdf->download('servico_' . $servico->cod_servico . '.pdf');
+    }
+    private function mergeDetalhes($form, $old, $fillable)
+    {
+        $resultado = [];
+        foreach ($fillable as $campo) {
+            if ($campo === 'cod_servico') continue;
+            if (array_key_exists($campo, $form)) {
+                $resultado[$campo] = $form[$campo];
+            } elseif (array_key_exists($campo, $old)) {
+                $resultado[$campo] = $old[$campo];
+            } else {
+                // valor por defeito para booleanos, null para outros
+                $resultado[$campo] = in_array($campo, [
+                    'fotos',
+                    'video',
+                    'drone',
+                    'sde',
+                    'fotos_convidados',
+                    'venda_fotos',
+                    'coro',
+                    'grupo_exterior',
+                    'oferta_ramo',
+                    'diplomas'
+                ]) ? 0 : null;
+            }
+        }
+        return $resultado;
     }
 }

@@ -115,7 +115,11 @@
             @endswitch
         </div>
 
-        <div class="mt-12 text-center">
+        <div class="mt-12 flex flex-col md:flex-row justify-center items-center gap-4">
+            <a href="{{ route('servicos.edit', ['servico' => $servico->cod_servico]) }}"
+                class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-2xl shadow hover:bg-blue-700 transition-all duration-200 border border-blue-700">
+                Editar
+            </a>
             <a href="{{ route('servicos.tipo', ['tipo' => $tipo]) }}"
                 class="px-8 py-3 bg-white text-slate-800 font-semibold rounded-2xl shadow hover:bg-slate-100 transition-all duration-200 border border-slate-200">
                 Voltar à Lista

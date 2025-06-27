@@ -34,42 +34,42 @@
         <aside class="w-64 bg-gray-900 flex flex-col justify-between shadow-2xl z-10">
             <div>
                 <!-- LOGO -->
-                <div class="p-6 text-white text-2xl font-bold tracking-wide">
+                <div class="p-8 text-white text-2xl font-bold font-mono tracking-wide">
     <span class="typing-effect">&lt;SNAP/&gt;</span>
 </div>
 
                 <!-- Navegação -->
                 <nav class="px-6 space-y-4">
-                    <a href="{{ url('/dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Dashboard</a>
+                    <a href="{{ url('/dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-700 font-mono text-lg">Dashboard</a>
 
                     <!-- Gestão Dropdown -->
                     <div x-data="{ open: false }" class="space-y-1">
-                        <button @click="open = !open" class="w-full text-left py-2 px-4 rounded hover:bg-gray-700 flex justify-between items-center">
+                        <button @click="open = !open" class="w-full text-left font-mono py-2 px-4 rounded hover:bg-gray-700 flex justify-between items-center text-lg">
                             Gestão
                             <svg class="w-4 h-4 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div x-show="open" class="pl-4 space-y-1">
-                            <a href="{{ route('materiais.home') }}" class="block py-2 px-2 rounded hover:bg-gray-700">Gestão de Material</a>
-                            <a href="{{ route('funcionarios.home') }}" class="block py-2 px-2 rounded hover:bg-gray-700">Gestão de Colaboradores</a>
+                            <a href="{{ route('materiais.home') }}" class="block py-2 px-2  font-mono rounded hover:bg-gray-700 text-lg">Gestão de Material</a>
+                            <a href="{{ route('funcionarios.home') }}" class="block py-2 px-2  font-mono rounded hover:bg-gray-700 text-lg">Gestão de Colaboradores</a>
                         </div>
                     </div>
 
-                    <a href="{{ route('servicos.home') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Eventos</a>
-                    <a href="{{ url('/calendario') }}" class="block px-4 py-2 text-white hover:bg-gray-700">
+                    <a href="{{ route('servicos.home') }}" class="block py-2 px-4 rounded hover:bg-gray-700 font-mono text-lg">Eventos</a>
+                    <a href="{{ url('/calendario') }}" class="block px-4 py-2 text-white  font-mono hover:bg-gray-700 text-lg">
     Calendário
 </a>
                 </nav>
             </div>
 
             <!-- Logout -->
-            <div class="p-6">
+            <div class="p-6  font-mono">
                 <p class="text-center">Olá, {{ Auth::user()->name }}</p>
                 <br>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="block w-full py-2 px-4 bg-red-600 hover:bg-red-700 rounded text-center">
+                    <button type="submit" class="block w-full py-2 px-4 bg-red-950 hover:bg-red-800 font-mono rounded text-center text-lg">
                         Logout
                     </button>
                 </form>
