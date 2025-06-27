@@ -5,86 +5,86 @@ namespace App\Http\Controllers\Servico;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Servico;
+use App\Models\TiposServico;
 use App\Models\Funcionario;
 use App\Models\Material;
-use App\Http\Requests\StoreCheckinRequest;
-use App\Http\Requests\StoreCheckOutRequest;
 
 class ServicoCheckinController extends Controller
 {
-    // Mostra o formulário de check-in
-    public function create($servicoId)
+    // FORMULÁRIO DE CHECK-OUT (levantamento do material)
+    public function formCheckout(Request $request)
     {
-        $servico = Servico::with(['funcionarios', 'materiais'])->findOrFail($servicoId);
-        $funcionarios = Funcionario::all();
+        $tipos = TiposServico::all();
+
+        // Sempre carrega todos os eventos (filtra em JS)
+        $eventos = Servico::orderBy('data_inicio', 'desc')->get();
+
+        $tipo_evento = $request->get('tipo_evento', '');
+        $evento_id = $request->get('evento', '');
+
+        // Só mostra eventos do tipo escolhido
+        $eventos = [];
+        if ($tipo_evento) {
+            $eventos = Servico::where('cod_tipo_servico', $tipo_evento)
+                ->orderBy('data_inicio', 'desc')->get();
+        }
+
+        $servico = null;
+        $materiaisAssociados = [];
+        $funcionariosAssociados = [];
+
+        // Carrega serviço e respetivos materiais/funcionários já associados, se evento selecionado
+        if ($evento_id) {
+            $servico = Servico::with(['funcionarios', 'materiais'])->find($evento_id);
+
+            $materiaisAssociados = $servico ? $servico->materiais->pluck('cod_material')->toArray() : [];
+            $funcionariosAssociados = $servico ? $servico->funcionarios->pluck('cod_funcionario')->toArray() : [];
+        }
+
+        // Todos para seleção
         $materiais = Material::all();
-        return view('servicos.checkin', compact('servico', 'funcionarios', 'materiais'));
+        $funcionarios = Funcionario::all();
+
+        return view('servicos.checkout', [
+            'tipos' => $tipos,
+            'eventos' => $eventos,
+            'servico' => $servico,
+            'materiais' => $materiais,
+            'funcionarios' => $funcionarios,
+            'materiaisAssociados' => $materiaisAssociados,
+            'funcionariosAssociados' => $funcionariosAssociados,
+            'evento_id' => $evento_id,
+            'tipo_evento' => $tipo_evento,
+        ]);
     }
 
-
-    public function store(StoreCheckinRequest $request, $servicoId)
+    // GUARDAR CHECK-OUT
+    public function storeCheckout(Request $request)
     {
-       $servico = Servico::findOrFail($servicoId);
+        $evento_id = $request->input('evento');
+        $servico = Servico::findOrFail($evento_id);
 
-
-        $funcionariosSync = [];
-        if ($request->has('funcionarios')) {
-            foreach ($request->input('funcionarios') as $funcionarioId => $dados) {
-                if (!empty($dados['active']) || !empty($dados['funcao_no_servico'])) {
-                    $funcionariosSync[$funcionarioId] = [
-                        'data_alocacao_inicio' => $dados['data_alocacao_inicio'] ?? null,
-                        'data_alocacao_fim'    => $dados['data_alocacao_fim'] ?? null,
-                        'funcao_no_servico'    => $dados['funcao_no_servico'] ?? null,
-                    ];
-                }
-            }
-            $servico->funcionarios()->sync($funcionariosSync);
-        } else {
-            $servico->funcionarios()->detach();
+        // Materiais selecionados
+        $materiaisSelecionados = $request->input('materiais', []);
+        $dadosMateriais = [];
+        foreach ($materiaisSelecionados as $materialId) {
+            $dadosMateriais[$materialId] = [
+                'data_levantamento' => now(),
+            ];
         }
+        $servico->materiais()->sync($dadosMateriais);
 
-        $materiaisSync = [];
-        if ($request->has('materiais')) {
-            foreach ($request->input('materiais') as $materialId => $dados) {
-                if (!empty($dados['active']) || !empty($dados['data_levantamento'])) {
-                    $materiaisSync[$materialId] = [
-                        'data_levantamento' => $dados['data_levantamento'] ?? null,
-                        'data_devolucao'    => $dados['data_devolucao'] ?? null,
-                    ];
-                }
-            }
-            $servico->materiais()->sync($materiaisSync);
-        } else {
-            $servico->materiais()->detach();
+        // Funcionários selecionados
+        $funcionariosSelecionados = $request->input('funcionarios', []);
+        $dadosFuncionarios = [];
+        foreach ($funcionariosSelecionados as $funcionarioId) {
+            $dadosFuncionarios[$funcionarioId] = [
+                'data_alocacao_inicio' => now(),
+            ];
         }
+        $servico->funcionarios()->sync($dadosFuncionarios);
 
-        return redirect()
-            ->route('servicos.show', $servicoId)
-            ->with('success', 'Check-in efetuado com sucesso!');
+        return redirect()->route('servicos.show', $evento_id)
+            ->with('success', 'Check-out efetuado com sucesso!');
     }
-
-    public function checkoutForm($servicoId)
-    {
-        $servico = Servico::with(['materiais'])->findOrFail($servicoId);
-        return view('servicos.checkout', compact('servico'));
-    }
-
-    // Guardar checkout (devolução de materiais)
-    public function checkoutStore(StoreCheckoutRequest $request, $servicoId)
-    {
-         $servico = Servico::with(['materiais'])->findOrFail($servicoId);
-
-        $materiais = $request->validated()['materiais'] ?? [];
-        foreach ($materiais as $materialId => $dados) {
-            $servico->materiais()->updateExistingPivot($materialId, [
-                'data_devolucao' => $dados['data_devolucao'] ?? now(),
-                // outros campos, ex: 'observacoes' => $dados['observacoes'] ?? null
-            ]);
-        }
-
-        return redirect()
-            ->route('servicos.show', $servicoId)
-            ->with('success', 'Checkout efetuado com sucesso!');
-        }
 }
-

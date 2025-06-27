@@ -316,50 +316,6 @@ class ServicoController extends Controller
         }
     }
 
-    // Apagar serviço
-    public function destroy(string $id)
-    {
-        $servico = Servico::with([
-            'detalhesBatizado',
-            'detalhesCasamento',
-            'detalhesComunhaoGeral',
-            'detalhesComunhaoParticular',
-            'detalhesEvCorporativo'
-        ])->find($id);
-
-        if (!$servico) {
-            return redirect()->route('servicos.index')->with('error', 'Serviço não encontrado.');
-        }
-
-        DB::beginTransaction();
-
-        try {
-            // Apagar todos os detalhes associados (caso existam)
-            if ($servico->detalhesBatizado) {
-                $servico->detalhesBatizado->delete();
-            }
-            if ($servico->detalhesCasamento) {
-                $servico->detalhesCasamento->delete();
-            }
-            if ($servico->detalhesComunhaoGeral) {
-                $servico->detalhesComunhaoGeral->delete();
-            }
-            if ($servico->detalhesComunhaoParticular) {
-                $servico->detalhesComunhaoParticular->delete();
-            }
-            if ($servico->detalhesEvCorporativo) {
-                $servico->detalhesEvCorporativo->delete();
-            }
-
-            $servico->delete();
-
-            DB::commit();
-            return redirect()->route('servicos.index')->with('success', 'Serviço apagado com sucesso.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Erro ao apagar serviço.']);
-        }
-    }
 
     public function home()
     {
