@@ -35,7 +35,8 @@
                                 <td class="px-4 py-2">{{ \Carbon\Carbon::parse($servico->data_inicio)->format('d/m/Y') }}</td>
                                 <td class="px-4 py-2">{{ $servico->localizacao->nome_local ?? '-' }}</td>
                                 <td class="px-4 py-2">
-                                    <a href="{{ route('servicos.show', $servico->cod_servico) }}" class="text-blue-400 hover:underline">Ver</a>
+                                    <a href="{{ route('servicos.show', $servico->cod_servico) }}" class="text-blue-400 hover:underline mr-4">Ver</a>
+                                    <a href="{{ route('servicos.edit', $servico->cod_servico) }}" class="text-yellow-400 hover:underline">Editar</a>
                                 </td>
                             </tr>
                         @endforeach
