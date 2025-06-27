@@ -105,9 +105,8 @@ Route::get('/teste', function () {
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/calendario', function () {
-    return view('calendario');
-})->middleware(['auth']);
+// Substituído para carregar eventos do backend
+require __DIR__.'/calendario_events.php';
 
 
 

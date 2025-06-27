@@ -1,8 +1,8 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1 class="text-3xl font-bold text-white text-center mt-8 mb-12">Consultar Eventos</h1>
-    <main class="p-8 flex justify-center">
+    <h1 class="text-3xl font-bold text-white text-center mt-8 mb-12 font-mono">CONSULTAR EVENTOS</h1>
+    <main class="p-8 flex justify-center font-mono">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
             <!-- Card Casamentos -->
             <a href="{{ route('servicos.tipo', ['tipo' => 'casamento']) }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">Casamentos</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">CASAMENTOS</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed">
                             Veja todos os eventos de casamento registados.
                         </p>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">Batizados</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">BATIZADOS</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed">
                             Veja todos os eventos de batizado registados.
                         </p>
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">Comunhão Geral</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">COMUNHÃO GERAL</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed">
                             Veja todos os eventos de comunhão geral registados.
                         </p>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">Comunhão Particular</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">COMUNHÃO PARTICULAR</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed">
                             Veja todos os eventos de comunhão particular registados.
                         </p>
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-xl font-semibold text-white mb-2">Eventos Corporativos</h3>
+                            <h3 class="text-xl font-semibold text-white mb-2">EVENTOS CORPORATIVOS</h3>
                             <p class="text-gray-300 mb-4 leading-relaxed">
                                 Veja todos os eventos corporativos registados.
                             </p>

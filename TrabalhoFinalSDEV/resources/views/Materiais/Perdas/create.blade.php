@@ -1,15 +1,15 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="container mx-auto px-4 max-w-lg">
+<div class="container mx-auto px-4 max-w-lg font-mono">
     <div class="bg-slate-700 rounded-xl shadow-xl p-8 mt-8">
-        <h2 class="text-2xl font-semibold text-white mb-6 text-center">Registar Nova Perda</h2>
+        <h2 class="text-2xl font-semibold text-white mb-6 text-center font-mono">Registar Nova Perda</h2>
         <form method="POST" action="{{ route('perdas.store') }}">
             @csrf
 
             <div class="mb-4">
-                <label for="cod_categoria" class="block text-white font-semibold mb-2">Tipo de Material</label>
-                <select name="cod_categoria" id="cod_categoria" class="form-select w-full rounded border-gray-300 text-black" required>
+                <label for="cod_categoria" class="block text-white font-semibold mb-2 font-mono">Tipo de Material</label>
+                <select name="cod_categoria" id="cod_categoria" class="form-select w-full rounded border-gray-300 text-black font-mono" required>
                     <option value="">Selecione a Categoria</option>
                     @foreach($materiais->unique('cod_categoria') as $material)
                         <option value="{{ $material->cod_categoria }}">{{ $material->categoria->categoria ?? $material->cod_categoria }}</option>
@@ -18,34 +18,34 @@
             </div>
 
             <div class="mb-4">
-                <label for="cod_marca" class="block text-white font-semibold mb-2">Marca</label>
-                <select name="cod_marca" id="cod_marca" class="form-select w-full rounded border-gray-300 text-black" required>
+                <label for="cod_marca" class="block text-white font-semibold mb-2 font-mono">Marca</label>
+                <select name="cod_marca" id="cod_marca" class="form-select w-full rounded border-gray-300 text-black font-mono" required>
                     <option value="">Selecione a Marca</option>
                 </select>
             </div>
 
             <div class="mb-4">
-                <label for="cod_modelo" class="block text-white font-semibold mb-2">Modelo</label>
-                <select name="cod_modelo" id="cod_modelo" class="form-select w-full rounded border-gray-300 text-black" required>
+                <label for="cod_modelo" class="block text-white font-semibold mb-2 font-mono">Modelo</label>
+                <select name="cod_modelo" id="cod_modelo" class="form-select w-full rounded border-gray-300 text-black font-mono" required>
                     <option value="">Selecione o Modelo</option>
                 </select>
             </div>
 
             <div class="mb-4">
-                <label for="num_serie" class="block text-white font-semibold mb-2">Número de Série</label>
-                <select name="num_serie" id="num_serie" class="form-select w-full rounded border-gray-300 text-black" required>
+                <label for="num_serie" class="block text-white font-semibold mb-2 font-mono">Número de Série</label>
+                <select name="num_serie" id="num_serie" class="form-select w-full rounded border-gray-300 text-black font-mono" required>
                     <option value="">Selecione o Número de Série</option>
                 </select>
             </div>
 
             <div class="mb-4">
-                <label for="data_registo" class="block text-white font-semibold mb-2">Data de Registo</label>
-                <input type="date" name="data_registo" id="data_registo" value="{{ old('data_registo', date('Y-m-d')) }}" class="form-input w-full rounded border-gray-300 text-black" required>
+                <label for="data_registo" class="block text-white font-semibold mb-2 font-mono">Data de Registo</label>
+                <input type="date" name="data_registo" id="data_registo" value="{{ old('data_registo', date('Y-m-d')) }}" class="form-input w-full rounded border-gray-300 text-black font-mono" required>
             </div>
 
             <div class="mb-4">
-                <label for="cod_servico" class="block text-white font-semibold mb-2">Serviço (opcional)</label>
-                <select name="cod_servico" id="cod_servico" class="form-select w-full rounded border-gray-300 text-black">
+                <label for="cod_servico" class="block text-white font-semibold mb-2 font-mono">Serviço (opcional)</label>
+                <select name="cod_servico" id="cod_servico" class="form-select w-full rounded border-gray-300 text-black font-mono">
                     <option value="">Sem serviço associado</option>
                     @foreach($servicos as $servico)
                         <option value="{{ $servico->cod_servico }}">{{ $servico->nome_servico ?? 'Serviço #' . $servico->cod_servico }}</option>
@@ -54,8 +54,8 @@
             </div>
 
             <div class="mb-4">
-                <label for="cod_estado" class="block text-white font-semibold mb-2">Estado do Material</label>
-                <select name="cod_estado" id="cod_estado" class="form-select w-full rounded border-gray-300 text-black" required>
+                <label for="cod_estado" class="block text-white font-semibold mb-2 font-mono">Estado do Material</label>
+                <select name="cod_estado" id="cod_estado" class="form-select w-full rounded border-gray-300 text-black font-mono" required>
                     @foreach($estados as $estado)
                         <option value="{{ $estado->cod_estado }}" selected>{{ $estado->estado_nome }}</option>
                     @endforeach
@@ -63,17 +63,17 @@
             </div>
 
             <div class="mb-4">
-                <label for="observacoes" class="block text-white font-semibold mb-2">Observações</label>
-                <textarea name="observacoes" id="observacoes" rows="4" class="form-textarea w-full rounded border-gray-300 text-black">{{ old('observacoes') }}</textarea>
+                <label for="observacoes" class="block text-white font-semibold mb-2 font-mono">Observações</label>
+                <textarea name="observacoes" id="observacoes" rows="4" class="form-textarea w-full rounded border-gray-300 text-black font-mono">{{ old('observacoes') }}</textarea>
             </div>
 
             <div class="mb-4">
-                <label for="cod_material" class="block text-white font-semibold mb-2">Código do Material Selecionado</label>
-                <input type="text" name="cod_material" id="cod_material" class="form-input w-full rounded border-gray-300 text-black bg-gray-200" readonly required>
+                <label for="cod_material" class="block text-white font-semibold mb-2 font-mono">Código do Material Selecionado</label>
+                <input type="text" name="cod_material" id="cod_material" class="form-input w-full rounded border-gray-300 text-black bg-gray-200 font-mono" readonly required>
             </div>
 
             <div class="flex justify-center">
-                <button type="submit" class="px-8 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-lg font-semibold shadow transition-all duration-200 text-center">
+                <button type="submit" class="px-8 py-3 bg-sky-800 hover:bg-slate-700 text-white rounded-lg font-semibold shadow transition-all duration-200 text-center font-mono">
                     Registar Perda
                 </button>
             </div>
@@ -168,7 +168,7 @@
             document.getElementById('cod_material').value = '';
             return;
         }
-        const material = materiais.find(m => 
+        const material = materiais.find(m =>
             String(m.cod_categoria) === String(categoria) &&
             String(m.cod_marca) === String(marca) &&
             String(m.cod_modelo) === String(modelo) &&

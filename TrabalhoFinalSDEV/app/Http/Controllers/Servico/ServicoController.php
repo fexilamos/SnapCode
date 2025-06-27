@@ -17,6 +17,7 @@ use App\Models\TiposServico;
 use App\Models\Localizacao;
 use App\Http\Requests\StoreUpdateServicoRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class ServicoController extends Controller
 {
@@ -163,8 +164,8 @@ class ServicoController extends Controller
             'detalhesComunhaoParticular',
             'detalhesEvCorporativo'
         ])->find($id);
+        $user = Auth::user();
 
-        $user = auth()->user();
 
         if ($user->funcionario->cod_nivel == 3) {
             $alocado = $servico->funcionarios->contains('cod_funcionario', $user->funcionario->cod_funcionario);
@@ -381,7 +382,7 @@ class ServicoController extends Controller
         if (!isset($tiposMap[$tipo])) {
             abort(404);
         }
-        $servicos = Servico::with([
+        $query = Servico::with([
             'cliente',
             'tipoServico',
             'localizacao',
@@ -390,10 +391,22 @@ class ServicoController extends Controller
             'detalhesComunhaoGeral',
             'detalhesComunhaoParticular',
             'detalhesEvCorporativo'
-        ])
-            ->where('cod_tipo_servico', $tiposMap[$tipo])
-            ->orderBy('data_inicio', 'desc')
-            ->get();
+        ])->where('cod_tipo_servico', $tiposMap[$tipo]);
+
+        if (request('search')) {
+            $search = request('search');
+            $query->where(function($q) use ($search) {
+                $q->where('nome_servico', 'like', "%$search%")
+                  ->orWhereHas('cliente', function($q2) use ($search) {
+                      $q2->where('nome', 'like', "%$search%");
+                  })
+                  ->orWhereHas('localizacao', function($q3) use ($search) {
+                      $q3->where('nome_local', 'like', "%$search%");
+                  });
+            });
+        }
+
+        $servicos = $query->orderBy('data_inicio', 'desc')->get();
         return view('servicos.lista-tipo', compact('servicos', 'tipo'));
     }
 

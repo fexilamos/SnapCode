@@ -1,20 +1,20 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="flex items-center justify-between mb-12 mt-8 max-w-2xl mx-auto">
-        <h1 class="text-3xl md:text-4xl font-bold text-white">Consulta de Funcionários</h1>
+    <div class="flex items-center justify-between mb-12 mt-8 max-w-2xl mx-auto font-mono">
+        <h1 class="text-3xl md:text-3xl font-bold text-white font-mono">CONSULTA DE FUNCIONÁRIOS</h1>
         <a href="{{ route('funcionarios.home') }}" class="text-slate-300 hover:text-white transition-colors ml-4">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
         </a>
     </div>
-    <main class="p-8">
-        <div class="max-w-6xl mx-auto">
+    <main class="p-8 font-mono">
+        <div class="max-w-7xl mx-auto">
             <!-- Filtros -->
             <form method="GET" action="{{ route('funcionarios.index') }}" class="w-full flex flex-col md:flex-row gap-4 mb-12 bg-slate-800 rounded-xl p-8 shadow-lg border border-slate-600 items-end">
                 <div class="flex-1 flex flex-col">
-                    <label for="searchFunction" class="block text-base font-semibold text-blue-200 mb-3">Função</label>
+                    <label for="searchFunction" class="block text-base font-semibold text-blue-200 mb-3">FUNÇÃO</label>
                     <select id="searchFunction" name="searchFunction" class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option value="">Selecione a função</option>
                         <option value="0">Admin</option>
@@ -26,12 +26,12 @@
                     </select>
                 </div>
                 <div class="flex-shrink-0 flex items-end pt-6 md:pt-0">
-                    <button type="submit" class="px-8 py-3 bg-slate-700 hover:bg-slate-400 text-white rounded-lg font-semibold shadow transition-all duration-200">Filtrar</button>
+                    <button type="submit" class="px-8 py-3 bg-sky-800 hover:bg-slate-700 text-white rounded-lg font-semibold shadow transition-all duration-200">Filtrar</button>
                 </div>
             </form>
             <!-- Resultados -->
             <div class="bg-slate-700 rounded-xl p-8 border border-slate-600 mt-10 shadow-lg">
-                <h3 class="text-2xl font-bold text-blue-200 mb-6 tracking-wide">Lista de Funcionários</h3>
+                <h3 class="text-2xl font-bold text-blue-200 mb-6 tracking-wide">LISTA DE FUNCIONÁRIOS</h3>
                 <div class="w-full overflow-x-auto">
                     <table class="w-full min-w-[900px] divide-y divide-slate-600 rounded-lg overflow-hidden">
                         <thead class="bg-slate-800">

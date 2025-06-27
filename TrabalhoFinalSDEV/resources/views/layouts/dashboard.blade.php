@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/LOGOabrev.png') }}">
 @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
@@ -26,6 +27,7 @@
         typing 2s steps(10, end) forwards,
         blink 0.7s step-end infinite;
 }
+
 </style>
 </head>
 <body class="bg-gray-800 text-white">

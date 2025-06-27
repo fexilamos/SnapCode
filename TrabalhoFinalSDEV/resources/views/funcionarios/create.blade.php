@@ -2,8 +2,8 @@
 
 @section('content')
     <!-- Header -->
-    <div class="flex items-center justify-between mb-12 mt-8 max-w-2xl mx-auto">
-        <h1 class="text-3xl md:text-4xl font-bold text-white">Registo de Funcionário</h1>
+    <div class="flex items-center justify-between mb-12 mt-8 max-w-2xl mx-auto font-mono">
+        <h1 class="text-3xl md:text-4xl font-bold text-white font-mono">Registo de Funcionário</h1>
         <a href="{{ route('funcionarios.index') }}"
            class="text-slate-300 hover:text-white transition-colors ml-4">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -12,7 +12,7 @@
         </a>
     </div>
     <!-- Content -->
-    <main class="p-8">
+    <main class="p-8 font-mono">
         <div class="max-w-2xl mx-auto">
             <!-- Main Form Card -->
 
@@ -145,11 +145,11 @@
                     <!-- Botões Cancelar/Salvar -->
                     <div class="flex justify-end space-x-4 pt-6">
                         <a href="{{ route('funcionarios.create') }}"
-                           class="px-6 py-3 bg-slate-700 hover:bg-slate-400 text-white rounded-lg font-medium transition-colors">
+                           class="px-6 py-3 bg-slate-700 hover:bg-sky-800 text-white rounded-lg font-medium transition-colors">
                             Cancelar
                         </a>
                         <button type="submit"
-                                class="px-6 py-3 bg-slate-700 hover:bg-slate-400 text-white rounded-lg font-medium transition-colors flex items-center space-x-2">
+                                class="px-6 py-3 bg-sky-800 hover:bg-slate-700 text-white rounded-lg font-medium transition-colors flex items-center space-x-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
