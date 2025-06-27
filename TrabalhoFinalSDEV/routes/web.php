@@ -91,9 +91,27 @@ Route::get('/servicos/tipo/{tipo}', [ServicoController::class, 'listarPorTipo'])
 
 
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
-// TESTES & OUTROS
-require __DIR__ . '/auth.php';
-Route::get('/teste', fn() => view('teste'));
-Route::get('/calendario', fn() => view('calendario'))->middleware(['auth']);
+
+
+require __DIR__.'/auth.php';
+Route::get('/teste', function () {
+    return view('teste');
+});
+Route::get('/', function () {
+    return view('welcome');
+});
+// Substituído para carregar eventos do backend
+require __DIR__.'/calendario_events.php';
+
+
+
+
+
+
+
+
 
