@@ -107,7 +107,7 @@
                 </div>
 
                 <div class="mt-10 pt-6 border-t border-slate-600 flex justify-center">
-                    {{ $materiais->links('pagination::tailwind') }}
+                    {{ $materiais->appends(request()->except('page'))->links('pagination::tailwind') }}
                 </div>
             </div>
         </div>
