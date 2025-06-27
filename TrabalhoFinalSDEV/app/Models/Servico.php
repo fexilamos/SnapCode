@@ -97,7 +97,6 @@ class Servico extends Model
     {
         return $this->belongsToMany(Funcionario::class, 'servico_funcionario', 'cod_servico', 'cod_funcionario')
             ->withPivot('data_alocacao_inicio', 'data_alocacao_fim', 'funcao_no_servico')
-            ->withTimestamps()
             ->using(ServicoFuncionario::class);
     }
 
@@ -105,7 +104,6 @@ class Servico extends Model
     {
         return $this->belongsToMany(Material::class, 'servico_equipamento', 'cod_servico', 'cod_material')
             ->withPivot('data_levantamento', 'data_devolucao')
-            ->withTimestamps()
             ->using(ServicoEquipamento::class);
     }
 }
