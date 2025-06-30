@@ -18,7 +18,7 @@ class AvariaController extends Controller
     {
         // Listar registos reais de avarias, com os relacionamentos necessários, paginados
         $avarias = Avaria::with(['material.categoria', 'material.marca', 'material.modelo', 'material.estado', 'servico'])
-            ->orderByDesc('data_registo')
+            ->orderByDesc('cod_avaria') // Mostra a avaria criada por último primeiro
             ->paginate(10);
         return view('materiais.avarias.index', compact('avarias'));
     }
@@ -35,6 +35,13 @@ class AvariaController extends Controller
      */
     public function store(StoreAvariaRequest $request)
     {
+        // Verifica se já existe uma avaria para o mesmo material e data (não resolvida)
+        $existe = Avaria::where('cod_material', $request->cod_material)
+            ->whereDate('data_registo', $request->data_registo)
+            ->exists();
+        if ($existe) {
+            return redirect()->route('avarias.index')->with('error', 'Já existe uma avaria registada para este material nesta data.');
+        }
         $avaria = Avaria::create($request->all());
         // Atualiza o estado do material para o estado selecionado na avaria
         if ($request->filled('cod_material') && $request->filled('cod_estado')) {

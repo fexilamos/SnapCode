@@ -385,7 +385,7 @@ class ServicoController extends Controller
             'servico' => $servico,
             'dados' => $dados
         ]);
-        return $pdf->download('servico_' . $servico->cod_servico . '.pdf');
+        return $pdf->download('SNAP_' . $servico->nome_servico . '.pdf');
     }
     private function mergeDetalhes($form, $old, $fillable)
     {

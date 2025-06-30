@@ -38,6 +38,7 @@ Route::middleware('auth', 'nivel:1,2')->group(function () {
     Route::get('/servicos/home', [ServicoController::class, 'home'])->name('servicos.home');
     Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
     Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
+    Route::get('/servicos/lista-tipo', [ServicoController::class, 'listaTipo'])->name('servicos.lista-tipo');
     // A exportação de PDF já está acima, se necessário mantém aqui também
 });
 
@@ -85,6 +86,7 @@ Route::middleware('auth', 'nivel:1,2')->group(function () {
 // FUNC EXTERNO (Nível 3)
 Route::middleware(['auth', 'nivel:3'])->get('/meus-servicos', [ServicoController::class, 'meusServicos'])->name('servicos.meus');
 
+
 // FILTRAR EVENTOS POR TIPO
 Route::get('/servicos/tipo/{tipo}', [ServicoController::class, 'listarPorTipo'])->name('servicos.tipo');
 
@@ -106,6 +108,7 @@ Route::get('/', function () {
 });
 // Substituído para carregar eventos do backend
 require __DIR__.'/calendario_events.php';
+
 
 
 

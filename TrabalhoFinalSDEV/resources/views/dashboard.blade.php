@@ -54,7 +54,7 @@
     $funcionarios_externos = \App\Models\Funcionario::with('funcoes')
                     ->whereHas('funcoes', function($q) {
                         $q->where('funcao', '!=', 'Admin');
-                    })->get();
+                    })->limit(4)->get();
             @endphp
             @forelse($funcionarios_externos as $funcionario)
                 <li>
@@ -78,7 +78,7 @@
                 $materiais_manutencao = \App\Models\Material::with(['estado','marca','modelo'])
                     ->whereHas('estado', function($q) {
                         $q->whereIn('estado_nome', ['Em Manutenção', 'Avariado']);
-                    })->get();
+                    })->limit(4)->get();
             @endphp
             @forelse($materiais_manutencao as $material)
                 <li>
