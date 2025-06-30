@@ -5,6 +5,19 @@
     <title>Detalhes do Evento</title>
     <style>
         @page { margin: 20mm; }
+        html, body {
+            page-break-after: avoid !important;
+            page-break-before: avoid !important;
+            page-break-inside: avoid !important;
+        }
+        * {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+        table, tr, td, th, div, section {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
         body {
             font-family: monospace, 'Courier New', Courier;
             font-size: 13px;
@@ -36,7 +49,7 @@
         }
 
         .box {
-            border: 1px solid #94a3b8;
+            border: 1px solid #334155;
             border-radius: 6px;
             padding: 16px;
             margin-bottom: 20px;
@@ -189,6 +202,7 @@
 
         </div>
     </div>
+    <br>
 
     @if(isset($servico->observacoes) && $servico->observacoes)
     <div class="box">
