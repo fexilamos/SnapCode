@@ -161,4 +161,10 @@ public function home()
         return view('materiais.home');
     }
 
+    public function show($id)
+    {
+        $material = \App\Models\Material::with(['categoria','marca','modelo','estado'])->findOrFail($id);
+        // Renderiza a view completa com layout
+        return view('materiais.show', compact('material'));
+    }
 }

@@ -90,6 +90,7 @@
                                     <td class="px-4 py-3 text-white text-center align-middle font-mono">{{ $material->observacoes }}</td>
                                     <td class="px-4 py-3">
                                         <div class="flex flex-col md:flex-row gap-2 justify-center items-center">
+                                            <a href="{{ route('materiais.show', $material->cod_material) }}" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-sky-800 text-xs">Ver</a>
                                             <a href="{{ route('materiais.edit', $material->cod_material) }}" class="bg-sky-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs">Editar</a>
                                             <form action="{{ route('materiais.destroy', $material->cod_material) }}" method="POST" style="display:inline-block">
                                                 @csrf

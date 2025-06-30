@@ -43,6 +43,7 @@
                                 <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Função</th>
                                 <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Nível</th>
                                 <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Equipamento Próprio</th>
+                                <th class="px-6 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider">Ações</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-600">
@@ -61,6 +62,9 @@
                                     </td>
                                     <td class="px-6 py-3 text-white break-words whitespace-normal">{{ $funcionario->nivel ? $funcionario->nivel->nivel : '-' }}</td>
                                     <td class="px-6 py-3 text-white break-words whitespace-normal">{{ $funcionario->tem_equipamento_proprio ? 'Sim' : 'Não' }}</td>
+                                    <td class="px-6 py-3 text-white text-center">
+                                        <a href="{{ route('funcionarios.show', $funcionario->cod_funcionario) }}" class="bg-sky-800 text-white px-3 py-1 rounded hover:bg-slate-400 text-xs font-mono">Ver</a>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
