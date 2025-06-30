@@ -2,14 +2,13 @@
 
 @section('content')
     <!-- Header -->
-    <div class="flex items-center justify-between mb-12 mt-8 max-w-2xl mx-auto font-mono">
-        <h1 class="text-3xl md:text-4xl font-bold text-white font-mono">Registo de Funcionário</h1>
-        <a href="{{ route('funcionarios.index') }}"
-           class="text-slate-300 hover:text-white transition-colors ml-4">
+    <div class="relative mb-12 mt-8 max-w-2xl mx-auto font-mono flex items-center justify-center">
+        <a href="{{ route('funcionarios.index') }}" class="absolute left-0 text-slate-300 hover:text-white transition-colors">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
         </a>
+        <h1 class="text-3xl md:text-3xl font-bold text-white font-mono text-center w-full">&lt;REGISTO DE FUNCIONÁRIO/&gt;</h1>
     </div>
     <!-- Content -->
     <main class="p-8 font-mono">

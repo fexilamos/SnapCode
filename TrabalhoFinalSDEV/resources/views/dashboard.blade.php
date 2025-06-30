@@ -4,7 +4,7 @@
 <br>
 
 
-<h1 class="text-3xl font-semibold mb-6 font-mono">PAINEL PRINCIPAL</h1>
+<h1 class="text-3xl font-semibold mb-6 font-mono">&lt;PAINEL PRINCIPAL/&gt;</h1>
 
 <!-- Cards Superiores -->
 <br>
@@ -34,11 +34,11 @@
             }
         @endphp
         <ul class="text-sm space-y-2 font-mono">
-            <li class="flex items-center gap-2"><img src="{{ asset('images/casamentos.png') }}" alt="Casamentos" class="w-6 h-6 inline"> <strong>casamentos:</strong> {{ $contagens['Casamentos'] }}</li>
-            <li class="flex items-center gap-2"><img src="{{ asset('images/batismo.png') }}" alt="Batizados" class="w-6 h-6 inline"> <strong>batizados:</strong> {{ $contagens['Batizados'] }}</li>
-            <li class="flex items-center gap-2"><img src="{{ asset('images/comunhaogeral.png') }}" alt="Comunhões Gerais" class="w-6 h-6 inline"> <strong>comunhões gerais:</strong> {{ $contagens['Comunhões Gerais'] }}</li>
-            <li class="flex items-center gap-2"><img src="{{ asset('images/comunhaopart.png') }}" alt="Comunhões Particulares" class="w-6 h-6 inline"> <strong>comunhões particulares:</strong> {{ $contagens['Comunhões Particulares'] }}</li>
-            <li class="flex items-center gap-2"><img src="{{ asset('images/corporate.png') }}" alt="Eventos Corporativos" class="w-6 h-6 inline"> <strong>eventos corporativos:</strong> {{ $contagens['Eventos Corporativos'] }}</li>
+            <li > <strong>CASAMENTOS:</strong> {{ $contagens['Casamentos'] }}</li>
+            <li > <strong>BATIZADOS:</strong> {{ $contagens['Batizados'] }}</li>
+            <li > <strong>COMUNHÕES GERAIS:</strong> {{ $contagens['Comunhões Gerais'] }}</li>
+            <li > <strong>COMUNHÕES PARTICULARES:</strong> {{ $contagens['Comunhões Particulares'] }}</li>
+            <li > <strong>EVENTOS CORPORATIVOS:</strong> {{ $contagens['Eventos Corporativos'] }}</li>
         </ul>
         <a href="{{ url('/servicos') }}" class="text-blue-300 mt-3 font-mono inline-block hover:underline">ver todos os serviços →</a>
     </div>

@@ -48,20 +48,21 @@
             50% { border-color: white; }
         }
 
-        .button {
-            background-color: #000000;
-            color: white;
-            text-decoration: none;
-            padding: 14px 40px;
-            font-size: 1.2em;
-            border: none;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
+      .button {
+    background-color: #075985; /* sky-800 */
+    color: white;
+    text-decoration: none;
+    padding: 14px 40px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
 
-        .button:hover {
-            background-color: #666;
-        }
+.button:hover {
+    background-color: #334155; /* slate-700 */
+}
+
     </style>
 </head>
 <body>

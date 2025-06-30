@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1 class="text-3xl font-bold text-white text-center mt-8 mb-12 font-mono">Gestão de Funcionários</h1>
+    <h1 class="text-3xl font-bold text-white text-center mt-8 mb-12 font-mono">&lt;GESTÃO DE FUNCIONÁRIOS/&gt;</h1>
     <main class="p-8 flex justify-center font-mono">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
             <!-- Card Consultar -->

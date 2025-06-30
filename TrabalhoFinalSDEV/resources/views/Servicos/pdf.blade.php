@@ -4,139 +4,130 @@
     <meta charset="UTF-8">
     <title>Detalhes do Evento</title>
     <style>
+        @page { margin: 20mm; }
         body {
-            font-family: DejaVu Sans, sans-serif;
-            font-size: 14px;
+            font-family: monospace, 'Courier New', Courier;
+            font-size: 13px;
             margin: 0;
             padding: 20px;
-            line-height: 1.4;
-            background: #fff;
+            line-height: 1.6;
             color: #1e293b;
+            background-color: #ffffff;
         }
-        
+
         h1 {
-            color: #1e293b;
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
-        }
-        
-        .section {
-            margin-bottom: 12px;
-        }
-        
-        .label {
-            font-weight: bold;
-            color: #1e293b;
-            display: inline-block;
-            min-width: 120px;
-        }
-        
-        .value {
-            margin-left: 8px;
-            color: #1e293b;
-        }
-        
-        .box {
-            border: 1px solid #475569;
-            border-radius: 8px;
-            padding: 16px;
+            font-size: 22px;
             margin-bottom: 20px;
-            background: #fff;
         }
-        
-        .box-title {
-            font-weight: bold;
-            color: #1e293b;
-            font-size: 16px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid #475569;
-            padding-bottom: 4px;
-        }
-        
+
         .header-box {
             text-align: center;
-            border: 2px solid #475569;
-            background: #bfdbfe;
             padding: 20px;
             margin-bottom: 25px;
+            border: 2px solid #64748b;
+            background: #e0f2fe;
+            border-radius: 6px;
         }
-        
+
         .logo {
-            max-width: 120px;
-            margin-bottom: 15px;
+            max-width: 100px;
+            margin-bottom: 10px;
         }
-        
-        /* Grid para informações gerais */
+
+        .box {
+            border: 1px solid #94a3b8;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #f8fafc;
+        }
+
+        .box-title {
+            background: #334155;
+            color: #bfdbfe;
+            padding: 12px 16px;
+            border-radius: 6px 6px 0 0;
+            margin: -16px -16px 16px -16px;
+            font-size: 15px;
+            font-weight: bold;
+            border-bottom: none;
+        }
+
+        .section {
+            margin-bottom: 10px;
+            display: flex;
+        }
+
+        .label {
+            width: 140px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .value {
+            flex: 1;
+            color: #334155;
+        }
+
         .info-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0 30px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px 40px;
         }
-        
-        .info-grid .section {
-            margin-bottom: 8px;
+
+        .compact-layout {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
         }
-        
-        .info-grid .label {
-            min-width: 100px;
-            font-size: 13px;
+
+        .compact-layout .box {
+            flex: 1;
+            min-width: 300px;
+            margin-bottom: 0;
         }
-        
-        /* Detalhes específicos */
+
         .detalhes-box {
             border: 2px solid #475569;
-            background: #fff;
+            background: #ffffff;
+            border-radius: 6px;
+            margin-top: 50px;
         }
-        
+
         .detalhes-box .box-title {
             background: #334155;
             color: #bfdbfe;
-            margin: -16px -16px 16px -16px;
             padding: 12px 16px;
             border-radius: 6px 6px 0 0;
+            margin: -16px -16px 16px -16px;
             border-bottom: none;
         }
-        
+
         .no-details {
             text-align: center;
             color: #94a3b8;
             font-style: italic;
             padding: 20px;
         }
-        
-        /* Melhor aproveitamento da primeira página */
-        .compact-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 25px;
-        }
-        
-        .compact-layout .box {
-            margin-bottom: 0;
-        }
-        
-        /* Forçar negrito nas labels dos detalhes específicos do evento apenas no PDF */
+
         .detalhes-box span, .detalhes-box strong {
             font-weight: bold !important;
             color: #1e293b !important;
         }
-        
+
         @media print {
-            body { padding: 15px; background: #fff !important; color: #1e293b !important; }
-            .info-grid { grid-template-columns: 1fr 1fr 1fr; gap: 0 20px; }
+            body { padding: 10px; }
         }
     </style>
 </head>
 <body>
-    <!-- Header compacto -->
     <div class="header-box">
         <img src="{{ public_path('images/LOGO.png') }}" alt="Logo Snap" class="logo">
-        <h1>Detalhes do Evento</h1>
+        <h1 style="background: #334155; color: #bfdbfe; padding: 12px; border-radius: 6px; font-size: 22px;">Detalhes do Evento</h1>
     </div>
 
-    <!-- Informações Gerais - Layout compacto -->
     <div class="box">
         <div class="box-title">Informações Gerais</div>
         <div class="info-grid">
@@ -167,8 +158,7 @@
         </div>
     </div>
 
-    <!-- Layout compacto para aproveitar melhor a primeira página -->
-    <div class="compact-layout">
+    <div class="compact-layout" style="margin-bottom: 60px;">
         <div class="box">
             <div class="box-title">Resumo do Serviço</div>
             <div class="section">
@@ -184,7 +174,8 @@
                 <span class="value">{{ isset($servico->created_at) ? \Carbon\Carbon::parse($servico->created_at)->format('d/m/Y') : 'N/A' }}</span>
             </div>
         </div>
-        <br>
+<br>
+<br>
         <div class="box">
             <div class="box-title">Contacto</div>
             <div class="section">
@@ -195,14 +186,10 @@
                 <span class="label">Telefone:</span>
                 <span class="value">{{ $servico->cliente->telefone ?? 'N/A' }}</span>
             </div>
-            <div class="section">
-                <span class="label">NIF:</span>
-                <span class="value">{{ $servico->cliente->nif ?? 'N/A' }}</span>
-            </div>
+
         </div>
     </div>
 
-    <!-- Observações gerais se existirem -->
     @if(isset($servico->observacoes) && $servico->observacoes)
     <div class="box">
         <div class="box-title">Observações</div>
@@ -212,13 +199,11 @@
     </div>
     @endif
 
-    <!-- Detalhes Específicos do Evento -->
     <div class="box detalhes-box">
         <div class="box-title">Detalhes Específicos do Evento</div>
         @php $tipo_id = $servico->cod_tipo_servico; @endphp
         @switch($tipo_id)
             @case(1)
-                {{-- Casamento --}}
                 @if ($servico->detalhesCasamento)
                     @include('servicos.partials.detalhes-casamento', [ 'detalhes' => $servico->detalhesCasamento, 'pdf' => true ])
                 @else
@@ -226,9 +211,8 @@
                         Sem detalhes registados para este evento de casamento.
                     </div>
                 @endif
-            @break
+                @break
             @case(2)
-                {{-- Batizado --}}
                 @if ($servico->detalhesBatizado)
                     @include('servicos.partials.detalhes-batizado', [ 'detalhes' => $servico->detalhesBatizado, 'pdf' => true ])
                 @else
@@ -236,9 +220,8 @@
                         Sem detalhes registados para este evento de batizado.
                     </div>
                 @endif
-            @break
+                @break
             @case(3)
-                {{-- Evento Corporativo --}}
                 @if ($servico->detalhesEvCorporativo)
                     @include('servicos.partials.detalhes-corporativo', [ 'detalhes' => $servico->detalhesEvCorporativo, 'pdf' => true ])
                 @else
@@ -246,9 +229,8 @@
                         Sem detalhes registados para este evento corporativo.
                     </div>
                 @endif
-            @break
+                @break
             @case(4)
-                {{-- Comunhão Particular --}}
                 @if ($servico->detalhesComunhaoParticular)
                     @include('servicos.partials.detalhes-comunhao-particular', [ 'detalhes' => $servico->detalhesComunhaoParticular, 'pdf' => true ])
                 @else
@@ -256,9 +238,8 @@
                         Sem detalhes registados para este evento de comunhão particular.
                     </div>
                 @endif
-            @break
+                @break
             @case(5)
-                {{-- Comunhão Geral --}}
                 @if ($servico->detalhesComunhaoGeral)
                     @include('servicos.partials.detalhes-comunhao-geral', [ 'detalhes' => $servico->detalhesComunhaoGeral, 'pdf' => true ])
                 @else
@@ -266,7 +247,7 @@
                         Sem detalhes registados para este evento de comunhão geral.
                     </div>
                 @endif
-            @break
+                @break
             @default
                 <div class="no-details">
                     Tipo de evento não reconhecido ou sem detalhes específicos disponíveis.
