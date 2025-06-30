@@ -156,6 +156,14 @@
                 <span class="label">Cliente:</span>
                 <span class="value">{{ $servico->cliente->nome ?? '-' }}</span>
             </div>
+             <div class="section">
+                <span class="label">Mail:</span>
+                <span class="value">{{ $servico->cliente->mail ?? '-' }}</span>
+            </div>
+             <div class="section">
+                <span class="label">Telefone:</span>
+                <span class="value">{{ $servico->cliente->telefone ?? '-' }}</span>
+            </div>
             <div class="section">
                 <span class="label">Local:</span>
                 <span class="value">{{ $servico->localizacao->nome_local ?? '-' }}</span>

@@ -36,6 +36,8 @@ class Servico extends Model
         'data_inicio',
         'data_fim',
         'nome_servico',
+        'mail',
+        'telefone',
     ];
 
     protected $casts = [

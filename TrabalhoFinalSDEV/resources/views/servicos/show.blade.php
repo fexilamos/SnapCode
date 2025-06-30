@@ -33,6 +33,14 @@
                     <dt class="font-semibold text-slate-400 text-sm">Cliente</dt>
                     <dd class="mt-1 text-base">{{ $servico->cliente->nome ?? '-' }}</dd>
                 </div>
+                 <div>
+                    <dt class="font-semibold text-slate-400 text-sm">Mail</dt>
+                    <dd class="mt-1 text-base">{{ $servico->cliente->mail ?? '-' }}</dd>
+                </div>
+                 <div>
+                    <dt class="font-semibold text-slate-400 text-sm">Telefone</dt>
+                    <dd class="mt-1 text-base">{{ $servico->cliente->telefone ?? '-' }}</dd>
+                </div>
                 <div>
                     <dt class="font-semibold text-slate-400 text-sm">Local</dt>
                     <dd class="mt-1 text-base">{{ $servico->localizacao->nome_local ?? '-' }}</dd>
