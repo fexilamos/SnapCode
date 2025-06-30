@@ -1,11 +1,11 @@
 @if(!$detalhes)
-    <div class="p-4 text-center text-base text-slate-400 bg-slate-800 rounded-xl shadow-inner border border-slate-700 mb-8">
+    <div class="p-4 text-center text-base text-slate-400 bg-slate-800 rounded-xl shadow-inner border border-slate-700 mb-8 font-mono">
         Sem detalhes registados para este evento.
     </div>
     @return
 @endif
 
-<div class="space-y-8">
+<div class="space-y-8 font-mono">
     {{-- Primeira secção: Informação geral --}}
     <div class="rounded-xl bg-slate-900/85 shadow p-6 border border-slate-800">
         <h4 class="text-lg font-semibold mb-4 border-l-4 pl-4 text-white tracking-wide">Informação Geral</h4>

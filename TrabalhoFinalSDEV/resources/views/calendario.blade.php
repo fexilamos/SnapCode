@@ -79,7 +79,9 @@
 @endpush
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-4 font-mono">Calendário de Eventos</h1>
+    <h1 class="text-3xl font-bold mb-4 font-mono text-center">&lt;Calendário de Eventos/&gt;</h1>
+
+    <br>
     <div id="calendar" class="p-4 rounded shadow font-mono"></div>
 @endsection
 

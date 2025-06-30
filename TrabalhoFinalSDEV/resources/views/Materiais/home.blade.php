@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1 class="text-3xl md:text-3xl font-bold text-white text-center font-mono">GESTÃO DE MATERIAL</h1>
+    <h1 class="text-3xl md:text-3xl font-bold text-white text-center font-mono">&lt;GESTÃO DE MATERIAL/&gt;</h1>
     <br>
     <br>
     <main class="p-8 flex justify-center">

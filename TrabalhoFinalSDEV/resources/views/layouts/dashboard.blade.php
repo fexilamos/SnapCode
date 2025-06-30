@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/LOGOabrev.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/LOGOabrevw.png') }}">
 @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
