@@ -1,13 +1,8 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<<<<<<< HEAD
     <div class="relative mb-12 mt-8 max-w-7xl mx-auto px-4">
         <a href="{{ route('servicos.tipo', ['tipo' => $tipo]) }}"
-=======
-    <div class="relative mb-12 mt-8 max-w-7xl mx-auto px-4 font-mono">
-        <a href="{{ route('servicos.index') }}"
->>>>>>> 2f2797e0795f632526a371835f261fd2d07045d7
             class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white transition-colors">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
