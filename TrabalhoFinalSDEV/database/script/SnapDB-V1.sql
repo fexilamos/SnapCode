@@ -263,6 +263,14 @@ CREATE TABLE Servico_Equipamento (
   FOREIGN KEY (cod_material) REFERENCES Material(cod_material) ON DELETE CASCADE
 );
 
+CREATE TABLE funcionario_funcao (
+  cod_funcionario INT NOT NULL,
+  cod_funcao INT NOT NULL,
+  PRIMARY KEY (cod_funcionario, cod_funcao),
+  FOREIGN KEY (cod_funcionario) REFERENCES Funcionarios(cod_funcionario),
+  FOREIGN KEY (cod_funcao) REFERENCES Funcao(cod_funcao)
+);
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ====================
@@ -309,6 +317,12 @@ INSERT INTO Funcionarios (
 (2, 'Carlos Mendes', '914567890', 'carlos@exemplo.com', 'Faro', 3, 1, TRUE, TRUE),
 (3, 'Daniela Rocha', '915678901', 'daniela@exemplo.com', 'Coimbra', 4, 2, FALSE, TRUE),
 (3, 'Eduardo Pereira', '916789012', 'eduardo@exemplo.com', 'Braga', 5, 1, FALSE, FALSE);
+
+INSERT INTO funcionario_funcao (cod_funcionario, cod_funcao) VALUES (1, 1);
+INSERT INTO funcionario_funcao (cod_funcionario, cod_funcao) VALUES (2, 2), (2, 5);
+INSERT INTO funcionario_funcao (cod_funcionario, cod_funcao) VALUES (3, 3);
+INSERT INTO funcionario_funcao (cod_funcionario, cod_funcao) VALUES (4, 4);
+INSERT INTO funcionario_funcao (cod_funcionario, cod_funcao) VALUES (5, 5);
 
 INSERT INTO TiposServico (nome_tipo) VALUES
 ('Casamento'), ('Batizado'), ('Evento Corporativo'), ('Comunhão Particular'), ('Comunhão Geral');
