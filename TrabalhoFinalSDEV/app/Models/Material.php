@@ -23,7 +23,7 @@ class Material extends Model
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = [
-        'cod_material', // <-- Adicionado para permitir preenchimento
+        'cod_material',
         'cod_categoria',
         'cod_marca',
         'cod_modelo',
@@ -67,5 +67,11 @@ class Material extends Model
             ->withPivot('data_levantamento', 'data_devolucao')
             ->withTimestamps()
             ->using(ServicoEquipamento::class);
+    }
+
+     public function kits()
+    {
+        return $this->belongsToMany(Kit::class, 'kit_material', 'cod_material', 'cod_kit')
+                    ->withPivot('quantidade');
     }
 }

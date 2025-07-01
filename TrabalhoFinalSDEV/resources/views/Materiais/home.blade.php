@@ -7,7 +7,8 @@
     <main class="p-8 flex justify-center">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
             <!-- Card Consultar -->
-            <a href="{{ route('materiais.index') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+            <a href="{{ route('materiais.index') }}"
+                class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
@@ -15,7 +16,7 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2 font-mono ">CONSULTAR MATERIAIS</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2 font-mono">CONSULTAR MATERIAIS</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed font-mono">
                             Visualizar e pesquisar todos os materiais registados no sistema.
                         </p>
@@ -23,7 +24,8 @@
                 </div>
             </a>
             <!-- Card Registar -->
-            <a href="{{ route('materiais.create') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+            <a href="{{ route('materiais.create') }}"
+                class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
@@ -38,8 +40,26 @@
                     </div>
                 </div>
             </a>
+            <!-- Card Criar Kit -->
+            <a href="{{ route('kits.home') }}"
+                class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
+                            <img src="{{ asset('images/kit.png') }}" class="w-10 h-10 object-contain" alt="Criar Kit">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-white mb-2 font-mono">CRIAR KIT</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed font-mono">
+                            Agrupa vários materiais num kit para facilitar.
+                        </p>
+                    </div>
+                </div>
+            </a>
             <!-- Card Avarias -->
-            <a href="{{ route('avarias.index') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+            <a href="{{ route('avarias.index') }}"
+                class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
@@ -54,8 +74,9 @@
                     </div>
                 </div>
             </a>
-            <!-- Card Perdas -->
-            <a href="{{ route('perdas.index') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+            <!-- Card Perdas (centralizada na linha de baixo) -->
+            <a href="{{ route('perdas.index') }}"
+                class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block md:col-span-2 md:mx-auto">
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">

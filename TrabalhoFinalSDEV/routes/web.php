@@ -7,6 +7,8 @@ use App\Http\Controllers\Materiais\PerdaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Servico\ServicoController;
 use App\Http\Controllers\Servico\ServicoCheckinController;
+use App\Http\Controllers\KitController;
+
 
 // HOME & DASHBOARD
 Route::get('/', fn() => view('welcome'));
@@ -21,7 +23,7 @@ Route::middleware('auth', 'nivel:1')->group(function () {
     Route::get('/servicos/{id}/pdf', [ServicoController::class, 'exportPdf'])->name('servicos.pdf');
 });
 
-// **CHECK-OUT** (antes das rotas de serviço com parâmetros!)
+// **CHECK-OUT**
 Route::middleware(['auth', 'nivel:1,2'])->group(function () {
     Route::get('/servicos/checkout', [ServicoCheckinController::class, 'formCheckout'])->name('servicos.checkout');
     Route::post('/servicos/checkout', [ServicoCheckinController::class, 'storeCheckout'])->name('servicos.checkout.store');
@@ -39,7 +41,7 @@ Route::middleware('auth', 'nivel:1,2')->group(function () {
     Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
     Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
     Route::get('/servicos/lista-tipo', [ServicoController::class, 'listaTipo'])->name('servicos.lista-tipo');
-    // A exportação de PDF já está acima, se necessário mantém aqui também
+
 });
 
 // FUNCIONÁRIOS
@@ -90,8 +92,9 @@ Route::middleware(['auth', 'nivel:3'])->get('/meus-servicos', [ServicoController
 // FILTRAR EVENTOS POR TIPO
 Route::get('/servicos/tipo/{tipo}', [ServicoController::class, 'listarPorTipo'])->name('servicos.tipo');
 
-
-
+// KITS
+Route::get('/kits/home', [KitController::class, 'home'])->name('kits.home');
+Route::resource('kits', KitController::class);
 
 Route::get('/', function () {
     return view('welcome');
