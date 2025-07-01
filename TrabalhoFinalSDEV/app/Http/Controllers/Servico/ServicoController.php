@@ -364,7 +364,7 @@ class ServicoController extends Controller
             });
         }
 
-        $servicos = $query->orderBy('data_inicio', 'desc')->get();
+        $servicos = $query->orderBy('data_inicio', 'desc')->paginate(10);
         return view('servicos.lista-tipo', compact('servicos', 'tipo'));
     }
 
