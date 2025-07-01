@@ -42,24 +42,24 @@
 
                 <!-- Navegação -->
                 <nav class="px-6 space-y-4">
-                    <a href="{{ url('/dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-700 font-mono text-base">DASHBOARD</a>
+                    <a href="{{ url('/dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-800 font-mono text-base">DASHBOARD</a>
 
                     <!-- Gestão Dropdown -->
                     <div x-data="{ open: false }" class="space-y-1">
-                        <button @click="open = !open" class="w-full text-left font-mono py-2 px-4 rounded hover:bg-gray-700 flex justify-between items-center text-base">
+                        <button @click="open = !open" class="w-full text-left font-mono py-2 px-4 rounded hover:bg-gray-800 flex justify-between items-center text-base">
                             GESTÃO
                             <svg class="w-4 h-4 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div x-show="open" class="pl-4 space-y-1">
-                            <a href="{{ route('materiais.home') }}" class="block py-2 px-2  font-mono rounded hover:bg-gray-700 text-base">GESTÃO DE MATERIAL</a>
-                            <a href="{{ route('funcionarios.home') }}" class="block py-2 px-2  font-mono rounded hover:bg-gray-700 text-base">GESTÃO DE COLABORADORES</a>
+                            <a href="{{ route('materiais.home') }}" class="block py-2 px-2  font-mono rounded hover:bg-gray-800 text-base">GESTÃO DE MATERIAL</a>
+                            <a href="{{ route('funcionarios.home') }}" class="block py-2 px-2  font-mono rounded hover:bg-gray-800 text-base">GESTÃO DE COLABORADORES</a>
                         </div>
                     </div>
 
-                    <a href="{{ route('servicos.home') }}" class="block py-2 px-4 rounded hover:bg-gray-700 font-mono text-base">EVENTOS</a>
-                    <a href="{{ url('/calendario') }}" class="block px-4 py-2 text-white  font-mono hover:bg-gray-700 text-base">
+                    <a href="{{ route('servicos.home') }}" class="block py-2 px-4 rounded hover:bg-gray-800 font-mono text-base">EVENTOS</a>
+                    <a href="{{ url('/calendario') }}" class="block px-4 py-2 text-white  font-mono hover:bg-gray-800 text-base">
     CALENDÁRIO
 </a>
                 </nav>

@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">Consultar Colaboradores</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">CONSULTAR COLABORADORES</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed font-mono">
                             Visualize e pesquise informações dos colaboradores registados no sistema.
                         </p>
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">Registar Colaboradores</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">REGISTAR COLABORADORES</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed">
                             Adicione novos colaboradores ao sistema com todas as informações necessárias.
                         </p>

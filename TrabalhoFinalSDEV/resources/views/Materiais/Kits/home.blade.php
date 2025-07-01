@@ -36,7 +36,7 @@
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
-                            <img src="{{ asset('images/addkit.png') }}" alt="Registar" width="42">
+                            <img src="{{ asset('images/registar.png') }}" alt="Registar" width="42">
                         </div>
                     </div>
                     <div class="flex-1">
