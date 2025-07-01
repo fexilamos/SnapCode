@@ -5,16 +5,7 @@
     @return
 @endif
 
-<div class="space-y-8 font-mono">
-    {{-- Informação geral --}}
-    <div class="rounded-xl bg-slate-900/85 shadow p-6 border border-slate-800">
-        <h4 class="text-lg font-semibold mb-4 border-l-4 pl-4 text-white tracking-wide">Informação Geral</h4>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-slate-100">
-            <div><span class="font-semibold text-slate-400">Nome do Evento:</span> {{ $detalhes->nome_evento ?: '—' }}</div>
-            <div><span class="font-semibold text-slate-400">Empresa:</span> {{ $detalhes->empresa ?: '—' }}</div>
-            <div><span class="font-semibold text-slate-400">Número de Participantes:</span> {{ $detalhes->num_participantes ?: '—' }}</div>
-        </div>
-    </div>
+
 
     {{-- Serviço --}}
     <div class="rounded-xl bg-slate-900/80 shadow p-6 border border-slate-800">

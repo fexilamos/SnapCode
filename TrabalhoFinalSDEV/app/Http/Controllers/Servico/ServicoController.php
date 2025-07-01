@@ -92,14 +92,14 @@ class ServicoController extends Controller
                 case 2: // Batizado
                     $model = new ServicoDetalhesBatizado();
                     break;
-                case 3: // Comunhão Geral
-                    $model = new ServicoDetalhesComunhaoGeral();
+                case 3: // Evento Corporativo
+                    $model = new ServicoDetalhesEvCorporativo();
                     break;
                 case 4: // Comunhão Particular
                     $model = new ServicoDetalhesComunhaoParticular();
                     break;
-                case 5: // Corporativo
-                    $model = new ServicoDetalhesEvCorporativo();
+                case 5: // Comunhão geral
+                    $model = new ServicoDetalhesComunhaoGeral();
                     break;
             }
             if ($model) {
@@ -129,6 +129,8 @@ class ServicoController extends Controller
                     'tabela' => $model->getTable(),
                     'data' => array_merge($detalhes_filtrados, ['cod_servico' => $servico->cod_servico])
                 ]);
+                Log::debug('DEBUG - Detalhes recebidos no POST', ['detalhes' => $detalhes]);
+                Log::debug('DEBUG - Detalhes filtrados para o modelo', ['detalhes_filtrados' => $detalhes_filtrados]);
                 $model::create(array_merge($detalhes_filtrados, [
                     'cod_servico' => $servico->cod_servico
                 ]));
@@ -254,7 +256,7 @@ class ServicoController extends Controller
             $tipo = (int) $validated['cod_tipo_servico'];
             $detalhesForm = $validated['detalhes'] ?? [];
 
-            Log::debug('DETALHES RECEBIDOS:', $detalhesForm);
+
 
             switch ($tipo) {
                 case 1: // Casamento

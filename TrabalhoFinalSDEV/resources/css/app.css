@@ -4,9 +4,3 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
 
-body {
-    background-image: url('/images/textura.svg');
-    background-repeat: repeat; /* ou 'no-repeat' dependendo da textura */
-    background-size: cover; /* ou 'contain'/'auto' conforme o efeito */
-    background-position: center;
-}

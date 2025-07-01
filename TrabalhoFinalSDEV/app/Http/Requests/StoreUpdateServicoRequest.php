@@ -14,7 +14,6 @@ class StoreUpdateServicoRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             'nome_cliente'      => 'sometimes|required|string|max:255',
             'email_cliente'     => 'nullable|email',
             'telefone_cliente'  => 'nullable|string|max:20',
@@ -25,6 +24,8 @@ class StoreUpdateServicoRequest extends FormRequest
             'nome_servico'      => 'required|string|max:255',
             'detalhes'          => 'nullable|array',
             'detalhes.*'        => 'nullable',
+            // Campos específicos do casamento
+
         ];
     }
 
