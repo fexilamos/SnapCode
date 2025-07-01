@@ -61,9 +61,8 @@ class Funcionario extends Model
             ->using(ServicoFuncionario::class);
     }
 
-   public function funcoes()
-{
-    return $this->belongsToMany(Funcao::class, 'funcionario_funcao', 'cod_funcionario', 'cod_funcao');
-}
-
+    public function funcoes()
+    {
+        return $this->belongsToMany(Funcao::class, 'funcionario_funcao', 'cod_funcionario', 'cod_funcao');
+    }
 }
