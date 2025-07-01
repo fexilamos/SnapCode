@@ -77,21 +77,21 @@ class Servico extends Model
     {
         return $this->hasOne(ServicoDetalhesCasamento::class, 'cod_servico', 'cod_servico');
     }
-     public function detalhesBatizado()
+    public function detalhesBatizado()
     {
         return $this->hasOne(ServicoDetalhesBatizado::class, 'cod_servico', 'cod_servico');
     }
-     public function detalhesComunhaoParticular()
+    public function detalhesComunhaoParticular()
     {
-         return $this->hasOne(ServicoDetalhesComunhaoParticular::class, 'cod_servico', 'cod_servico');
+        return $this->hasOne(ServicoDetalhesComunhaoParticular::class, 'cod_servico', 'cod_servico');
     }
-     public function detalhesComunhaoGeral()
+    public function detalhesComunhaoGeral()
     {
-         return $this->hasOne(ServicoDetalhesComunhaoGeral::class, 'cod_servico', 'cod_servico');
+        return $this->hasOne(ServicoDetalhesComunhaoGeral::class, 'cod_servico', 'cod_servico');
     }
-     public function detalhesEvCorporativo()
+    public function detalhesEvCorporativo()
     {
-         return $this->hasOne(ServicoDetalhesEvCorporativo::class, 'cod_servico', 'cod_servico');
+        return $this->hasOne(ServicoDetalhesEvCorporativo::class, 'cod_servico', 'cod_servico');
     }
 
 
@@ -107,5 +107,10 @@ class Servico extends Model
         return $this->belongsToMany(Material::class, 'servico_equipamento', 'cod_servico', 'cod_material')
             ->withPivot('data_levantamento', 'data_devolucao')
             ->using(ServicoEquipamento::class);
+    }
+
+    public function kits()
+    {
+        return $this->belongsToMany(\App\Models\Kit::class, 'servico_kit', 'cod_servico', 'cod_kit');
     }
 }
