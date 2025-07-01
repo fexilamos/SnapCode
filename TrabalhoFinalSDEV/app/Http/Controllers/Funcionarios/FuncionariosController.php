@@ -76,8 +76,7 @@ class FuncionariosController extends Controller
                 'cod_funcionario' => $funcionario->cod_funcionario,
             ]);
         });
-
-        return redirect()->route('funcionarios.index')->with('success', 'Funcionário e utilizador criados com sucesso!');
+        return redirect()->route('funcionarios.index')->with('success', 'Colaborador registado com sucesso!');
     }
 
     // Mostrar um funcionário específico (detalhe)

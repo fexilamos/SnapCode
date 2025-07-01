@@ -179,39 +179,8 @@
         </div>
     </div>
 
-    <div class="compact-layout" style="margin-bottom: 60px;">
-        <div class="box">
-            <div class="box-title">Resumo do Serviço</div>
-            <div class="section">
-                <span class="label">Código:</span>
-                <span class="value">{{ $servico->id ?? 'N/A' }}</span>
-            </div>
-            <div class="section">
-                <span class="label">Estado:</span>
-                <span class="value">{{ $servico->estado ?? 'Ativo' }}</span>
-            </div>
-            <div class="section">
-                <span class="label">Criado em:</span>
-                <span class="value">{{ isset($servico->created_at) ? \Carbon\Carbon::parse($servico->created_at)->format('d/m/Y') : 'N/A' }}</span>
-            </div>
-        </div>
-<br>
-<br>
-        <div class="box">
-            <div class="box-title">Contacto</div>
-            <div class="section">
-                <span class="label">Email:</span>
-                <span class="value">{{ $servico->cliente->email ?? 'N/A' }}</span>
-            </div>
-            <div class="section">
-                <span class="label">Telefone:</span>
-                <span class="value">{{ $servico->cliente->telefone ?? 'N/A' }}</span>
-            </div>
-
-        </div>
-    </div>
-    <br>
-
+    
+            
     @if(isset($servico->observacoes) && $servico->observacoes)
     <div class="box">
         <div class="box-title">Observações</div>
@@ -220,6 +189,9 @@
         </div>
     </div>
     @endif
+
+    {{-- QUEBRA DE PÁGINA PDF --}}
+    <div style="page-break-before: always;"></div>
 
     <div class="box detalhes-box">
         <div class="box-title">Detalhes Específicos do Evento</div>

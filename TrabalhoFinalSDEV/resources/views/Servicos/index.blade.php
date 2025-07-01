@@ -1,7 +1,15 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1 class="text-3xl font-bold text-white text-center mt-8 mb-12 font-mono"> &lt;EVENTOS/&gt;</h1>
+
+    <div class="relative mb-12 mt-8 max-w-7xl mx-auto px-4">
+        <a href="{{ route('servicos.home') }}" class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white transition-colors">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+        </a>
+        <h1 class="text-3xl font-bold text-white text-center font-mono">&lt;EVENTOS/&gt;</h1>
+    </div>
     <main class="p-8 flex justify-center font-mono">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
             <!-- Card Casamentos -->
