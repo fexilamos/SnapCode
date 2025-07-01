@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Servico;
 
 class ServicoDetalhesComunhaoParticular extends Model
 {
@@ -43,17 +42,17 @@ class ServicoDetalhesComunhaoParticular extends Model
         'timeline',
     ];
 
-     protected $casts = [
-         'fotos' => 'boolean',
-         'video' => 'boolean',
-         'drone' => 'boolean',
-         'sde' => 'boolean',
-         'fotos_convidados' => 'boolean',
-         'num_convidados_fotos' => 'integer',
-         'venda_fotos' => 'boolean',
-         'coro' => 'boolean',
-         'grupo_exterior' => 'boolean',
-     ];
+    protected $casts = [
+        'fotos' => 'boolean',
+        'video' => 'boolean',
+        'drone' => 'boolean',
+        'sde' => 'boolean',
+        'fotos_convidados' => 'boolean',
+        'num_convidados_fotos' => 'integer',
+        'venda_fotos' => 'boolean',
+        'coro' => 'boolean',
+        'grupo_exterior' => 'boolean',
+    ];
 
     public function servico()
     {
