@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Servico;
 
 class ServicoDetalhesComunhaoGeral extends Model
 {
@@ -18,6 +17,7 @@ class ServicoDetalhesComunhaoGeral extends Model
 
     protected $fillable = [
         'cod_servico',
+        'fotos',
         'video',
         'drone',
         'sde',
@@ -34,18 +34,18 @@ class ServicoDetalhesComunhaoGeral extends Model
         'grupo_exterior',
     ];
 
-     protected $casts = [
-         'fotos' => 'boolean',
-         'video' => 'boolean',
-         'drone' => 'boolean',
-         'sde' => 'boolean',
-         'valor_foto' => 'decimal:2',
-         'valor_video' => 'decimal:2',
-         'num_criancas' => 'integer',
-         'coro' => 'boolean',
-         'diplomas' => 'boolean',
-         'grupo_exterior' => 'boolean',
-     ];
+    protected $casts = [
+        'fotos' => 'boolean',
+        'video' => 'boolean',
+        'drone' => 'boolean',
+        'sde' => 'boolean',
+        'valor_foto' => 'decimal:2',
+        'valor_video' => 'decimal:2',
+        'num_criancas' => 'integer',
+        'coro' => 'boolean',
+        'diplomas' => 'boolean',
+        'grupo_exterior' => 'boolean',
+    ];
 
     public function servico()
     {

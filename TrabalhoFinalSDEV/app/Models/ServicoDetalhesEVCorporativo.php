@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Servico;
 
 class ServicoDetalhesEvCorporativo extends Model
 {
@@ -26,12 +25,12 @@ class ServicoDetalhesEvCorporativo extends Model
         'info_extra_corp',
     ];
 
-     protected $casts = [
-         'fotos' => 'boolean',
-         'video' => 'boolean',
-         'drone' => 'boolean',
-         'sde' => 'boolean',
-     ];
+    protected $casts = [
+        'fotos' => 'boolean',
+        'video' => 'boolean',
+        'drone' => 'boolean',
+        'sde' => 'boolean',
+    ];
 
     public function servico()
     {
