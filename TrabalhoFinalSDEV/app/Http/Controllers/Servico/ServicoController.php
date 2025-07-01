@@ -141,7 +141,7 @@ class ServicoController extends Controller
 
             DB::commit();
             Log::debug('Commit realizado com sucesso!');
-            return redirect()->route('servicos.home')->with('success', 'Serviço criado com sucesso.');
+            return redirect()->route('servicos.index')->with('success', 'Serviço registado com sucesso!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Erro ao criar serviço', [

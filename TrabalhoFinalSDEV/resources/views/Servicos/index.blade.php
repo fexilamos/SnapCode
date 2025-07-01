@@ -2,6 +2,11 @@
 
 @section('content')
     <h1 class="text-3xl font-bold text-white text-center mt-8 mb-12 font-mono"> &lt;EVENTOS/&gt;</h1>
+    @if(session('success'))
+        <div class="bg-green-900 text-green-200 border border-green-700 rounded-lg px-6 py-4 mb-8 font-mono uppercase text-center">
+            {{ session('success') }}
+        </div>
+    @endif
     <main class="p-8 flex justify-center font-mono">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
             <!-- Card Casamentos -->

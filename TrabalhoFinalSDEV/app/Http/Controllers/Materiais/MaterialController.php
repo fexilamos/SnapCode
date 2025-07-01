@@ -84,7 +84,7 @@ class MaterialController extends Controller
             ]);
         }
 
-        return redirect()->route('materiais.index')->with('success', 'Material criado com sucesso!');
+        return redirect()->route('materiais.index')->with('success', 'Material registado com sucesso!');
     }
 
     public function edit($id)

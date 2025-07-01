@@ -44,6 +44,12 @@
             <div class="bg-slate-700 rounded-xl p-8 border border-slate-600 mt-10 shadow-xl">
                 <h3 class="text-2xl font-bold text-blue-200 mb-6 tracking-wide text-center font-mono">LISTA DE MATERIAIS</h3>
 
+                @if(session('success'))
+                    <div class="bg-green-900 text-green-200 border border-green-700 rounded-lg px-6 py-4 mb-8 font-mono uppercase text-center">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[1000px] divide-y divide-slate-600 rounded-lg overflow-hidden">
                         <thead class="bg-slate-800">
