@@ -79,19 +79,31 @@
     </div>
 </div>
 <script>
-    // Exemplo de lógica para mostrar/esconder campos específicos
     document.addEventListener('DOMContentLoaded', function() {
         const selectTipo = document.getElementById('tipoEvento');
+        const form = document.querySelector('form');
         function mostrarCampos() {
             const tipo = selectTipo.value;
-            document.querySelectorAll('.campos-tipo').forEach(div => div.style.display = 'none');
+            document.querySelectorAll('.campos-tipo').forEach(div => {
+                div.style.display = 'none';
+                // Desabilita todos os campos dos tipos não selecionados
+                div.querySelectorAll('input, textarea, select').forEach(el => el.disabled = true);
+            });
             if(tipo) {
                 const div = document.getElementById('campos-tipo-' + tipo);
-                if(div) div.style.display = 'block';
+                if(div) {
+                    div.style.display = 'block';
+                    // Habilita todos os campos do tipo selecionado
+                    div.querySelectorAll('input, textarea, select').forEach(el => el.disabled = false);
+                }
             }
         }
         selectTipo.addEventListener('change', mostrarCampos);
         mostrarCampos();
+        // Antes do submit, garante que só os campos do tipo selecionado estão habilitados
+        form.addEventListener('submit', function() {
+            mostrarCampos();
+        });
     });
 </script>
 @endsection
