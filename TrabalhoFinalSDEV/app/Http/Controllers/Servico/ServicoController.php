@@ -416,4 +416,19 @@ class ServicoController extends Controller
         }
         return $resultado;
     }
+
+    // Dashboard exclusivo para funcionários externos (nível 3)
+    public function meusServicos()
+    {
+        $funcionario = Auth::user()->funcionario;
+        $servicos = $funcionario
+            ? \App\Models\Servico::whereHas('funcionarios', function($q) use ($funcionario) {
+                $q->where('funcionarios.cod_funcionario', $funcionario->cod_funcionario);
+            })
+            ->with(['tipoServico', 'localizacao'])
+            ->orderByDesc('data_inicio')
+            ->get()
+            : collect();
+        return view('servicos.gestao.meus-servicos', compact('servicos'));
+    }
 }

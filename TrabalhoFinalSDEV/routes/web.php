@@ -12,7 +12,7 @@ use App\Http\Controllers\KitController;
 
 // HOME & DASHBOARD
 Route::get('/', fn() => view('welcome'));
-Route::get('/dashboard', fn() => view('dashboard'))->middleware(['auth', 'nivel:1,2,3'])->name('dashboard');
+Route::get('/dashboard', fn() => view('dashboard'))->middleware(['auth', 'nivel:1,2'])->name('dashboard');
 
 // SERVIÇOS (EVENTOS)
 Route::middleware('auth', 'nivel:1')->group(function () {
@@ -88,7 +88,12 @@ Route::middleware('auth', 'nivel:1,2')->group(function () {
 });
 
 // FUNC EXTERNO (Nível 3)
-Route::middleware(['auth', 'nivel:3'])->get('/meus-servicos', [ServicoController::class, 'meusServicos'])->name('servicos.meus');
+Route::middleware(['auth', 'nivel:3'])->group(function () {
+    Route::get('/meus-servicos', [ServicoController::class, 'meusServicos'])->name('servicos.meus');
+    Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
+    Route::get('/servicos/{id}/pdf', [ServicoController::class, 'exportPdf'])->name('servicos.pdf');
+});
+
 
 
 // FILTRAR EVENTOS POR TIPO

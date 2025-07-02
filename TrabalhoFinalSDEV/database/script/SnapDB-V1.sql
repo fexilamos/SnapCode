@@ -404,6 +404,7 @@ INSERT INTO Marca (cod_marca, marca) VALUES
 (11, 'Neewer'),
 (12, 'Lowepro');
 
+
 -- Novos Modelos
 INSERT INTO Modelo (cod_modelo, modelo) VALUES
 (6, ' LP-E6NH'),
@@ -437,7 +438,8 @@ INSERT INTO Modelo (cod_modelo, modelo) VALUES
 (34, 'a7S III'),
 (35,'ProTactic BP 450 AW');
 
--- Materiais do Excel
+
+-- Materiais do Ficheiro Excel
 INSERT INTO Material (
   cod_material, cod_categoria, cod_marca, cod_modelo,
   num_serie, cod_estado, observacoes
@@ -655,3 +657,7 @@ INSERT INTO Material (
     ('MAT216','MOC', 12, 35, 'X5Y1Z7A3', 1, ''),
     ('MAT217','MOC', 12, 35, 'B6C2D8E0', 1, ''),
     ('MAT218','MOC', 12, 35, 'G1H7I3J9', 1, '');
+    
+
+
+

@@ -51,5 +51,19 @@ class AdminUserSeeder extends Seeder
         );
 
         $this->command->info('Utilizador Admin de teste criado/verificado!');
+
+        // Garantir que todos os funcionários têm utilizador associado
+        $funcionarios = Funcionario::all();
+        foreach ($funcionarios as $funcionario) {
+            User::firstOrCreate(
+                ['cod_funcionario' => $funcionario->cod_funcionario],
+                [
+                    'name' => $funcionario->nome,
+                    'email' => $funcionario->mail,
+                    'password' => Hash::make('password'), // password padrão
+                ]
+            );
+        }
+        $this->command->info('Utilizadores criados/verificados para todos os funcionários!');
     }
 }
