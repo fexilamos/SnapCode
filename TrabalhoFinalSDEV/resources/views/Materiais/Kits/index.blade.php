@@ -17,7 +17,7 @@
         <form method="GET" action="{{ route('kits.index') }}" class="w-full flex flex-col gap-6 mb-12 bg-slate-800 rounded-xl p-8 shadow-lg border border-slate-600">
             <div class="w-full flex flex-col">
                 <label for="search" class="block text-base font-semibold text-blue-200 mb-3 font-mono">PESQUISAR POR NOME DO KIT</label>
-                <input type="text" name="search" id="search" class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono" placeholder="Pesquisar por nome do kit..." value="{{ request('search') }}">
+                <input type="text" name="search" id="search" class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono" placeholder="introduza um nome do kit" value="{{ request('search') }}">
             </div>
             <div class="w-full flex flex-col">
                 <label for="categoria" class="block text-base font-semibold text-blue-200 mb-3 font-mono">CATEGORIA DE MATERIAL</label>
