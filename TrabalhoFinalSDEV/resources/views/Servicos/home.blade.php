@@ -39,7 +39,7 @@
                 </div>
             </a>
             <!-- Card Check-In -->
-            <a href="{{ route('avarias.index') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+            <a href="{{ route('servicos.checkin.home') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">

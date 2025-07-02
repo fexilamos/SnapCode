@@ -24,21 +24,27 @@ Route::middleware('auth', 'nivel:1')->group(function () {
 });
 
 // **CHECK-OUT**
-Route::middleware(['auth', 'nivel:1,2'])->group(function () {
+Route::prefix('servicos/checkout')->middleware(['auth', 'nivel:1,2'])->group(function () {
 
-    Route::get('/servicos/checkout', [ServicoCheckinController::class, 'home'])->name('servicos.checkout.home');
-    Route::get('/servicos/checkout/index', [ServicoCheckinController::class, 'index'])->name('servicos.checkout.index');
-    Route::get('/servicos/checkout/create', [ServicoCheckinController::class, 'formCheckout'])->name('servicos.checkout.create');
-    Route::post('/servicos/checkout', [ServicoCheckinController::class, 'storeCheckout'])->name('servicos.checkout.store');
+    Route::get('/', [ServicoCheckInController::class, 'home'])->name('servicos.checkout.home');
+    Route::get('/index', [ServicoCheckInController::class, 'index'])->name('servicos.checkout.index');
+    Route::get('/create', [ServicoCheckInController::class, 'formCheckout'])->name('servicos.checkout.create');
+    Route::post('/', [ServicoCheckInController::class, 'storeCheckout'])->name('servicos.checkout.store');
     Route::get('/{servico}/edit', [ServicoCheckInController::class, 'editCheckout'])->name('servicos.checkout.edit');
-    Route::put('/servicos/checkout/{servico}', [ServicoCheckInController::class, 'updateCheckout'])->name('servicos.checkout.update');
+    Route::put('/{servico}', [ServicoCheckInController::class, 'updateCheckout'])->name('servicos.checkout.update');
     Route::delete('/{servico}', [ServicoCheckInController::class, 'destroyCheckout'])->name('servicos.checkout.destroy');
 });
 
 // **CHECK-IN**
-Route::middleware(['auth', 'nivel:1,2'])->group(function () {
-    Route::get('/servicos/{servico}/checkin', [ServicoCheckinController::class, 'create'])->name('servicos.checkin.create');
-    Route::post('/servicos/{servico}/checkin', [ServicoCheckinController::class, 'store'])->name('servicos.checkin.store');
+Route::prefix('servicos/checkin')->middleware(['auth', 'nivel:1,2'])->group(function () {
+
+    Route::get('/', [ServicoCheckInController::class, 'homeCheckin'])->name('servicos.checkin.home');
+    Route::get('/index', [ServicoCheckInController::class, 'indexCheckin'])->name('servicos.checkin.index');
+    Route::get('/servicos/checkin/selecao', [ServicoCheckInController::class, 'selecionarServicoParaCheckin'])->name('servicos.checkin.selecao');
+    Route::get('/{servico}/create', [ServicoCheckInController::class, 'createCheckin'])->name('servicos.checkin.create');
+    Route::put('/{servico}/update', [ServicoCheckInController::class, 'updateCheckin'])->name('servicos.checkin.update');
+    Route::delete('/{servico}', [ServicoCheckInController::class, 'destroyCheckin'])->name('servicos.checkin.destroy');
+    Route::get('/{servico}/edit', [ServicoCheckInController::class, 'editCheckin'])->name('servicos.checkin.edit');
 });
 
 // SERVIÇOS (continuação: HOME, INDEX, SHOW)
@@ -98,7 +104,6 @@ Route::middleware(['auth', 'nivel:3'])->group(function () {
 });
 
 
-
 // FILTRAR EVENTOS POR TIPO
 Route::get('/servicos/tipo/{tipo}', [ServicoController::class, 'listarPorTipo'])->name('servicos.tipo');
 
@@ -112,6 +117,7 @@ Route::get('/', function () {
 
 
 
+
 require __DIR__ . '/auth.php';
 Route::get('/teste', function () {
     return view('teste');
@@ -119,5 +125,5 @@ Route::get('/teste', function () {
 Route::get('/', function () {
     return view('welcome');
 });
-// Substituído para carregar eventos do backend
+
 require __DIR__ . '/calendario_events.php';

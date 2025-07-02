@@ -261,33 +261,51 @@ class ServicoCheckInController extends Controller
         return redirect()->route('servicos.checkout.index')->with('success', 'Check-out eliminado com sucesso!');
     }
 
-    public function formCheckin($servicoId)
+    public function homeCheckin()
     {
-        $servico = Servico::with('kits')->findOrFail($servicoId);
+        return view('servicos.checkin.home');
+    }
+    public function selecionarServicoParaCheckin()
+    {
+        $servicos = Servico::whereHas('kits', function ($q) {
+            $q->whereNull('servico_kit.data_devolucao');
+        })->get();
 
-        $kitsNaoDevolvidos = $servico->kits->filter(function ($kit) {
-            return is_null($kit->pivot->data_devolucao);
-        });
-
-        return view('servicos.checkout.checkin', [
-            'servico' => $servico,
-            'kitsNaoDevolvidos' => $kitsNaoDevolvidos,
+        return view('servicos.checkin.selecao', [
+            'servicos' => $servicos,
         ]);
     }
-
-    public function checkin(Request $request, $servicoId)
+    public function createCheckin($servicoId)
     {
-        $servico = Servico::findOrFail($servicoId);
+         // Carrega os kits e funcionarios associados ao serviço
+    $servico = Servico::with(['kits.materiais', 'funcionarios'])->findOrFail($servicoId);
 
-        $kitsADevolver = $request->input('kits', []);
+    // Filtra só os kits que ainda não foram devolvidos
+    $kitsNaoDevolvidos = $servico->kits->filter(function ($kit) {
+        return is_null($kit->pivot->data_devolucao);
+    });
 
-        foreach ($kitsADevolver as $kitId) {
-            $servico->kits()->updateExistingPivot($kitId, [
-                'data_devolucao' => now(),
-            ]);
-        }
+    $funcionarios = $servico->funcionarios;
 
-        return redirect()->route('servicos.checkout.index')
-            ->with('success', 'Devolução de kit(s) efetuada com sucesso!');
+    return view('servicos.checkin.create', [
+        'servico' => $servico,
+        'kitsNaoDevolvidos' => $kitsNaoDevolvidos,
+        'funcionarios' => $funcionarios,
+    ]);
     }
+
+    public function updateCheckin(Request $request, $servicoId)
+{
+    $kitsDevolvidos = $request->input('kits_devolvidos', []);
+    foreach ($kitsDevolvidos as $kitId) {
+        DB::table('servico_kit')
+            ->where('cod_servico', $servicoId)
+            ->where('cod_kit', $kitId)
+            ->update(['data_devolucao' => now()]);
+    }
+
+    return redirect()->route('servicos.checkin.index', $servicoId)
+        ->with('success', 'Kits devolvidos com sucesso!');
+}
+
 }
