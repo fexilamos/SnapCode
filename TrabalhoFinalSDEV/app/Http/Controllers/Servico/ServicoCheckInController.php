@@ -275,37 +275,87 @@ class ServicoCheckInController extends Controller
             'servicos' => $servicos,
         ]);
     }
+
     public function createCheckin($servicoId)
     {
-         // Carrega os kits e funcionarios associados ao serviço
-    $servico = Servico::with(['kits.materiais', 'funcionarios'])->findOrFail($servicoId);
+        $servico = Servico::with([
+            'kits.materiais.marca',
+            'kits.materiais.modelo',
+            'funcionarios'
+        ])->findOrFail($servicoId);
 
-    // Filtra só os kits que ainda não foram devolvidos
-    $kitsNaoDevolvidos = $servico->kits->filter(function ($kit) {
-        return is_null($kit->pivot->data_devolucao);
-    });
+        // Filtra só os kits que ainda não foram devolvidos
+        $kitsNaoDevolvidos = $servico->kits->filter(function ($kit) {
+            return is_null($kit->pivot->data_devolucao);
+        });
 
-    $funcionarios = $servico->funcionarios;
+        $funcionarios = $servico->funcionarios;
 
-    return view('servicos.checkin.create', [
-        'servico' => $servico,
-        'kitsNaoDevolvidos' => $kitsNaoDevolvidos,
-        'funcionarios' => $funcionarios,
-    ]);
+        return view('servicos.checkin.create', [
+            'servico' => $servico,
+            'kitsNaoDevolvidos' => $kitsNaoDevolvidos,
+            'funcionarios' => $funcionarios,
+        ]);
     }
 
     public function updateCheckin(Request $request, $servicoId)
-{
-    $kitsDevolvidos = $request->input('kits_devolvidos', []);
-    foreach ($kitsDevolvidos as $kitId) {
-        DB::table('servico_kit')
-            ->where('cod_servico', $servicoId)
-            ->where('cod_kit', $kitId)
-            ->update(['data_devolucao' => now()]);
+    {
+        $kitsDevolvidos = $request->input('kits_devolvidos', []);
+        foreach ($kitsDevolvidos as $kitId) {
+            DB::table('servico_kit')
+                ->where('cod_servico', $servicoId)
+                ->where('cod_kit', $kitId)
+                ->update(['data_devolucao' => now()]);
+        }
+
+        return redirect()->route('servicos.checkin.home', $servicoId)
+            ->with('success', 'Kits devolvidos com sucesso!');
     }
 
-    return redirect()->route('servicos.checkin.index', $servicoId)
-        ->with('success', 'Kits devolvidos com sucesso!');
-}
+    public function indexCheckin(Request $request)
+    {
+        // Pesquisa geral (por nome do evento ou funcionário)
+        $query = Servico::with(['kits', 'funcionarios']);
 
+        // Só eventos que já têm kits devolvidos (data_devolucao não null em pelo menos 1 kit)
+        $query->whereHas('kits', function ($q) {
+            $q->whereNotNull('servico_kit.data_devolucao');
+        });
+
+        // Filtro de pesquisa
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nome_servico', 'like', "%$search%")
+                    ->orWhereHas('funcionarios', function ($subq) use ($search) {
+                        $subq->where('nome', 'like', "%$search%");
+                    });
+            });
+        }
+
+        // Filtro por data de check-in (data_devolucao na pivot)
+        if ($request->filled('data')) {
+            $data = $request->input('data');
+            $query->whereHas('kits', function ($q) use ($data) {
+                $q->whereDate('servico_kit.data_devolucao', $data);
+            });
+        }
+
+        // Ordenar por data do evento (ou podes ordenar pela última devolução)
+        $checkins = $query->orderBy('data_inicio', 'desc')->get();
+
+        return view('servicos.checkin.index', [
+            'checkins' => $checkins,
+        ]);
+    }
+    
+    public function destroy($servicoId)
+    {
+        // Elimina devolução dos kits deste serviço
+        DB::table('servico_kit')
+            ->where('cod_servico', $servicoId)
+            ->update(['data_devolucao' => null]);
+
+        return redirect()->route('servicos.checkin.index')->with('success', 'Check-in eliminado com sucesso!');
+    }
 }
