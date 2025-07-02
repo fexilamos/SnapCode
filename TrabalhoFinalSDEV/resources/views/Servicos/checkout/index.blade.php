@@ -11,7 +11,7 @@
         <h1 class="text-3xl md:text-3xl font-bold text-white text-center font-mono">&lt;CHECK-OUTS DE EVENTOS/&gt;</h1>
     </div>
     <main class="px-4 md:px-8 font-mono">
-        <div class="max-w-7xl mx-auto">
+        <div class="max-w-7xl mx-auto font-mono">
             <!-- Filtro de pesquisa -->
             <form method="GET" action="{{ route('servicos.checkout.index') }}"
                 class="w-full flex flex-col gap-6 mb-12 bg-slate-800 rounded-xl p-8 shadow-lg border border-slate-600 font-mono">

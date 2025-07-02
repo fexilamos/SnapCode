@@ -15,6 +15,7 @@
                 'Microfone' => 'microfone.png',
                 'Drone' => 'drone.png',
                 'Mochilas' => 'mochila.png',
+                'Acessórios' => 'acessorios.png'
             ][$material->categoria->categoria] ?? 'LOGO.png' : 'LOGO.png')) }}" alt="{{ $material->categoria->categoria ?? '' }}" width="70" class="mb-2">
             <h3 class="text-xl font-bold text-blue-200 font-mono uppercase tracking-wide">{{ $material->categoria->categoria ?? '-' }}</h3>
         </div>

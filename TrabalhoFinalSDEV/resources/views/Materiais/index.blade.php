@@ -80,7 +80,9 @@
                                                 'Cartões de Memoria' => 'cartaomemoria.png',
                                                 'Microfone' => 'microfone.png',
                                                 'Drone' => 'drone.png',
-                                                'Mochilas' => 'mochila.png'
+                                                'Mochilas' => 'mochila.png',
+                                                'Acessórios' => 'acessorios.png'
+
                                             ];
                                             $categoriaNome = $material->categoria->categoria ?? '';
                                             $icon = $icons[$categoriaNome] ?? 'LOGO.png';

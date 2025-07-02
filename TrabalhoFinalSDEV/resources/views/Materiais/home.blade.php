@@ -50,9 +50,9 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2 font-mono">CRIAR KIT</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2 font-mono">KITS</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed font-mono">
-                            Agrupa vários materiais num kit para facilitar.
+                            CRIAÇÃO E GESTÃO DE KITS DE MATERIAIS.
                         </p>
                     </div>
                 </div>
