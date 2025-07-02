@@ -9,7 +9,7 @@
             </svg>
         </a>
         <h1 class="text-3xl md:text-4xl font-bold text-center mt-14 mb-12 tracking-tight text-white drop-shadow-xl font-mono">
-            Detalhes do Evento
+            &lt;Detalhes do Evento/&gt;
         </h1>
     </div>
     <div class="p-8 max-w-3xl mx-auto bg-slate-800/95 rounded-3xl shadow-2xl border border-slate-700 font-mono">
@@ -18,21 +18,24 @@
         {{-- Informações Gerais --}}
         <div class="mb-12">
             <h2 class="text-lg md:text-xl font-bold text-slate-100 mb-6 flex items-center gap-3">
-                Informações Gerais
+                Dados do cliente
             </h2>
             <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 text-slate-100">
+
+
                 <div>
-                    <dt class="font-semibold text-slate-400 text-sm">Nome</dt>
-                    <dd class="mt-1 text-base">{{ $servico->nome_servico }}</dd>
+                    <dt class="font-semibold text-slate-400 text-sm">Cliente</dt>
+                    <dd class="mt-1 text-base">{{ $servico->cliente->nome ?? '-' }}</dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-slate-400 text-sm">Tipo</dt>
                     <dd class="mt-1 text-base">{{ $servico->tipoServico->nome_tipo ?? '-' }}</dd>
                 </div>
-                <div>
-                    <dt class="font-semibold text-slate-400 text-sm">Cliente</dt>
-                    <dd class="mt-1 text-base">{{ $servico->cliente->nome ?? '-' }}</dd>
+   <div>
+                    <dt class="font-semibold text-slate-400 text-sm">Nome do Serviço</dt>
+                    <dd class="mt-1 text-base">{{ $servico->nome_servico }}</dd>
                 </div>
+
                  <div>
                     <dt class="font-semibold text-slate-400 text-sm">Mail</dt>
                     <dd class="mt-1 text-base">{{ $servico->cliente->mail ?? '-' }}</dd>

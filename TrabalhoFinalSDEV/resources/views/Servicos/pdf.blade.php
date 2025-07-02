@@ -179,8 +179,8 @@
         </div>
     </div>
 
-    
-            
+
+
     @if(isset($servico->observacoes) && $servico->observacoes)
     <div class="box">
         <div class="box-title">Observações</div>
@@ -190,8 +190,8 @@
     </div>
     @endif
 
-    {{-- QUEBRA DE PÁGINA PDF --}}
-    <div style="page-break-before: always;"></div>
+    {{-- QUEBRA DE PÁGINA PDF
+    <div style="page-break-before: always;"></div> --}}
 
     <div class="box detalhes-box">
         <div class="box-title">Detalhes Específicos do Evento</div>

@@ -61,7 +61,7 @@
                                     class="px-4 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider font-mono">
                                     Data Check-Out</th>
                                 <th
-                                    class="px-4 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider font-mono">
+                                    class="px-4 py-3 text-center text-blue-300 font-semibold uppercase tracking-wider font-mono">
                                     Ações</th>
                             </tr>
                         </thead>
@@ -93,24 +93,35 @@
                                         {{ \Carbon\Carbon::parse($checkout->data_check_out ?? $checkout->created_at)->format('d/m/Y H:i') }}
                                     </td>
                                     <td class="px-4 py-2 font-mono">
-                                        <a href="{{ route('servicos.show', $checkout->cod_servico) }}"
-                                            class="px-4 py-2 bg-sky-800 hover:bg-slate-700 text-white rounded font-mono text-sm font-semibold shadow transition">Ver
-                                            Evento</a>
+                                        <div class="flex flex-row gap-2 items-center justify-center">
+                                            <a href="{{ route('servicos.show', $checkout->cod_servico) }}"
+                                                class="px-4 py-2 w-28 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono text-sm font-semibold shadow transition">Ver Evento</a>
+                                            <a href="mailto:?subject=PDF%20do%20Evento%20{{ urlencode($checkout->nome_servico ?? '') }}&body=Segue%20o%20link%20para%20o%20PDF%20do%20evento:%20{{ urlencode(route('servicos.pdf', $checkout->cod_servico)) }}"
+                                                class="px-4 py-2 w-15 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono text-sm font-semibold shadow transition"
+                                                title="Enviar por Email">
+                                                <img src="{{ asset('images/email.png') }}" alt="Email" class="w-5 h-5" />
+                                            </a>
+                                            <a href="https://wa.me/?text={{ urlencode('Segue o link para o PDF do evento: ' . route('servicos.pdf', $checkout->cod_servico)) }}"
+                                                target="_blank"
+                                                class="px-4 py-2 w-15 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono text-sm font-semibold shadow transition"
+                                                title="Enviar por WhatsApp">
+                                                <img src="{{ asset('images/whatsapp.png') }}" alt="WhatsApp" class="w-5 h-5" />
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="px-4 py-8 text-center text-slate-400 text-lg font-mono">Nenhum
-                                        check-out encontrado.</td>
+                                    <td colspan="6"
+                                        class="px-4 py-2 text-center text-slate-400 font-mono border-b border-slate-600">
+                                        Nenhum check-out encontrado.
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="mt-8 text-center font-mono">
-                <a href="{{ route('servicos.checkout.home') }}"
-                    class="inline-block px-6 py-2 bg-sky-800 text-white rounded hover:bg-slate-700 transition font-mono">Voltar</a>
+                <!-- Paginação removida porque $checkouts não é paginator -->
             </div>
         </div>
     </main>
