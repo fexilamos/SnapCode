@@ -90,32 +90,39 @@
                                         @endforeach
                                     </td>
                                     <td class="px-4 py-2 font-mono">
-                                        {{ \Carbon\Carbon::parse($checkout->data_check_out ?? $checkout->created_at)->format('d/m/Y H:i') }}
+                                        {{ \Carbon\Carbon::parse($checkout->data_check_out ?? $checkout->created_at)->format('d/m/Y ') }}
                                     </td>
                                     <td class="px-4 py-2 font-mono">
-                                        <div class="flex flex-row gap-2 items-center justify-center">
+                                        <div class="flex flex-row flex-nowrap gap-2 items-center justify-center">
                                             <a href="{{ route('servicos.show', $checkout->cod_servico) }}"
-                                                class="px-4 py-2 w-28 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono text-sm font-semibold shadow transition">Ver Evento</a>
-                                                <div class="flex flex-col md:flex-row gap-2 justify-center items-center">
-
+                                                class="w-10 h-10 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono shadow transition"
+                                                title="Ver Evento">
+                                                <img src="{{ asset('images/pesquisar.png') }}" alt="Ver Evento" class="w-5 h-5" />
+                                            </a>
                                             <a href="{{ route('servicos.checkout.edit', $checkout->cod_servico) }}"
-                                                class="bg-sky-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs">Editar</a>
-                                            <form action="{{ route('servicos.checkout.destroy', $checkout->cod_servico) }}" method="POST" style="display:inline-block">
+                                                class="w-10 h-10 flex items-center justify-center bg-sky-800 text-white rounded hover:bg-slate-700 font-mono shadow transition"
+                                                title="Editar">
+                                                <img src="{{ asset('images/edit.png') }}" alt="Editar" class="w-5 h-5" />
+                                            </a>
+                                            <form action="{{ route('servicos.checkout.destroy', $checkout->cod_servico) }}"
+                                                method="POST" style="display:inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs"
-                                                    onclick="return confirm('Tem certeza que deseja eliminar este check-out? Esta ação é irreversível!')">
-                                                    Eliminar
+                                                <button type="submit"
+                                                    class="w-10 h-10 flex items-center justify-center bg-slate-800 text-white rounded hover:bg-sky-800 shadow transition"
+                                                    onclick="return confirm('Tem certeza que deseja eliminar este check-out? Esta ação é irreversível!')"
+                                                    title="Eliminar">
+                                                    <img src="{{ asset('images/lixo.png') }}" alt="Eliminar" class="w-5 h-5" />
                                                 </button>
                                             </form>
                                             <a href="mailto:?subject=PDF%20do%20Evento%20{{ urlencode($checkout->nome_servico ?? '') }}&body=Segue%20o%20link%20para%20o%20PDF%20do%20evento:%20{{ urlencode(route('servicos.pdf', $checkout->cod_servico)) }}"
-                                                class="px-4 py-2 w-15 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono text-sm font-semibold shadow transition"
+                                                class="w-10 h-10 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono shadow transition"
                                                 title="Enviar por Email">
                                                 <img src="{{ asset('images/email.png') }}" alt="Email" class="w-5 h-5" />
                                             </a>
                                             <a href="https://wa.me/?text={{ urlencode('Segue o link para o PDF do evento: ' . route('servicos.pdf', $checkout->cod_servico)) }}"
                                                 target="_blank"
-                                                class="px-4 py-2 w-15 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono text-sm font-semibold shadow transition"
+                                                class="w-10 h-10 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono shadow transition"
                                                 title="Enviar por WhatsApp">
                                                 <img src="{{ asset('images/whatsapp.png') }}" alt="WhatsApp" class="w-5 h-5" />
                                             </a>
@@ -133,7 +140,6 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Paginação removida porque $checkouts não é paginator -->
             </div>
         </div>
     </main>
