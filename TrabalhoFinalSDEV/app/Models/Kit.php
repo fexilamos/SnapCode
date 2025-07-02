@@ -18,4 +18,10 @@ class Kit extends Model
         return $this->belongsToMany(Material::class, 'kit_material', 'cod_kit', 'cod_material')
             ->withPivot('quantidade');
     }
+
+    public function servicos()
+    {
+        return $this->belongsToMany(Servico::class, 'servico_kit', 'cod_kit', 'cod_servico')
+            ->using(\App\Models\ServicoKitPivot::class);
+    }
 }

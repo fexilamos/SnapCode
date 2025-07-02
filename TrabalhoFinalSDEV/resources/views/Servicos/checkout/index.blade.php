@@ -93,9 +93,20 @@
                                         {{ \Carbon\Carbon::parse($checkout->data_check_out ?? $checkout->created_at)->format('d/m/Y H:i') }}
                                     </td>
                                     <td class="px-4 py-2 font-mono">
-                                        <a href="{{ route('servicos.show', $checkout->cod_servico) }}"
-                                            class="px-4 py-2 bg-sky-800 hover:bg-slate-700 text-white rounded font-mono text-sm font-semibold shadow transition">Ver
-                                            Evento</a>
+                                        <div class="flex flex-col md:flex-row gap-2 justify-center items-center">
+                                            <a href="{{ route('servicos.show', $checkout->cod_servico) }}"
+                                                class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-sky-800 text-xs">Evento</a>
+                                            <a href="{{ route('servicos.checkout.edit', $checkout->cod_servico) }}"
+                                                class="bg-sky-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs">Editar</a>
+                                            <form action="{{ route('servicos.checkout.destroy', $checkout->cod_servico) }}" method="POST" style="display:inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs"
+                                                    onclick="return confirm('Tem certeza que deseja eliminar este check-out? Esta ação é irreversível!')">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

@@ -9,11 +9,11 @@ class CreateServicoKitTable extends Migration
     public function up()
     {
         Schema::create('servico_kit', function (Blueprint $table) {
+            $table->id();
             $table->integer('cod_servico');
             $table->unsignedInteger('cod_kit');
             $table->dateTime('data_levantamento')->nullable();
             $table->dateTime('data_devolucao')->nullable();
-            $table->primary(['cod_servico', 'cod_kit']);
             $table->foreign('cod_servico')->references('cod_servico')->on('Servicos')->onDelete('cascade');
             $table->foreign('cod_kit')->references('cod_kit')->on('kits')->onDelete('cascade');
         });

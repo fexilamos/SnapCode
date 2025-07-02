@@ -53,13 +53,12 @@ class Funcionario extends Model
         return $this->hasOne(User::class, 'cod_funcionario', 'cod_funcionario');
     }
 
-    public function servicos()
-    {
-        return $this->belongsToMany(Servico::class, 'Servico_Funcionario', 'cod_funcionario', 'cod_servico')
-            ->withPivot('data_alocacao_inicio', 'data_alocacao_fim', 'funcao_no_servico')
-            ->withTimestamps()
-            ->using(ServicoFuncionario::class);
-    }
+   public function servicos()
+{
+    return $this->belongsToMany(Servico::class, 'servico_funcionario', 'cod_funcionario', 'cod_servico')
+        ->withPivot(['data_alocacao_inicio', 'funcao_no_servico']);
+}
+
 
     public function funcoes()
     {

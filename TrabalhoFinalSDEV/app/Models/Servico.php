@@ -15,9 +15,8 @@ use App\Models\ServicoDetalhesComunhaoParticular;
 use App\Models\ServicoDetalhesComunhaoGeral;
 use App\Models\ServicoDetalhesEvCorporativo;
 use App\Models\ServicoFuncionario;
-use App\Models\ServicoEquipamento;
 use App\Models\Funcionario;
-use App\Models\Material;
+use App\Models\ServicoKitPivot;
 
 
 class Servico extends Model
@@ -94,16 +93,17 @@ class Servico extends Model
         return $this->hasOne(ServicoDetalhesEvCorporativo::class, 'cod_servico', 'cod_servico');
     }
 
-    public function funcionarios()
-    {
-        return $this->belongsToMany(Funcionario::class, 'servico_funcionario', 'cod_servico', 'cod_funcionario')
-            ->withPivot('data_alocacao_inicio', 'data_alocacao_fim', 'funcao_no_servico')
-            ->using(ServicoFuncionario::class);
-    }
+   public function funcionarios()
+{
+    return $this->belongsToMany(Funcionario::class, 'servico_funcionario', 'cod_servico', 'cod_funcionario')
+        ->withPivot(['data_alocacao_inicio', 'funcao_no_servico']);
+}
+
 
     public function kits()
-    {
-        return $this->belongsToMany(Kit::class, 'servico_kit', 'cod_servico', 'cod_kit')
-        ->withPivot('data_levantamento', 'data_devolucao');
-    }
+{
+    return $this->belongsToMany(Kit::class, 'servico_kit', 'cod_servico', 'cod_kit')
+        ->using(ServicoKitPivot::class)
+        ->withPivot(['id','data_levantamento', 'data_devolucao']);
+}
 }

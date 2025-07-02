@@ -30,6 +30,9 @@ Route::middleware(['auth', 'nivel:1,2'])->group(function () {
     Route::get('/servicos/checkout/index', [ServicoCheckinController::class, 'index'])->name('servicos.checkout.index');
     Route::get('/servicos/checkout/create', [ServicoCheckinController::class, 'formCheckout'])->name('servicos.checkout.create');
     Route::post('/servicos/checkout', [ServicoCheckinController::class, 'storeCheckout'])->name('servicos.checkout.store');
+    Route::get('/{servico}/edit', [ServicoCheckInController::class, 'editCheckout'])->name('servicos.checkout.edit');
+    Route::put('/servicos/checkout/{servico}', [ServicoCheckInController::class, 'updateCheckout'])->name('servicos.checkout.update');
+    Route::delete('/{servico}', [ServicoCheckInController::class, 'destroyCheckout'])->name('servicos.checkout.destroy');
 });
 
 // **CHECK-IN**

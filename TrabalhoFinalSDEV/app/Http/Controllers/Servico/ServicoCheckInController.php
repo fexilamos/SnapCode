@@ -10,6 +10,7 @@ use App\Models\Funcionario;
 use App\Models\Kit;
 use App\Models\Funcao;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ServicoCheckInController extends Controller
 {
@@ -49,7 +50,6 @@ class ServicoCheckInController extends Controller
         }
 
         // --- FILTRAR KITS DISPONÍVEIS ---
-        // Apenas permite selecionar kits que NÃO estão noutros eventos SEM data_devolucao (ou então que já estão associados a este serviço)
         $kitsDoEventoAtual = $kitsAssociados;
         $kitsIndisponiveisIds = DB::table('servico_kit')
             ->whereNull('data_devolucao')
@@ -60,7 +60,7 @@ class ServicoCheckInController extends Controller
             ->toArray();
 
         $kits = Kit::whereNotIn('cod_kit', $kitsIndisponiveisIds)
-            ->orWhereIn('cod_kit', $kitsDoEventoAtual) // inclui os já associados a este evento
+            ->orWhereIn('cod_kit', $kitsDoEventoAtual)
             ->orderBy('nome_kit')
             ->get();
 
@@ -96,12 +96,12 @@ class ServicoCheckInController extends Controller
         }
 
         // --- KITS ---
-        $kitsSelecionados = array_unique(array_filter($request->input('kits', []), fn($k) => $k && is_numeric($k)));
+        $kitsSelecionados = array_unique(array_filter($request->input('kits', []), fn($k) => is_numeric($k) && !is_array($k)));
         if (empty($kitsSelecionados)) {
             return back()->withErrors(['É obrigatório selecionar pelo menos um kit.']);
         }
 
-        // --- VALIDAÇÃO DE DISPONIBILIDADE ---
+        // Validação de disponibilidade dos kits...
         foreach ($kitsSelecionados as $kitId) {
             $kitEmUso = DB::table('servico_kit')
                 ->where('cod_kit', $kitId)
@@ -116,7 +116,6 @@ class ServicoCheckInController extends Controller
 
         $dadosKits = [];
         foreach ($kitsSelecionados as $kitId) {
-            $kitId = (string)$kitId;
             $dadosKits[$kitId] = [
                 'data_levantamento' => now(),
             ];
@@ -125,17 +124,21 @@ class ServicoCheckInController extends Controller
 
         // --- FUNCIONÁRIOS + FUNÇÕES ---
         $funcionariosSelecionados = $request->input('funcionarios', []);
-        $funcoesSelecionadas = $request->input('funcoes', []);
-        if (empty($funcionariosSelecionados)) {
-            return back()->withErrors(['É obrigatório selecionar pelo menos um funcionário.']);
-        }
-
+        $funcoesSelecionadas = array_values($request->input('funcoes', []));
         $dadosFuncionarios = [];
         foreach ($funcionariosSelecionados as $idx => $funcionarioId) {
-            $dadosFuncionarios[$funcionarioId] = [
+            if (is_array($funcionarioId) || !is_numeric($funcionarioId)) {
+                Log::error('FuncionarioId inválido', ['idx' => $idx, 'valor' => $funcionarioId]);
+                continue;
+            }
+            $dadosFuncionarios[(int)$funcionarioId] = [
                 'data_alocacao_inicio' => now(),
                 'funcao_no_servico' => $funcoesSelecionadas[$idx] ?? null,
             ];
+        }
+        Log::debug('dadosFuncionarios para sync', $dadosFuncionarios);
+        if (empty($dadosFuncionarios)) {
+            return back()->withErrors(['Erro: Nenhum funcionário válido selecionado!']);
         }
         $servico->funcionarios()->sync($dadosFuncionarios);
 
@@ -143,38 +146,120 @@ class ServicoCheckInController extends Controller
             ->with('success', 'Check-out efetuado com sucesso!');
     }
 
-
     // LISTA DE CHECK-OUTS
     public function index(Request $request)
-{
-    $query = Servico::with(['kits', 'funcionarios']);
-    $query->whereHas('kits');
+    {
+        $query = Servico::with(['kits', 'funcionarios']);
+        $query->whereHas('kits');
 
-    // Filtro pesquisa geral: nome do evento OU nome de funcionário
-    if ($request->filled('search')) {
-        $search = $request->input('search');
-        $query->where(function($q) use ($search) {
-            $q->where('nome_servico', 'like', "%$search%")
-              ->orWhereHas('funcionarios', function($subq) use ($search) {
-                  $subq->where('nome', 'like', "%$search%");
-              });
-        });
+        // Filtro pesquisa geral: nome do evento OU nome de funcionário
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nome_servico', 'like', "%$search%")
+                    ->orWhereHas('funcionarios', function ($subq) use ($search) {
+                        $subq->where('nome', 'like', "%$search%");
+                    });
+            });
+        }
+
+        // Filtro por data de levantamento
+        if ($request->filled('data')) {
+            $data = $request->input('data');
+            $query->whereHas('kits', function ($q) use ($data) {
+                $q->whereDate('servico_kit.data_levantamento', $data);
+            });
+        }
+
+        $checkouts = $query->orderBy('data_inicio', 'desc')->get();
+
+        return view('servicos.checkout.index', [
+            'checkouts' => $checkouts,
+        ]);
     }
 
-    // Filtro por data de levantamento
-    if ($request->filled('data')) {
-        $data = $request->input('data');
-        $query->whereHas('kits', function ($q) use ($data) {
-            $q->whereDate('servico_kit.data_levantamento', $data);
-        });
+    public function editCheckout($servicoId)
+    {
+        $servico = Servico::with(['funcionarios.funcoes', 'kits'])->findOrFail($servicoId);
+
+        $tipos = TiposServico::all();
+        $funcionarios = Funcionario::with('funcoes')->orderBy('nome')->get();
+        $kits = Kit::orderBy('nome_kit')->get();
+        $funcoes = Funcao::all();
+
+        // Associações já existentes para preencher o formulário
+        $funcionariosAssociados = $servico->funcionarios->pluck('cod_funcionario')->toArray();
+        $funcoesAssociadas = $servico->funcionarios->mapWithKeys(function ($f) {
+            return [$f->cod_funcionario => $f->pivot->funcao_no_servico ?? null];
+        })->toArray();
+        $kitsAssociados = $servico->kits->pluck('cod_kit')->toArray();
+
+        return view('servicos.checkout.edit', [
+            'servico' => $servico,
+            'tipos' => $tipos,
+            'funcionarios' => $funcionarios,
+            'kits' => $kits,
+            'funcoes' => $funcoes,
+            'funcionariosAssociados' => $funcionariosAssociados,
+            'funcoesAssociadas' => $funcoesAssociadas,
+            'kitsAssociados' => $kitsAssociados,
+        ]);
     }
 
-    $checkouts = $query->orderBy('data_inicio', 'desc')->get();
+    public function updateCheckout(Request $request, $servicoId)
+    {
+        $servico = Servico::findOrFail($servicoId);
 
-    return view('servicos.checkout.index', [
-        'checkouts' => $checkouts,
-    ]);
-}
+        $request->validate([
+            'funcionarios' => 'required|array|min:1',
+            'funcoes' => 'required|array|min:1',
+            'kits' => 'required|array|min:1',
+        ]);
+
+        // --- KITS ---
+        $kitsSelecionados = array_unique(array_filter($request->input('kits', []), fn($k) => is_numeric($k) && !is_array($k)));
+        $dadosKits = [];
+        foreach ($kitsSelecionados as $kitId) {
+            $dadosKits[$kitId] = [
+                'data_levantamento' => now(),
+            ];
+        }
+        $servico->kits()->sync($dadosKits);
+
+        // --- FUNCIONÁRIOS + FUNÇÕES ---
+        $funcionariosSelecionados = $request->input('funcionarios', []);
+        $funcoesSelecionadas = array_values($request->input('funcoes', []));
+        $dadosFuncionarios = [];
+        foreach ($funcionariosSelecionados as $idx => $funcionarioId) {
+            if (is_array($funcionarioId) || !is_numeric($funcionarioId)) {
+                Log::error('FuncionarioId inválido', ['idx' => $idx, 'valor' => $funcionarioId]);
+                continue;
+            }
+            $dadosFuncionarios[(int)$funcionarioId] = [
+                'data_alocacao_inicio' => now(),
+                'funcao_no_servico' => $funcoesSelecionadas[$idx] ?? null,
+            ];
+        }
+        Log::debug('dadosFuncionarios para sync', $dadosFuncionarios);
+        if (empty($dadosFuncionarios)) {
+            return back()->withErrors(['Erro: Nenhum funcionário válido selecionado!']);
+        }
+        $servico->funcionarios()->sync($dadosFuncionarios);
+
+        return redirect()->route('servicos.checkout.index')
+            ->with('success', 'Check-out atualizado com sucesso!');
+    }
+
+    // Elimina TODAS as associações de kits e funcionários ao serviço
+    public function destroyCheckout($servicoId)
+    {
+        $servico = Servico::findOrFail($servicoId);
+
+        $servico->kits()->detach();
+        $servico->funcionarios()->detach();
+
+        return redirect()->route('servicos.checkout.index')->with('success', 'Check-out eliminado com sucesso!');
+    }
 
     public function formCheckin($servicoId)
     {
