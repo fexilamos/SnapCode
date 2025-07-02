@@ -1,15 +1,15 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<div class="min-h-screen flex flex-col items-center justify-center py-12">
-    <h1 class="text-4xl font-extrabold text-white mb-8 drop-shadow-xl tracking-tight">Check-out</h1>
+<div class="min-h-screen flex flex-col items-center justify-center py-12 font-mono">
+    <h1 class="text-4xl font-mono text-white mb-8 drop-shadow-xl tracking-tight">&lt;CHECK-OUT/&gt;</h1>
     <div class="w-full max-w-5xl">
 
         {{-- FORM DE FILTRO --}}
         <form method="GET" action="{{ route('servicos.checkout.create') }}" id="filtroTipoForm" class="mb-10">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block font-bold text-slate-200 mb-2">Tipo de Evento</label>
+                    <label class="block font-mono text-slate-200 mb-2">Tipo de Evento</label>
                     <select name="tipo_evento" id="tipo_evento"
                         class="form-select w-full rounded-xl border-slate-600 px-4 py-3 bg-slate-900 text-white shadow-md focus:ring-2 focus:ring-blue-500"
                         onchange="document.getElementById('filtroTipoForm').submit()" required>

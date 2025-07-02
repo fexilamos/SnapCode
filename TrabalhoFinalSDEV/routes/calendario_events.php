@@ -16,4 +16,4 @@ Route::get('/calendario', function () {
     return view('calendario', [
         'eventos' => $eventosFullCalendar
     ]);
-})->middleware(['auth']);
+})->middleware(['auth', 'nivel:1,2']);

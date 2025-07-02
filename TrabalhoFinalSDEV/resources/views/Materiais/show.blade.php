@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 max-w-lg font-mono">
     <div class="bg-slate-700 rounded-xl shadow-xl p-8 mt-8 font-mono">
-        <h2 class="text-2xl font-bold text-white mb-8 text-center font-mono uppercase tracking-widest">DETALHES DO MATERIAL</h2>
+        <h2 class="text-2xl font-bold text-white mb-8 text-center font-mono uppercase tracking-widest"> &lt;DETALHES DO MATERIAL/&gt;</h2>
         <div class="flex flex-col items-center mb-10">
             <img src="{{ asset('images/icons/' . ($material->categoria->categoria ? [
                 'Câmara' => 'camera.png',
@@ -15,6 +15,7 @@
                 'Microfone' => 'microfone.png',
                 'Drone' => 'drone.png',
                 'Mochilas' => 'mochila.png',
+                'Acessórios' => 'acessorios.png'
             ][$material->categoria->categoria] ?? 'LOGO.png' : 'LOGO.png')) }}" alt="{{ $material->categoria->categoria ?? '' }}" width="70" class="mb-2">
             <h3 class="text-xl font-bold text-blue-200 font-mono uppercase tracking-wide">{{ $material->categoria->categoria ?? '-' }}</h3>
         </div>
