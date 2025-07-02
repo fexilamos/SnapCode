@@ -94,7 +94,6 @@ class Servico extends Model
         return $this->hasOne(ServicoDetalhesEvCorporativo::class, 'cod_servico', 'cod_servico');
     }
 
-
     public function funcionarios()
     {
         return $this->belongsToMany(Funcionario::class, 'servico_funcionario', 'cod_servico', 'cod_funcionario')
@@ -102,15 +101,9 @@ class Servico extends Model
             ->using(ServicoFuncionario::class);
     }
 
-    public function materiais()
-    {
-        return $this->belongsToMany(Material::class, 'servico_equipamento', 'cod_servico', 'cod_material')
-            ->withPivot('data_levantamento', 'data_devolucao')
-            ->using(ServicoEquipamento::class);
-    }
-
     public function kits()
     {
-        return $this->belongsToMany(\App\Models\Kit::class, 'servico_kit', 'cod_servico', 'cod_kit');
+        return $this->belongsToMany(Kit::class, 'servico_kit', 'cod_servico', 'cod_kit')
+        ->withPivot('data_levantamento', 'data_devolucao');
     }
 }

@@ -4,6 +4,7 @@
 <div class="min-h-screen flex flex-col items-center justify-center py-12">
     <h1 class="text-4xl font-extrabold text-white mb-8 drop-shadow-xl tracking-tight">Check-out</h1>
     <div class="w-full max-w-5xl">
+
         {{-- FORM DE FILTRO --}}
         <form method="GET" action="{{ route('servicos.checkout.create') }}" id="filtroTipoForm" class="mb-10">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -72,7 +73,8 @@
                                 <select name="funcoes[]" class="form-select mt-3 w-full rounded-xl border-slate-600 px-4 py-3 bg-slate-800 text-white shadow funcao-select" required>
                                     <option value="">Escolha a função</option>
                                     @foreach($funcoes as $fun)
-                                        <option value="{{ $fun->cod_funcao }}" {{ (old('funcoes.' . $idx) ?? $funcoesAssociadas[$cod_funcionario] ?? '') == $fun->cod_funcao ? 'selected' : '' }}>
+                                        <option value="{{ $fun->cod_funcao }}"
+                                            {{ (old('funcoes.' . $idx) ?? $funcoesAssociadas[$cod_funcionario] ?? '') == $fun->cod_funcao ? 'selected' : '' }}>
                                             {{ $fun->funcao }}
                                         </option>
                                     @endforeach
@@ -120,25 +122,53 @@
 
             {{-- KITS --}}
             <h2 class="text-xl font-bold mb-4 text-slate-100 mt-8">Kits a Associar</h2>
+
+            <div id="kits-alerta-vazio" class="mb-4 text-red-400 font-bold hidden">Não existem mais kits disponíveis!</div>
             <div id="kits-cards" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                <div
-                    class="card-kit flex flex-col gap-3 bg-slate-900/80 p-6 rounded-2xl shadow border border-slate-700 relative group">
-                    <div class="flex flex-col md:flex-row gap-4 items-center w-full">
-                        <select name="kits[]"
-                            class="form-select w-full rounded-xl border-slate-600 px-4 py-3 bg-slate-800 text-white shadow"
-                            required>
-                            <option value="">Escolha o kit</option>
-                            @foreach ($kits as $kit)
-                                <option value="{{ $kit->cod_kit }}">{{ $kit->nome_kit }}</option>
-                            @endforeach
-                        </select>
+                @php
+                    $kitsSelecionados = old('kits', $kitsAssociados ?? []);
+                @endphp
+
+                @if(count($kits) === 0)
+                    <div class="text-red-500 font-bold">Não existem kits disponíveis.</div>
+                @elseif(count($kitsSelecionados) > 0)
+                    @foreach($kitsSelecionados as $selectedKit)
+                        <div class="card-kit flex flex-col gap-3 bg-slate-900/80 p-6 rounded-2xl shadow border border-slate-700 relative group">
+                            <div class="flex flex-col md:flex-row gap-4 items-center w-full">
+                                <select name="kits[]" class="form-select w-full rounded-xl border-slate-600 px-4 py-3 bg-slate-800 text-white shadow kit-select" required>
+                                    <option value="">Escolha o kit</option>
+                                    @foreach($kits as $kit)
+                                        <option value="{{ $kit->cod_kit }}"
+                                            {{ $selectedKit == $kit->cod_kit ? 'selected' : '' }}>
+                                            {{ $kit->nome_kit }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="button"
+                                class="btn-remove-kit absolute right-2 top-2 opacity-60 hover:opacity-100 bg-red-500 text-white rounded-full w-8 h-8 text-lg flex items-center justify-center transition"
+                                onclick="removeCardKit(this)">
+                                &minus;
+                            </button>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="card-kit flex flex-col gap-3 bg-slate-900/80 p-6 rounded-2xl shadow border border-slate-700 relative group">
+                        <div class="flex flex-col md:flex-row gap-4 items-center w-full">
+                            <select name="kits[]" class="form-select w-full rounded-xl border-slate-600 px-4 py-3 bg-slate-800 text-white shadow kit-select" required>
+                                <option value="">Escolha o kit</option>
+                                @foreach($kits as $kit)
+                                    <option value="{{ $kit->cod_kit }}">{{ $kit->nome_kit }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="button"
+                            class="btn-remove-kit absolute right-2 top-2 opacity-60 hover:opacity-100 bg-red-500 text-white rounded-full w-8 h-8 text-lg flex items-center justify-center transition"
+                            onclick="removeCardKit(this)">
+                            &minus;
+                        </button>
                     </div>
-                    <button type="button"
-                        class="btn-remove-kit absolute right-2 top-2 opacity-60 hover:opacity-100 bg-red-500 text-white rounded-full w-8 h-8 text-lg flex items-center justify-center transition"
-                        onclick="removeCardKit(this)">
-                        &minus;
-                    </button>
-                </div>
+                @endif
             </div>
             <button type="button" id="add-kit"
                 class="bg-slate-700 hover:bg-sky-800 transition text-white px-4 py-2 rounded-xl mb-8 shadow font-medium">
@@ -160,7 +190,7 @@
 </div>
 
 <script>
-    // Map de funcoes de cada funcionario (PHP -> JS)
+    // ========== FUNCIONÁRIOS ==========
     const funcoesPorFuncionario = {};
     @foreach($funcionarios as $f)
         funcoesPorFuncionario[{{ $f->cod_funcionario }}] = [
@@ -183,8 +213,6 @@
             });
         }
     }
-
-    // FUNCIONÁRIOS
     function removeCardFuncionario(btn) {
         btn.closest('.card-funcionario').remove();
     }
@@ -216,21 +244,62 @@
         document.getElementById('funcionarios-cards').appendChild(card);
     });
 
-    // KITS
+    // ========== KITS ==========
+    function getAllSelectedKits() {
+        return Array.from(document.querySelectorAll('.kit-select'))
+            .map(sel => sel.value)
+            .filter(v => v !== '');
+    }
+
+    function actualizarOpcoesKits() {
+        // Impede a escolha duplicada de kits nos vários selects
+        const todosSelecionados = getAllSelectedKits();
+        document.querySelectorAll('.kit-select').forEach(function(select) {
+            Array.from(select.options).forEach(function(option) {
+                if (option.value === '') return;
+                option.disabled = todosSelecionados.includes(option.value) && select.value !== option.value;
+            });
+        });
+
+        // Impede adicionar mais selects se todos os kits estão usados
+        const btn = document.getElementById('add-kit');
+        if (todosSelecionados.length >= {{ count($kits) }}) {
+            btn.disabled = true;
+            document.getElementById('kits-alerta-vazio').classList.remove('hidden');
+        } else {
+            btn.disabled = false;
+            document.getElementById('kits-alerta-vazio').classList.add('hidden');
+        }
+    }
+
     function removeCardKit(btn) {
         btn.closest('.card-kit').remove();
+        actualizarOpcoesKits();
     }
+
     document.getElementById('add-kit').addEventListener('click', function() {
+        const kitsDisponiveis = @json($kits->map(fn($k) => ['cod_kit' => $k->cod_kit, 'nome_kit' => $k->nome_kit]));
+        const todosSelecionados = getAllSelectedKits();
+        if (todosSelecionados.length >= kitsDisponiveis.length) {
+            document.getElementById('kits-alerta-vazio').classList.remove('hidden');
+            return;
+        }
+
+        // Só mostra opções ainda não escolhidas
+        let options = '<option value="">Escolha o kit</option>';
+        kitsDisponiveis.forEach(kit => {
+            if (!todosSelecionados.includes(String(kit.cod_kit))) {
+                options += `<option value="${kit.cod_kit}">${kit.nome_kit}</option>`;
+            }
+        });
+
         const card = document.createElement('div');
         card.className =
             'card-kit flex flex-col gap-3 bg-slate-900/80 p-6 rounded-2xl shadow border border-slate-700 relative group';
         card.innerHTML = `
             <div class="flex flex-col md:flex-row gap-4 items-center w-full">
-                <select name="kits[]" class="form-select w-full rounded-xl border-slate-600 px-4 py-3 bg-slate-800 text-white shadow" required>
-                    <option value="">Escolha o kit</option>
-                    @foreach ($kits as $kit)
-                        <option value="{{ $kit->cod_kit }}">{{ $kit->nome_kit }}</option>
-                    @endforeach
+                <select name="kits[]" class="form-select w-full rounded-xl border-slate-600 px-4 py-3 bg-slate-800 text-white shadow kit-select" required>
+                    ${options}
                 </select>
             </div>
             <button type="button" class="btn-remove-kit absolute right-2 top-2 opacity-60 hover:opacity-100 bg-red-500 text-white rounded-full w-8 h-8 text-lg flex items-center justify-center transition" onclick="removeCardKit(this)">
@@ -238,19 +307,17 @@
             </button>
         `;
         document.getElementById('kits-cards').appendChild(card);
+        actualizarOpcoesKits();
     });
 
-    // Preencher funções ao iniciar se existirem valores antigos
-    document.querySelectorAll('.funcionario-select').forEach(function(select) {
-        actualizarFuncoes(select);
-        // Selecionar a função correta (caso seja edição ou old input)
-        const funcaoSelect = select.closest('.flex-1').querySelector('.funcao-select');
-        @if(old('funcoes'))
-            const idx = Array.from(document.querySelectorAll('.funcionario-select')).indexOf(select);
-            if (idx !== -1 && "{{ old('funcoes.' . $idx) }}") {
-                funcaoSelect.value = "{{ old('funcoes.' . $idx) }}";
-            }
-        @endif
+    // Atualiza opções ao mudar select
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('kit-select')) {
+            actualizarOpcoesKits();
+        }
     });
+
+    // Inicializar já ao carregar a página
+    actualizarOpcoesKits();
 </script>
 @endsection

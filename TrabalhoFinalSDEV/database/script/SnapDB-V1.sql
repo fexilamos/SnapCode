@@ -253,16 +253,6 @@ CREATE TABLE Servico_Funcionario (
   FOREIGN KEY (cod_funcionario) REFERENCES Funcionarios(cod_funcionario) ON DELETE CASCADE
 );
 
-CREATE TABLE Servico_Equipamento (
-  cod_servico INT,
-  cod_material VARCHAR(25),
-  PRIMARY KEY (cod_servico, cod_material),
-  data_levantamento DATE NOT NULL,
-  data_devolucao DATE NOT NULL,
-  FOREIGN KEY (cod_servico) REFERENCES Servicos(cod_servico) ON DELETE CASCADE,
-  FOREIGN KEY (cod_material) REFERENCES Material(cod_material) ON DELETE CASCADE
-);
-
 CREATE TABLE funcionario_funcao (
   cod_funcionario INT NOT NULL,
   cod_funcao INT NOT NULL,
