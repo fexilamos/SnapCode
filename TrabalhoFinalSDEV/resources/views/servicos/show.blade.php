@@ -1,24 +1,29 @@
-@extends('layouts.dashboard')
+@php $user = Auth::user();
+$layout = $user && $user->funcionario && $user->funcionario->cod_nivel == 3 ? 'layouts.sidebar-funcionario' : 'layouts.dashboard';
+@endphp
+@extends($layout)
 
 @section('content')
     <div class="relative mb-12 mt-8 max-w-7xl mx-auto px-4">
-        @php $user = Auth::user(); @endphp
-        @if($user->funcionario->cod_nivel == 3)
-            <a href="{{ url()->previous() }}"
-                class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white transition-colors">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-            </a>
-        @else
-            <a href="{{ route('servicos.tipo', ['tipo' => $tipo]) }}"
-                class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white transition-colors">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-            </a>
-        @endif
-        <h1 class="text-3xl md:text-4xl font-bold text-center mt-14 mb-12 tracking-tight text-white drop-shadow-xl font-mono">
+        <div class="flex items-center justify-start mb-6">
+            @if($user->funcionario->cod_nivel == 3)
+                <a href="{{ url()->previous() }}"
+                    class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                </a>
+            @else
+                <a href="{{ route('servicos.tipo', ['tipo' => $tipo]) }}"
+                    class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                   
+                </a>
+            @endif
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-center mt-8 mb-12 tracking-tight text-white drop-shadow-xl font-mono">
             Detalhes do Evento
         </h1>
     </div>
@@ -134,7 +139,6 @@
         </div>
 
         <div class="mt-12 flex flex-col md:flex-row justify-center items-center gap-4">
-            @php $user = Auth::user(); @endphp
             @if($user->funcionario->cod_nivel != 3)
                 <a href="{{ route('servicos.edit', ['servico' => $servico->cod_servico]) }}"
                     class="px-8 py-3 bg-sky-800 text-white font-semibold rounded-2xl shadow hover:bg-slate-700 transition-all duration-200 border border-sky-800">

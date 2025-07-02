@@ -27,21 +27,36 @@
 
             <!-- Nome do Kit -->
             <div>
-                <label for="nome_kit" class="block text-sm font-medium text-white mb-2">Nome do Kit</label>
+                <label for="nome_kit" class="block text-xl font-medium text-white mb-2">NOME DO KIT</label>
                 <input type="text"
                        id="nome_kit"
                        name="nome_kit"
                        value="{{ old('nome_kit') }}"
                        class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                       placeholder="Nome do kit"
+                       placeholder="introduza o nome do kit"
                        required>
             </div>
 
             <div class="grid md:grid-cols-2 gap-10">
                 <!-- Pesquisa e lista de Materiais -->
                 <div>
-                    <label for="pesquisa_material" class="block text-sm font-medium text-white mb-3">Pesquisar Material</label>
-                    <input type="text" id="pesquisa_material" class="w-full px-3 py-2 bg-slate-700 border border-slate-500 rounded-lg text-white mb-3" placeholder="Digite o nome do material..." onkeyup="filtrarMateriais()">
+                    <label for="pesquisa_material" class="block text-xl font-medium text-white mb-3">PESQUISAR MATERIAL</label>
+                    <input type="text" id="pesquisa_material" class="w-full px-3 py-2 bg-slate-700 border border-slate-500 rounded-lg text-white mb-3" placeholder="introduza o nome do material" onkeyup="filtrarMateriais()">
+
+                    <!-- Dropdown de categorias -->
+                    <select id="filtro_categoria" class="w-full px-3 py-2 bg-slate-700 border border-slate-500 rounded-lg text-white mb-3" onchange="filtrarMateriais()">
+                        <option value="">Todas as categorias</option>
+                        <option value="CAM">Câmara</option>
+                        <option value="LEN">Lente</option>
+                        <option value="DRN">Drone</option>
+                        <option value="BAT">Baterias</option>
+                        <option value="SDC">Cartões de Memoria</option>
+                        <option value="LUM">Iluminação</option>
+                        <option value="MIC">Microfone</option>
+                        <option value="MOC">Mochilas</option>
+                        <option value="TRP">Tripé</option>
+                        <option value="ACCS">Acessórios</option>
+                    </select>
 
                     <div id="lista-materiais" class="bg-slate-800 border border-slate-600 rounded-lg shadow p-4 max-h-96 overflow-y-auto">
                         @foreach($materiais as $material)
@@ -56,6 +71,7 @@
                                  draggable="true"
                                  data-id="{{ $material->cod_material }}"
                                  data-nome="{{ $nomeMaterial }}"
+                                 data-categoria="{{ $material->cod_categoria }}"
                                  ondragstart="drag(event)">
                                 <span class="text-white font-mono">{{ $nomeMaterial }}</span>
                                 <span class="text-xs text-slate-400 ml-2">{{ $material->observacoes }}</span>
@@ -66,7 +82,7 @@
 
                 <!-- Zona de Drop: Materiais do Kit -->
                 <div>
-                    <label class="block text-sm font-medium text-white mb-3">Materiais do Kit</label>
+                    <label class="block text-xl font-medium text-white mb-3">Materiais do Kit</label>
                     <div id="dropzone"
                         class="bg-slate-900 border-2 border-dashed border-sky-700 rounded-lg shadow p-4 min-h-48 flex flex-col gap-2"
                         ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -141,10 +157,14 @@ function removerMaterial(cod_material) {
 // Pesquisa instantânea
 function filtrarMateriais() {
     let input = document.getElementById('pesquisa_material').value.toLowerCase();
+    let filtroCat = document.getElementById('filtro_categoria').value;
     let items = document.querySelectorAll('.material-item');
     items.forEach(function(item) {
         let nome = item.dataset.nome.toLowerCase();
-        item.style.display = nome.includes(input) ? '' : 'none';
+        let cat = item.dataset.categoria;
+        let matchNome = nome.includes(input);
+        let matchCat = !filtroCat || cat === filtroCat;
+        item.style.display = (matchNome && matchCat) ? '' : 'none';
     });
 }
 // Bloquear submit sem materiais
