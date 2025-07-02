@@ -99,7 +99,7 @@ Route::middleware('auth', 'nivel:1,2')->group(function () {
 // FUNC EXTERNO (Nível 3)
 Route::middleware(['auth', 'nivel:3'])->group(function () {
     Route::get('/meus-servicos', [ServicoController::class, 'meusServicos'])->name('servicos.meus');
-    Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
+    // Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
     Route::get('/servicos/{id}/pdf', [ServicoController::class, 'exportPdf'])->name('servicos.pdf');
 });
 
