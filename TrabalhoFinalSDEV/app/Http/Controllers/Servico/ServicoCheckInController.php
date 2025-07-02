@@ -8,15 +8,23 @@ use App\Models\Servico;
 use App\Models\TiposServico;
 use App\Models\Funcionario;
 use App\Models\Kit;
+use App\Models\Funcao;
+use App\Models\ServicoEquipamento;
+use App\Models\Material;
+use Illuminate\Support\Facades\DB;
 
-class ServicoCheckinController extends Controller
+class ServicoCheckInController extends Controller
 {
-    // FORMULÁRIO DE CHECK-OUT (levantamento dos kits)
+
+    public function home()
+    {
+        return view('servicos.checkout.home');
+    }
+    // FORMULÁRIO DE CHECK-OUT
     public function formCheckout(Request $request)
     {
         $tipos = TiposServico::all();
 
-        // Eventos filtrados por tipo, se selecionado
         $tipo_evento = $request->get('tipo_evento', '');
         $evento_id = $request->get('evento', '');
 
@@ -31,30 +39,28 @@ class ServicoCheckinController extends Controller
         $funcoesAssociadas = [];
         $kitsAssociados = [];
 
-        // Carrega serviço e respetivos funcionários e kits já associados, se evento selecionado
         if ($evento_id) {
             $servico = Servico::with(['funcionarios.funcoes', 'kits'])->find($evento_id);
 
             $funcionariosAssociados = $servico ? $servico->funcionarios->pluck('cod_funcionario')->toArray() : [];
-            // Preencher as funções previamente associadas (se já houver, por exemplo no check-in/edição)
-            $funcoesAssociadas = $servico ? $servico->funcionarios->mapWithKeys(function($f) {
-                // Exemplo: $f->pivot->cod_funcao
+            $funcoesAssociadas = $servico ? $servico->funcionarios->mapWithKeys(function ($f) {
                 return [$f->cod_funcionario => $f->pivot->cod_funcao ?? null];
             })->toArray() : [];
 
             $kitsAssociados = $servico ? $servico->kits->pluck('cod_kit')->toArray() : [];
         }
 
-        // Carregar funcionários e as funções que cada um pode ter
         $funcionarios = Funcionario::with('funcoes')->orderBy('nome')->get();
         $kits = Kit::orderBy('nome_kit')->get();
+        $funcoes = Funcao::all();
 
-        return view('servicos.checkout', [
+        return view('servicos.checkout.create', [
             'tipos' => $tipos,
             'eventos' => $eventos,
             'servico' => $servico,
             'funcionarios' => $funcionarios,
             'kits' => $kits,
+            'funcoes' => $funcoes,
             'funcionariosAssociados' => $funcionariosAssociados,
             'funcoesAssociadas' => $funcoesAssociadas,
             'kitsAssociados' => $kitsAssociados,
@@ -69,12 +75,11 @@ class ServicoCheckinController extends Controller
         $evento_id = $request->input('evento');
         $servico = Servico::findOrFail($evento_id);
 
-        // Associar KITS
+        // KITS
         $kitsSelecionados = $request->input('kits', []);
-        // O método 'kits()' tem de estar definido no model Servico!
         $servico->kits()->sync($kitsSelecionados);
 
-        // Associar FUNCIONÁRIOS + FUNÇÃO
+        // FUNCIONÁRIOS + FUNÇÕES
         $funcionariosSelecionados = $request->input('funcionarios', []);
         $funcoesSelecionadas = $request->input('funcoes', []);
 
@@ -87,7 +92,40 @@ class ServicoCheckinController extends Controller
         }
         $servico->funcionarios()->sync($dadosFuncionarios);
 
-        return redirect()->route('servicos.show', $evento_id)
+        return redirect()->route('servicos.checkout.index', $evento_id)
             ->with('success', 'Check-out efetuado com sucesso!');
+    }
+   public function index(Request $request)
+    {
+        // Começa o query builder com relações
+        $query = ServicoEquipamento::with(['servico.cliente', 'material'])
+            ->whereNotNull('data_levantamento')
+            ->orderByDesc('data_levantamento');
+
+        // Filtro por código do serviço
+        if ($request->filled('servico')) {
+            $query->where('cod_servico', $request->input('servico'));
+        }
+
+        // Filtro por material
+        if ($request->filled('material')) {
+            $query->where('cod_material', $request->input('material'));
+        }
+
+        // Filtro por data
+        if ($request->filled('data')) {
+            $query->whereDate('data_levantamento', $request->input('data'));
+        }
+
+        $checkouts = $query->get();
+
+        $servicos = Servico::orderBy('nome_servico')->get();
+        $materiais = Material::orderBy('cod_material')->get();
+
+        return view('servicos.checkout.index', [
+            'checkouts' => $checkouts,
+            'servicos' => $servicos,
+            'materiais' => $materiais,
+        ]);
     }
 }

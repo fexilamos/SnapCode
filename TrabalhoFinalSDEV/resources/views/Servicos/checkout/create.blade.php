@@ -5,7 +5,7 @@
     <h1 class="text-4xl font-extrabold text-white mb-8 drop-shadow-xl tracking-tight">Check-out</h1>
     <div class="w-full max-w-5xl">
         {{-- FORM DE FILTRO --}}
-        <form method="GET" action="{{ route('servicos.checkout') }}" id="filtroTipoForm" class="mb-10">
+        <form method="GET" action="{{ route('servicos.checkout.create') }}" id="filtroTipoForm" class="mb-10">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block font-bold text-slate-200 mb-2">Tipo de Evento</label>

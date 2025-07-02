@@ -25,7 +25,10 @@ Route::middleware('auth', 'nivel:1')->group(function () {
 
 // **CHECK-OUT**
 Route::middleware(['auth', 'nivel:1,2'])->group(function () {
-    Route::get('/servicos/checkout', [ServicoCheckinController::class, 'formCheckout'])->name('servicos.checkout');
+
+    Route::get('/servicos/checkout', [ServicoCheckinController::class, 'home'])->name('servicos.checkout.home');
+    Route::get('/servicos/checkout/index', [ServicoCheckinController::class, 'index'])->name('servicos.checkout.index');
+    Route::get('/servicos/checkout/create', [ServicoCheckinController::class, 'formCheckout'])->name('servicos.checkout.create');
     Route::post('/servicos/checkout', [ServicoCheckinController::class, 'storeCheckout'])->name('servicos.checkout.store');
 });
 
@@ -41,7 +44,6 @@ Route::middleware('auth', 'nivel:1,2')->group(function () {
     Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
     Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
     Route::get('/servicos/lista-tipo', [ServicoController::class, 'listaTipo'])->name('servicos.lista-tipo');
-
 });
 
 // FUNCIONÁRIOS
@@ -102,7 +104,7 @@ Route::get('/', function () {
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 Route::get('/teste', function () {
     return view('teste');
 });
@@ -110,14 +112,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 // Substituído para carregar eventos do backend
-require __DIR__.'/calendario_events.php';
-
-
-
-
-
-
-
-
-
-
+require __DIR__ . '/calendario_events.php';
