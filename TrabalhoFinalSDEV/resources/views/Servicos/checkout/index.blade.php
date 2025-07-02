@@ -96,6 +96,18 @@
                                         <div class="flex flex-row gap-2 items-center justify-center">
                                             <a href="{{ route('servicos.show', $checkout->cod_servico) }}"
                                                 class="px-4 py-2 w-28 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono text-sm font-semibold shadow transition">Ver Evento</a>
+                                                <div class="flex flex-col md:flex-row gap-2 justify-center items-center">
+
+                                            <a href="{{ route('servicos.checkout.edit', $checkout->cod_servico) }}"
+                                                class="bg-sky-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs">Editar</a>
+                                            <form action="{{ route('servicos.checkout.destroy', $checkout->cod_servico) }}" method="POST" style="display:inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="bg-slate-800 text-white px-3 py-1 rounded hover:bg-slate-700 text-xs"
+                                                    onclick="return confirm('Tem certeza que deseja eliminar este check-out? Esta ação é irreversível!')">
+                                                    Eliminar
+                                                </button>
+                                            </form>
                                             <a href="mailto:?subject=PDF%20do%20Evento%20{{ urlencode($checkout->nome_servico ?? '') }}&body=Segue%20o%20link%20para%20o%20PDF%20do%20evento:%20{{ urlencode(route('servicos.pdf', $checkout->cod_servico)) }}"
                                                 class="px-4 py-2 w-15 flex items-center justify-center bg-sky-800 hover:bg-slate-700 text-white rounded font-mono text-sm font-semibold shadow transition"
                                                 title="Enviar por Email">
