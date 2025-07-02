@@ -28,6 +28,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $user = Auth::user();
+        if ($user && $user->funcionario && $user->funcionario->cod_nivel == 3) {
+            return redirect()->route('servicos.meus');
+        }
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
