@@ -14,7 +14,7 @@ $layout = $user && $user->funcionario && $user->funcionario->cod_nivel == 3 ? 'l
                     </svg>
                 </a>
             @else
-                <a href="{{ route('servicos.tipo', ['tipo' => $tipo]) }}"
+                <a href="{{ url()->previous() }}"
                     class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -24,7 +24,7 @@ $layout = $user && $user->funcionario && $user->funcionario->cod_nivel == 3 ? 'l
             @endif
         </div>
         <h1 class="text-3xl md:text-4xl font-bold text-center mt-8 mb-12 tracking-tight text-white drop-shadow-xl font-mono">
-            Detalhes do Evento
+            &lt;DETALHES DO EVENTO/&gt;
         </h1>
     </div>
     <div class="p-8 max-w-3xl mx-auto bg-slate-800/95 rounded-3xl shadow-2xl border border-slate-700 font-mono">

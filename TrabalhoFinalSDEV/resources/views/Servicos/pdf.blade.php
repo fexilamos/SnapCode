@@ -146,7 +146,8 @@
             {{-- <h1>Resumo do Evento</h1> --}}
         </div>
         <div class="pdf-section">
-            <div class="section-title">Informações Gerais</div>
+
+            <div class="section-title"> &lt;INFORMAÇÕES GERAIS/&gt;</div>
             <table class="info-table">
                 <tr>
                     <th>Cliente</th>
@@ -179,7 +180,7 @@
             </div>
             @endif
             <div class="detalhes-box">
-                <div class="detalhes-title">Detalhes do Evento</div>
+                <div class="detalhes-title"> &lt;DETALHES DO EVENTOS/&gt;</div>
                 @php $tipo_id = $servico->cod_tipo_servico; @endphp
                 @if ($tipo_id == 1 && $servico->detalhesCasamento)
                     @include('servicos.partials.detalhes-casamento', [ 'detalhes' => $servico->detalhesCasamento, 'pdf' => true ])
