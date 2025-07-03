@@ -71,7 +71,7 @@ class FuncionariosController extends Controller
             // Cria o user associado
             User::create([
                 'name' => $request->input('nome'),
-                'email' => $request->input('email'), // Corrigido de 'mail' para 'email'
+                'email' => $request->input('email'), 
                 'password' => Hash::make($request->input('password')),
                 'cod_funcionario' => $funcionario->cod_funcionario,
             ]);
@@ -91,7 +91,7 @@ class FuncionariosController extends Controller
         return view('funcionarios.show', compact('funcionario'));
     }
 
-    // Formulário de editar funcionário
+    // Formulário para editar funcionário
     public function edit($cod_funcionario)
     {
         $funcionario = Funcionario::with(['user', 'funcao', 'estado', 'nivel'])->find($cod_funcionario);

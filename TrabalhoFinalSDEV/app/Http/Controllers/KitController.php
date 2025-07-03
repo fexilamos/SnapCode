@@ -8,17 +8,13 @@ use Illuminate\Http\Request;
 
 class KitController extends Controller
 {
-    /**
-     * Página inicial dos kits.
-     */
+    
     public function home()
     {
         return view('materiais.kits.home');
     }
 
-    /**
-     * Lista de kits, com filtros (por nome/categoria).
-     */
+    
     public function index(Request $request)
     {
         $kitsQuery = Kit::with('materiais.marca', 'materiais.modelo', 'materiais.categoria');
@@ -41,9 +37,7 @@ class KitController extends Controller
         return view('materiais.kits.index', compact('kits', 'categorias'));
     }
 
-    /**
-     * Formulário para criar kit (só mostra materiais livres).
-     */
+    
     public function create()
     {
         // Materiais que não pertencem a nenhum kit
@@ -54,9 +48,7 @@ class KitController extends Controller
         return view('materiais.kits.create', compact('materiais'));
     }
 
-    /**
-     * Guarda novo kit, com validação extra.
-     */
+  
     public function store(Request $request)
     {
         $request->validate([
@@ -83,7 +75,7 @@ class KitController extends Controller
             'nome_kit' => $request->nome_kit
         ]);
 
-        // Attach materiais ao kit
+        // Anexar materiais ao kit
         $pivotData = [];
         foreach ($materiaisSelecionados as $cod_material) {
             $pivotData[$cod_material] = ['quantidade' => 1];

@@ -10,7 +10,7 @@ use App\Http\Requests\StoreUpdatePerdaRequest;
 
 class PerdaController extends Controller
 {
-    // Listar todas as perdas
+    
     public function index()
     {
         // Listar registos reais de perdas, com os relacionamentos necessários, paginados
@@ -28,7 +28,7 @@ class PerdaController extends Controller
         return view('materiais.perdas.create', compact('materiais','servicos','estados'));
     }
 
-    // Criar nova perda
+    
     public function store(StoreUpdatePerdaRequest $request)
     {
         $perda = Perda::create($request->all());
@@ -59,6 +59,7 @@ class PerdaController extends Controller
         return view('materiais.perdas.show', compact('perda'));
     }
 
+
     public function edit($id)
     {
         $perda = Perda::find($id);
@@ -72,6 +73,7 @@ class PerdaController extends Controller
         $estados = \App\Models\MaterialEstado::all();
         return view('materiais.perdas.edit', compact('perda', 'materiais', 'servicos', 'estados'));
     }
+
     // Atualizar registo de perda
     public function update(StoreUpdatePerdaRequest $request, string $id)
     {
@@ -101,7 +103,7 @@ class PerdaController extends Controller
                 $perda->delete();
                 return redirect()->route('perdas.index')->with('success', 'Perda resolvida e removida da lista!');
             } else {
-                // Atualizar observações do material conforme o campo de perda (apenas se não for Operacional)
+                // Atualiza observações do material conforme o campo de perda (apenas se não for Operacional)
                 if ($request->has('observacoes')) {
                     $perda->material->observacoes = $request->observacoes;
                 }
@@ -111,8 +113,8 @@ class PerdaController extends Controller
         return redirect()->route('perdas.index')->with('success', 'Registo atualizado com sucesso!');
     }
 
-    // Eliminar perda
-    public function destroy(string $id)
+   
+     public function destroy(string $id)
     {
         $perda = Perda::find($id);
 

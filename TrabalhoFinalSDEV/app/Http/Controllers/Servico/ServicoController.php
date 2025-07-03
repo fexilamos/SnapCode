@@ -84,7 +84,7 @@ class ServicoController extends Controller
             // Filtragem dos detalhes para gravar só os campos do modelo correto
             $model = null;
             // Mapeamento explícito para evitar erros de ordem
-            // 1: Casamento, 2: Batizado, 3: Comunhão Geral, 4: Comunhão Particular, 5: Corporativo
+            // 1: Casamento, 2: Batizado, 3: Evento Corporativo, 4: Comunhão Particular, 5: Comunhão Geral
             switch ($tipo) {
                 case 1: // Casamento
                     $model = new ServicoDetalhesCasamento();
@@ -320,17 +320,17 @@ class ServicoController extends Controller
     }
 
 
-    public function home()
-    {
+            public function home()
+        {
 
-        return view('servicos.home');
-    }
+            return view('servicos.home');
+        }
 
 
-    // Listar eventos por tipo
-    public function listarPorTipo($tipo)
-    {
-        $tiposMap = [
+        // Listar eventos por tipo
+        public function listarPorTipo($tipo)
+        {
+         $tiposMap = [
             'casamento' => 1,
             'batizado' => 2,
             'corporativo' => 3,
@@ -368,7 +368,7 @@ class ServicoController extends Controller
         return view('servicos.lista-tipo', compact('servicos', 'tipo'));
     }
 
-    public function exportPdf($id)
+        public function exportPdf($id)
     {
         $servico = Servico::with([
             'cliente',
@@ -389,7 +389,8 @@ class ServicoController extends Controller
         ]);
         return $pdf->download('SNAP_' . $servico->nome_servico . '.pdf');
     }
-    private function mergeDetalhes($form, $old, $fillable)
+
+        private function mergeDetalhes($form, $old, $fillable)
     {
         $resultado = [];
         foreach ($fillable as $campo) {
