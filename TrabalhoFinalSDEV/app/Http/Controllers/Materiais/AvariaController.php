@@ -11,9 +11,6 @@ use App\Models\Servico;
 
 class AvariaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         // Listar registos reais de avarias, com os relacionamentos necessários, paginados
@@ -30,12 +27,10 @@ class AvariaController extends Controller
         $estados = \App\Models\MaterialEstado::all();
         return view('materiais.avarias.create', compact('materiais','servicos','estados'));
     }
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StoreAvariaRequest $request)
     {
-        // Verifica se já existe uma avaria para o mesmo material e data (não resolvida)
+        // Verifica se já existe uma avaria (não resolvida) para o mesmo material e data 
         $existe = Avaria::where('cod_material', $request->cod_material)
             ->whereDate('data_registo', $request->data_registo)
             ->exists();
@@ -58,10 +53,8 @@ class AvariaController extends Controller
         return redirect()->route('avarias.index')->with('success', 'Avaria registada com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+        public function show(string $id)
     {
         $avaria = Avaria::with(['material', 'servico'])->find($id);
 
@@ -71,6 +64,7 @@ class AvariaController extends Controller
 
         return view('avarias.show', compact('avaria'));
     }
+
 
     public function edit($id)
     {
@@ -86,9 +80,7 @@ class AvariaController extends Controller
         return view('materiais.avarias.edit', compact('avaria', 'materiais', 'servicos', 'estados'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(StoreAvariaRequest $request, string $id)
     {
         $avaria = Avaria::findOrFail($id);
@@ -117,7 +109,7 @@ class AvariaController extends Controller
                 $avaria->delete();
                 return redirect()->route('avarias.index')->with('success', 'Avaria resolvida e removida da lista!');
             } else {
-                // Atualizar observações do material conforme o campo de avaria (apenas se não for Operacional)
+                // Atualiza observações do material conforme o campo de avaria (apenas se não for Operacional)
                 if ($request->has('observacoes')) {
                     $avaria->material->observacoes = $request->observacoes;
                 }
@@ -127,9 +119,7 @@ class AvariaController extends Controller
         return redirect()->route('avarias.index')->with('success', 'Atualização feita com sucesso');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(string $id)
     {
         $avaria = Avaria::find($id);

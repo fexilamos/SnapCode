@@ -13,9 +13,7 @@ use App\Http\Requests\StoreUpdateMaterialRequest;
 
 class MaterialController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
 
      public function index()
     {
@@ -45,9 +43,9 @@ class MaterialController extends Controller
         return view('materiais.index', compact('materiais'));
     }
 
+
         public function create()
     {
-
         $categorias = Categoria::all();
         $marcas = Marca::all();
         $modelos = Modelo::all();
@@ -55,9 +53,8 @@ class MaterialController extends Controller
         $localizacoes = Localizacao::all();
         return view('materiais.create', compact('categorias', 'marcas', 'modelos', 'estados', 'localizacoes'));
     }
-    /**
-     * Store a newly created resource in storage.
-     */
+    
+
     public function store(StoreUpdateMaterialRequest $request)
     {
         $data = $request->all();
@@ -87,6 +84,7 @@ class MaterialController extends Controller
         return redirect()->route('materiais.index')->with('success', 'Material registado com sucesso!');
     }
 
+
     public function edit($id)
     {
         $material = Material::find($id);
@@ -102,9 +100,8 @@ class MaterialController extends Controller
 
         return view('materiais.edit', compact('material','categorias', 'marcas', 'modelos', 'estados'));
     }
-    /**
-     * Update the specified resource in storage.
-     */
+   
+
     public function update(StoreUpdateMaterialRequest $request, string $id)
     {
         $material = Material::findOrFail($id);
@@ -112,7 +109,7 @@ class MaterialController extends Controller
         $old_observacoes = $material->observacoes;
         $material->update($request->all());
 
-        // Se o novo estado for "Operacional!", guardar histórico das observações e limpar campo
+        // Se o novo estado for "Operacional", guardar histórico das observações e limpar campo
         $estadoOperacional = MaterialEstado::where('estado_nome', 'Operacional')->first();
         if ($estadoOperacional && $material->cod_estado == $estadoOperacional->cod_estado && !empty($old_observacoes)) {
             \App\Models\Avaria::create([
@@ -125,7 +122,7 @@ class MaterialController extends Controller
             $material->save();
         }
 
-        // Se o novo estado for avariado (3) ou em manutenção (2) E não existir já uma avaria para este material, cria registo em Avarias
+        // Se o novo estado for avariado (3) ou em manutenção (2), e não existir já uma avaria para este material, cria registo em Avarias
         if (in_array($material->cod_estado, [2, 3])) {
             $hasAvaria = \App\Models\Avaria::where('cod_material', $material->cod_material)->exists();
             if (!$hasAvaria) {
@@ -140,9 +137,7 @@ class MaterialController extends Controller
         return redirect()->route('materiais.index')->with('success', 'Material atualizado com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(string $id)
     {
         $material = Material::find($id);
@@ -155,7 +150,8 @@ class MaterialController extends Controller
         return redirect()->route('materiais.index')->with('success', 'Material apagado com sucesso');
     }
 
-public function home()
+
+    public function home()
     {
 
         return view('materiais.home');
