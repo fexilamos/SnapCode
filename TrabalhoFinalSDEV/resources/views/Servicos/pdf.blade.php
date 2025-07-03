@@ -2,251 +2,200 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Detalhes do Evento</title>
+    <title>Resumo do Evento</title>
     <style>
-        @page { margin: 20mm; }
+        @page { margin: 0; }
         html, body {
-            page-break-after: avoid !important;
-            page-break-before: avoid !important;
-            page-break-inside: avoid !important;
-        }
-        * {
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-        }
-        table, tr, td, th, div, section {
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-        }
-        body {
-            font-family: monospace, 'Courier New', Courier;
-            font-size: 13px;
             margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-            color: #1e293b;
-            background-color: #ffffff;
+            padding: 0;
+            width: 100vw;
+            min-width: 100vw;
+            min-height: 100vh;
+            font-family: 'Fira Mono', 'JetBrains Mono', 'Courier New', Courier, monospace;
+            background: #f4f6fb;
+            color: #222;
         }
-
-        h1 {
-            text-align: center;
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-
-        .header-box {
-            text-align: center;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 2px solid #64748b;
-            background: #e0f2fe;
-            border-radius: 6px;
-        }
-
-        .logo {
-            max-width: 100px;
-            margin-bottom: 10px;
-        }
-
-        .box {
-            border: 1px solid #334155;
-            border-radius: 6px;
-            padding: 16px;
-            margin-bottom: 20px;
-            background: #f8fafc;
-        }
-
-        .box-title {
-            background: #334155;
-            color: #bfdbfe;
-            padding: 12px 16px;
-            border-radius: 6px 6px 0 0;
-            margin: -16px -16px 16px -16px;
-            font-size: 15px;
-            font-weight: bold;
-            border-bottom: none;
-        }
-
-        .section {
-            margin-bottom: 10px;
+        .pdf-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px #0001;
+            padding: 0 0 32px 0;
+            overflow: hidden;
+        /* }
+        .pdf-header {
+            background: #075985;
+            color: #fff;
+            padding: 36px 40px 24px 40px;
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px; */
         }
-
-        .label {
-            width: 140px;
-            font-weight: bold;
-            color: #0f172a;
+        .pdf-header img {
+            max-width: 110px;
+            border-radius: 12px;
+            background: #fff;
+            padding: 6px;
+            display: block;
+            margin: 0 auto;
         }
-
-        .value {
-            flex: 1;
-            color: #334155;
+        .pdf-header h1 {
+            font-size: 2.7rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: 2px;
+            text-align: center;
+            font-family: inherit;
         }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 10px 40px;
+        .pdf-section {
+            padding: 36px 44px 0 44px;
         }
-
-        .compact-layout {
-            display: flex;
-            gap: 60px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
+        .section-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #075985;
+            margin-bottom: 22px;
+            border-left: 6px solid #075985;
+            padding-left: 16px;
+            letter-spacing: 0.7px;
+            font-family: inherit;
         }
-
-        .compact-layout .box {
-            flex: 1;
-            min-width: 300px;
-            margin-bottom: 0;
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
         }
-
+        .info-table th, .info-table td {
+            text-align: left;
+            padding: 12px 10px;
+            border-bottom: 1px solid #e5e7eb;
+            font-family: inherit;
+        }
+        .info-table th {
+            color: #075985;
+            font-size: 1.13rem;
+            font-weight: 700;
+            background: #f1f5f9;
+        }
+        .info-table td {
+            font-size: 1.13rem;
+        }
+        .obs-box {
+            background: #f1f5f9;
+            border-left: 6px solid #075985;
+            border-radius: 8px;
+            padding: 16px 22px;
+            margin: 22px 0 28px 0;
+            font-size: 1.13rem;
+            color: #222;
+            font-family: inherit;
+        }
         .detalhes-box {
-            border: 2px solid #475569;
-            background: #ffffff;
-            border-radius: 6px;
-            margin-top: 50px;
+            background: #f9fafb;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            margin-top: 22px;
+            padding: 22px 28px 14px 28px;
         }
-
-        .detalhes-box .box-title {
-            background: #334155;
-            color: #bfdbfe;
-            padding: 12px 16px;
-            border-radius: 6px 6px 0 0;
-            margin: -16px -16px 16px -16px;
-            border-bottom: none;
+        .detalhes-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #075985;
+            margin-bottom: 14px;
+            border-left: 5px solid #075985;
+            padding-left: 12px;
+            font-family: inherit;
         }
-
         .no-details {
             text-align: center;
-            color: #94a3b8;
+            color: #888;
             font-style: italic;
-            padding: 20px;
+            padding: 10px;
+            background: none;
+            border-radius: 8px;
+            font-family: inherit;
         }
-
-        .detalhes-box span, .detalhes-box strong {
+        /* Subtítulos dos partials */
+        .pdf-subtitle, .detalhes-box strong, .detalhes-box .subtitle, .detalhes-box .label {
             font-weight: bold !important;
-            color: #1e293b !important;
+            font-size: 1.08em !important;
+            color: #075985 !important;
+            font-family: inherit !important;
         }
-
         @media print {
-            body { padding: 10px; }
+            html, body {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100vw;
+                min-width: 100vw;
+                min-height: 100vh;
+            }
+            .pdf-container, .detalhes-box, .obs-box {
+                box-shadow: none !important;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header-box">
-        <img src="{{ public_path('images/LOGO.png') }}" alt="Logo Snap" class="logo">
-        <h1 style="background: #334155; color: #bfdbfe; padding: 12px; border-radius: 6px; font-size: 22px;">Detalhes do Evento</h1>
-    </div>
-
-    <div class="box">
-        <div class="box-title">Informações Gerais</div>
-        <div class="info-grid">
-            <div class="section">
-                <span class="label">Nome:</span>
-                <span class="value">{{ $servico->nome_servico }}</span>
-            </div>
-            <div class="section">
-                <span class="label">Tipo:</span>
-                <span class="value">{{ $servico->tipoServico->nome_tipo ?? '-' }}</span>
-            </div>
-            <div class="section">
-                <span class="label">Cliente:</span>
-                <span class="value">{{ $servico->cliente->nome ?? '-' }}</span>
-            </div>
-             <div class="section">
-                <span class="label">Mail:</span>
-                <span class="value">{{ $servico->cliente->mail ?? '-' }}</span>
-            </div>
-             <div class="section">
-                <span class="label">Telefone:</span>
-                <span class="value">{{ $servico->cliente->telefone ?? '-' }}</span>
-            </div>
-            <div class="section">
-                <span class="label">Local:</span>
-                <span class="value">{{ $servico->localizacao->nome_local ?? '-' }}</span>
-            </div>
-            <div class="section">
-                <span class="label">Data Início:</span>
-                <span class="value">{{ \Carbon\Carbon::parse($servico->data_inicio)->format('d/m/Y') }}</span>
-            </div>
-            <div class="section">
-                <span class="label">Data Fim:</span>
-                <span class="value">{{ \Carbon\Carbon::parse($servico->data_fim)->format('d/m/Y') }}</span>
-            </div>
+    <div class="pdf-container">
+        <div class="pdf-header">
+            <img src="{{ public_path('images/LOGO.png') }}" alt="Logo Snap">
+            {{-- <h1>Resumo do Evento</h1> --}}
         </div>
-    </div>
-
-
-
-    @if(isset($servico->observacoes) && $servico->observacoes)
-    <div class="box">
-        <div class="box-title">Observações</div>
-        <div class="section">
-            <span class="value">{{ $servico->observacoes }}</span>
-        </div>
-    </div>
-    @endif
-
-    {{-- QUEBRA DE PÁGINA PDF
-    <div style="page-break-before: always;"></div> --}}
-
-    <div class="box detalhes-box">
-        <div class="box-title">Detalhes Específicos do Evento</div>
-        @php $tipo_id = $servico->cod_tipo_servico; @endphp
-        @switch($tipo_id)
-            @case(1)
-                @if ($servico->detalhesCasamento)
+        <div class="pdf-section">
+            <div class="section-title">Informações Gerais</div>
+            <table class="info-table">
+                <tr>
+                    <th>Cliente</th>
+                    <td>{{ $servico->cliente->nome ?? '-' }}</td>
+                    <th>Tipo</th>
+                    <td>{{ $servico->tipoServico->nome_tipo ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <th>Nome do Serviço</th>
+                    <td>{{ $servico->nome_servico }}</td>
+                    <th>Mail</th>
+                    <td>{{ $servico->cliente->mail ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <th>Telefone</th>
+                    <td>{{ $servico->cliente->telefone ?? '-' }}</td>
+                    <th>Local</th>
+                    <td>{{ $servico->localizacao->nome_local ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <th>Data Início</th>
+                    <td>{{ \Carbon\Carbon::parse($servico->data_inicio)->format('d/m/Y') }}</td>
+                    <th>Data Fim</th>
+                    <td>{{ \Carbon\Carbon::parse($servico->data_fim)->format('d/m/Y') }}</td>
+                </tr>
+            </table>
+            @if(isset($servico->observacoes) && $servico->observacoes)
+            <div class="obs-box">
+                <strong>Observações:</strong> {{ $servico->observacoes }}
+            </div>
+            @endif
+            <div class="detalhes-box">
+                <div class="detalhes-title">Detalhes do Evento</div>
+                @php $tipo_id = $servico->cod_tipo_servico; @endphp
+                @if ($tipo_id == 1 && $servico->detalhesCasamento)
                     @include('servicos.partials.detalhes-casamento', [ 'detalhes' => $servico->detalhesCasamento, 'pdf' => true ])
-                @else
-                    <div class="no-details">
-                        Sem detalhes registados para este evento de casamento.
-                    </div>
-                @endif
-                @break
-            @case(2)
-                @if ($servico->detalhesBatizado)
+                @elseif ($tipo_id == 2 && $servico->detalhesBatizado)
                     @include('servicos.partials.detalhes-batizado', [ 'detalhes' => $servico->detalhesBatizado, 'pdf' => true ])
-                @else
-                    <div class="no-details">
-                        Sem detalhes registados para este evento de batizado.
-                    </div>
-                @endif
-                @break
-            @case(3)
-                @if ($servico->detalhesEvCorporativo)
+                @elseif ($tipo_id == 3 && $servico->detalhesEvCorporativo)
                     @include('servicos.partials.detalhes-corporativo', [ 'detalhes' => $servico->detalhesEvCorporativo, 'pdf' => true ])
-                @else
-                    <div class="no-details">
-                        Sem detalhes registados para este evento corporativo.
-                    </div>
-                @endif
-                @break
-            @case(4)
-                @if ($servico->detalhesComunhaoParticular)
+                @elseif ($tipo_id == 4 && $servico->detalhesComunhaoParticular)
                     @include('servicos.partials.detalhes-comunhao-particular', [ 'detalhes' => $servico->detalhesComunhaoParticular, 'pdf' => true ])
-                @else
-                    <div class="no-details">
-                        Sem detalhes registados para este evento de comunhão particular.
-                    </div>
-                @endif
-                @break
-            @case(5)
-                @if ($servico->detalhesComunhaoGeral)
+                @elseif ($tipo_id == 5 && $servico->detalhesComunhaoGeral)
                     @include('servicos.partials.detalhes-comunhao-geral', [ 'detalhes' => $servico->detalhesComunhaoGeral, 'pdf' => true ])
                 @else
-                    <div class="no-details">
-                        Sem detalhes registados para este evento de comunhão geral.
-                    </div>
+                    <div class="no-details">Sem detalhes registados para este evento.</div>
                 @endif
-                @break
-            @default
-                <div class="no-details">
-                    Tipo de evento não reconhecido ou sem detalhes específicos disponíveis.
-                </div>
-        @endswitch
+            </div>
+        </div>
     </div>
 </body>
 </html>

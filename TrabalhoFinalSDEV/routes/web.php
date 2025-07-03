@@ -6,7 +6,7 @@ use App\Http\Controllers\Funcionarios\FuncionariosController;
 use App\Http\Controllers\Materiais\PerdaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Servico\ServicoController;
-use App\Http\Controllers\Servico\ServicoCheckinController;
+use App\Http\Controllers\Servico\ServicoCheckInController;
 use App\Http\Controllers\KitController;
 
 
@@ -22,6 +22,16 @@ Route::middleware('auth', 'nivel:1')->group(function () {
     Route::put('/servicos/{servico}', [ServicoController::class, 'update'])->name('servicos.update');
     Route::get('/servicos/{id}/pdf', [ServicoController::class, 'exportPdf'])->name('servicos.pdf');
 });
+
+// SERVIÇOS (continuação: HOME, INDEX, SHOW)
+
+Route::middleware('auth', 'nivel:1,2')->group(function () {
+    Route::get('/servicos/home', [ServicoController::class, 'home'])->name('servicos.home');
+    Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
+    Route::get('/servicos/lista-tipo', [ServicoController::class, 'listaTipo'])->name('servicos.lista-tipo');
+});
+
+
 
 // FILTRAR EVENTOS POR TIPO
 Route::get('/servicos/tipo/{tipo}', [ServicoController::class, 'listarPorTipo'])->name('servicos.tipo');
@@ -51,17 +61,6 @@ Route::prefix('servicos/checkin')->middleware(['auth', 'nivel:1,2'])->group(func
     Route::get('/{servico}/edit', [ServicoCheckInController::class, 'editCheckin'])->name('servicos.checkin.edit');
 });
 
-// SERVIÇOS (continuação: HOME, INDEX, SHOW)
-Route::middleware(['auth', 'nivel:1,2,3'])->group(function () {
-    Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
-});
-
-Route::middleware('auth', 'nivel:1,2')->group(function () {
-    Route::get('/servicos/home', [ServicoController::class, 'home'])->name('servicos.home');
-    Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
-    Route::get('/servicos/lista-tipo', [ServicoController::class, 'listaTipo'])->name('servicos.lista-tipo');
-});
-
 // FUNCIONÁRIOS
 Route::middleware('auth', 'nivel:1')->group(function () {
     Route::get('funcionarios/home', [FuncionariosController::class, 'home'])->name('funcionarios.home');
@@ -71,7 +70,6 @@ Route::middleware('auth', 'nivel:1')->group(function () {
 // FUNC EXTERNO (Nível 3)
 Route::middleware(['auth', 'nivel:3'])->group(function () {
     Route::get('/meus-servicos', [ServicoController::class, 'meusServicos'])->name('servicos.meus');
-    Route::get('/servicos/{id}/pdf', [ServicoController::class, 'exportPdf'])->name('servicos.pdf');
 });
 
 // MATERIAIS
@@ -117,9 +115,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-
 require __DIR__ . '/auth.php';
 Route::get('/teste', function () {
     return view('teste');
@@ -127,5 +122,11 @@ Route::get('/teste', function () {
 Route::get('/', function () {
     return view('welcome');
 });
+Route::middleware(['auth', 'nivel:1,2,3'])->group(function () {
+    Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
+        Route::get('/servicos/{id}/pdf', [ServicoController::class, 'exportPdf'])->name('servicos.pdf');
 
+});
+//CALENDARIO DE EVENTOS
 require __DIR__ . '/calendario_events.php';
+

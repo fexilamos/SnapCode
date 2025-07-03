@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>{{ config('app.name', 'Snap') }}</title>
     <link rel="icon" type="image/png" href="{{ asset('images/LOGOabrevw.png') }}">
 @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')

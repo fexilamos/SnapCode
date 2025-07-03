@@ -16,7 +16,7 @@ use App\Models\ServicoDetalhesEvCorporativo;
 use App\Models\TiposServico;
 use App\Models\Localizacao;
 use App\Http\Requests\StoreUpdateServicoRequest;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\Snappy\Facades\SnappyPdf as Pdf;
 use Illuminate\Support\Facades\Auth;
 
 class ServicoController extends Controller
@@ -387,6 +387,7 @@ class ServicoController extends Controller
             'servico' => $servico,
             'dados' => $dados
         ]);
+        $pdf->setPaper('a4');
         return $pdf->download('SNAP_' . $servico->nome_servico . '.pdf');
     }
 
