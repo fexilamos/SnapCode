@@ -49,7 +49,7 @@ class ServicoCheckInController extends Controller
             $kitsAssociados = $servico ? $servico->kits->pluck('cod_kit')->toArray() : [];
         }
 
-        //  FILTRAR KITS DISPONÍVEIS 
+        //  FILTRAR KITS DISPONÍVEIS
         $kitsDoEventoAtual = $kitsAssociados;
         $kitsIndisponiveisIds = DB::table('servico_kit')
             ->whereNull('data_devolucao')
@@ -95,7 +95,7 @@ class ServicoCheckInController extends Controller
             return back()->withErrors(['O evento selecionado não existe!']);
         }
 
-        //  KITS 
+        //  KITS
         $kitsSelecionados = array_unique(array_filter($request->input('kits', []), fn($k) => is_numeric($k) && !is_array($k)));
         if (empty($kitsSelecionados)) {
             return back()->withErrors(['É obrigatório selecionar pelo menos um kit.']);
@@ -122,7 +122,7 @@ class ServicoCheckInController extends Controller
         }
         $servico->kits()->sync($dadosKits);
 
-        // FUNCIONÁRIOS + FUNÇÕES 
+        // FUNCIONÁRIOS + FUNÇÕES
         $funcionariosSelecionados = $request->input('funcionarios', []);
         $funcoesSelecionadas = array_values($request->input('funcoes', []));
         $dadosFuncionarios = [];
@@ -216,7 +216,7 @@ class ServicoCheckInController extends Controller
             'kits' => 'required|array|min:1',
         ]);
 
-        //  KITS 
+        //  KITS
         $kitsSelecionados = array_unique(array_filter($request->input('kits', []), fn($k) => is_numeric($k) && !is_array($k)));
         $dadosKits = [];
         foreach ($kitsSelecionados as $kitId) {
@@ -311,7 +311,7 @@ class ServicoCheckInController extends Controller
                 ->update(['data_devolucao' => now()]);
         }
 
-        return redirect()->route('servicos.checkin.home', $servicoId)
+        return redirect()->route('servicos.relatorios.create', $servicoId)
             ->with('success', 'Kits devolvidos com sucesso!');
     }
 
@@ -344,14 +344,14 @@ class ServicoCheckInController extends Controller
             });
         }
 
-        // Ordenar por data do evento 
+        // Ordenar por data do evento
         $checkins = $query->orderBy('data_inicio', 'desc')->get();
 
         return view('servicos.checkin.index', [
             'checkins' => $checkins,
         ]);
     }
-    
+
     public function destroy($servicoId)
     {
         // Elimina devolução dos kits deste serviço
