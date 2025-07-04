@@ -103,6 +103,132 @@ class DatabaseSeeder extends Seeder
             ['cod_kit' => 3, 'cod_material' => 'MAT081', 'quantidade' => 1], // Tripé
             ['cod_kit' => 3, 'cod_material' => 'MAT089', 'quantidade' => 1], // Iluminação
             ['cod_kit' => 3, 'cod_material' => 'MAT110', 'quantidade' => 1], // Mochila
+
+            
+        ]);
+
+        // Inserir Kits adicionais (sem repetir materiais dos kits 1, 2 e 3)
+        DB::table('kits')->insert([
+            ['cod_kit' => 4, 'nome_kit' => 'Kit Canon Completo'],
+            ['cod_kit' => 5, 'nome_kit' => 'Kit Computador Impressão'],
+            ['cod_kit' => 6, 'nome_kit' => 'Kit Projeção'],
+        ]);
+
+        // Inserir Kit_Material para os novos kits (materiais não usados nos kits 1, 2 e 3)
+        DB::table('kit_material')->insert([
+            // Kit 4: Kit Canon Completo
+            ['cod_kit' => 4, 'cod_material' => 'MAT219', 'quantidade' => 1], // Mochila (HDMI001, Genérica)
+            ['cod_kit' => 4, 'cod_material' => 'MAT231', 'quantidade' => 1], // Impressora (Canon)
+            ['cod_kit' => 4, 'cod_material' => 'MAT223', 'quantidade' => 1], // Bateria (Genérica)
+            ['cod_kit' => 4, 'cod_material' => 'MAT220', 'quantidade' => 1], // Lente (Genérica)
+            ['cod_kit' => 4, 'cod_material' => 'MAT221', 'quantidade' => 1], // Cartão de memória (Genérica)
+            ['cod_kit' => 4, 'cod_material' => 'MAT224', 'quantidade' => 1], // Câmara (Epson)
+            ['cod_kit' => 4, 'cod_material' => 'MAT233', 'quantidade' => 1], // Tela de projeção
+
+            // Kit 5: Kit Computador Impressão
+            ['cod_kit' => 5, 'cod_material' => 'MAT227', 'quantidade' => 1], // Computador (Dell)
+            ['cod_kit' => 5, 'cod_material' => 'MAT228', 'quantidade' => 1], // Computador (Dell)
+            ['cod_kit' => 5, 'cod_material' => 'MAT231', 'quantidade' => 1], // Impressora (Canon)
+            ['cod_kit' => 5, 'cod_material' => 'MAT232', 'quantidade' => 1], // Impressora (HP)
+            ['cod_kit' => 5, 'cod_material' => 'MAT234', 'quantidade' => 1], // Tela de projeção
+            ['cod_kit' => 5, 'cod_material' => 'MAT229', 'quantidade' => 1], // Computador (Dell)
+            ['cod_kit' => 5, 'cod_material' => 'MAT222', 'quantidade' => 1], // Mochila (Genérica)
+
+            // Kit 6: Kit Projeção
+            ['cod_kit' => 6, 'cod_material' => 'MAT225', 'quantidade' => 1], // Projetor (Epson)
+            ['cod_kit' => 6, 'cod_material' => 'MAT226', 'quantidade' => 1], // Projetor (Epson)
+            ['cod_kit' => 6, 'cod_material' => 'MAT235', 'quantidade' => 1], // Tela de projeção (Elite Screens)
+            ['cod_kit' => 6, 'cod_material' => 'MAT230', 'quantidade' => 1], // Computador (Dell)
+            ['cod_kit' => 6, 'cod_material' => 'MAT223', 'quantidade' => 1], // Bateria (Genérica)
+            ['cod_kit' => 6, 'cod_material' => 'MAT221', 'quantidade' => 1], // Cartão de memória (Genérica)
+            ['cod_kit' => 6, 'cod_material' => 'MAT220', 'quantidade' => 1], // Lente (Genérica)
+            ['cod_kit' => 5, 'cod_material' => 'MAT111', 'quantidade' => 1], // Mochila (Genérica)
+        ]);
+
+        // Inserir na tabela servico_funcionario
+        DB::table('servico_funcionario')->insert([
+            [
+                'cod_servico' => 18,
+                'cod_funcionario' => 1, // João Silva
+                'data_alocacao_inicio' => '2024-06-15',
+                'data_alocacao_fim' => '2024-06-15',
+                'funcao_no_servico' => 'Fotógrafo Principal'
+            ],
+            [
+                'cod_servico' => 18,
+                'cod_funcionario' => 2, // Maria Santos
+                'data_alocacao_inicio' => '2024-06-15',
+                'data_alocacao_fim' => '2024-06-15',
+                'funcao_no_servico' => 'Videomaker'
+            ],
+            [
+                'cod_servico' => 19,
+                'cod_funcionario' => 3, // Pedro Oliveira
+                'data_alocacao_inicio' => '2024-07-20',
+                'data_alocacao_fim' => '2024-07-20',
+                'funcao_no_servico' => 'Fotógrafo Principal'
+            ],
+            [
+                'cod_servico' => 19,
+                'cod_funcionario' => 4, // Ana Costa
+                'data_alocacao_inicio' => '2024-07-20',
+                'data_alocacao_fim' => '2024-07-20',
+                'funcao_no_servico' => 'Assistente'
+            ],
+            [
+                'cod_servico' => 20,
+                'cod_funcionario' => 5, // Carlos Mendes
+                'data_alocacao_inicio' => '2024-08-10',
+                'data_alocacao_fim' => '2024-08-10',
+                'funcao_no_servico' => 'Operador de Drone'
+            ],
+            [
+                'cod_servico' => 21,
+                'cod_funcionario' => 1, // João Silva (pode repetir em serviços diferentes)
+                'data_alocacao_inicio' => '2024-09-05',
+                'data_alocacao_fim' => '2024-09-05',
+                'funcao_no_servico' => 'Videomaker'
+            ]
+        ]);
+
+        // Inserir na tabela servico_kit (com coluna id auto-increment)
+        DB::table('servico_kit')->insert([
+            [
+                'cod_servico' => 18,
+                'cod_kit' => 1, // Kit Foto
+                'data_levantamento' => '2024-06-14',
+                'data_devolucao' => '2024-06-16'
+            ],
+            [
+                'cod_servico' => 18,
+                'cod_kit' => 2, // Kit Video
+                'data_levantamento' => '2024-06-14',
+                'data_devolucao' => '2024-06-16'
+            ],
+            [
+                'cod_servico' => 19,
+                'cod_kit' => 3, // Kit Foto e Video
+                'data_levantamento' => '2024-07-19',
+                'data_devolucao' => '2024-07-21'
+            ],
+            [
+                'cod_servico' => 20,
+                'cod_kit' => 1, // Kit Foto (pode repetir em serviços diferentes)
+                'data_levantamento' => '2024-08-09',
+                'data_devolucao' => '2024-08-11'
+            ],
+            [
+                'cod_servico' => 21,
+                'cod_kit' => 2, // Kit Video
+                'data_levantamento' => '2024-09-04',
+                'data_devolucao' => '2024-09-06'
+            ],
+            [
+                'cod_servico' => 22,
+                'cod_kit' => 3, // Kit Foto e Video
+                'data_levantamento' => '2024-10-11',
+                'data_devolucao' => '2024-10-13'
+            ]
         ]);
     }
 }
