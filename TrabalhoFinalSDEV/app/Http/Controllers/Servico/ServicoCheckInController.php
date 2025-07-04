@@ -187,7 +187,7 @@ class ServicoCheckInController extends Controller
         $kits = Kit::orderBy('nome_kit')->get();
         $funcoes = Funcao::all();
 
-        // Associações já existentes para preencher o formulário
+        // Para manter alinhamento no form
         $funcionariosAssociados = $servico->funcionarios->pluck('cod_funcionario')->toArray();
         $funcoesAssociadas = $servico->funcionarios->mapWithKeys(function ($f) {
             return [$f->cod_funcionario => $f->pivot->funcao_no_servico ?? null];
@@ -207,49 +207,47 @@ class ServicoCheckInController extends Controller
     }
 
     public function updateCheckout(Request $request, $servicoId)
-    {
-        $servico = Servico::findOrFail($servicoId);
+{
+    $servico = Servico::findOrFail($servicoId);
 
-        $request->validate([
-            'funcionarios' => 'required|array|min:1',
-            'funcoes' => 'required|array|min:1',
-            'kits' => 'required|array|min:1',
-        ]);
+    $request->validate([
+        'funcionarios' => 'required|array|min:1',
+        'funcoes' => 'required|array|min:1',
+        'kits' => 'required|array|min:1',
+    ]);
 
-        //  KITS
-        $kitsSelecionados = array_unique(array_filter($request->input('kits', []), fn($k) => is_numeric($k) && !is_array($k)));
-        $dadosKits = [];
-        foreach ($kitsSelecionados as $kitId) {
-            $dadosKits[$kitId] = [
-                'data_levantamento' => now(),
-            ];
+    // --- KITS ---
+    $kitsSelecionados = array_unique(array_filter($request->input('kits', []), fn($k) => is_numeric($k) && !is_array($k)));
+    $dadosKits = [];
+    foreach ($kitsSelecionados as $kitId) {
+        $dadosKits[$kitId] = [
+            'data_levantamento' => now(),
+        ];
+    }
+    $servico->kits()->sync($dadosKits);
+
+    // --- FUNCIONÁRIOS + FUNÇÕES ---
+    $funcionariosSelecionados = array_values($request->input('funcionarios', []));
+    $funcoesSelecionadas = array_values($request->input('funcoes', []));
+    $dadosFuncionarios = [];
+    foreach ($funcionariosSelecionados as $idx => $funcionarioId) {
+        if (is_array($funcionarioId) || !is_numeric($funcionarioId)) {
+            Log::error('FuncionarioId inválido', ['idx' => $idx, 'valor' => $funcionarioId]);
+            continue;
         }
-        $servico->kits()->sync($dadosKits);}
+        $dadosFuncionarios[(int)$funcionarioId] = [
+            'data_alocacao_inicio' => now(),
+            'funcao_no_servico' => $funcoesSelecionadas[$idx] ?? null,
+        ];
+    }
+    if (empty($dadosFuncionarios)) {
+        return back()->withErrors(['Erro: Nenhum funcionário válido selecionado!']);
+    }
+    $servico->funcionarios()->sync($dadosFuncionarios);
 
-
-    //     //  FUNCIONÁRIOS + FUNÇÕES ---
-    //     $funcionariosSelecionados = $request->input('funcionarios', []);
-    //     $funcoesSelecionadas = array_values($request->input('funcoes', []));
-    //     $dadosFuncionarios = [];
-    //     foreach ($funcionariosSelecionados as $idx => $funcionarioId) {
-    //         if (is_array($funcionarioId) || !is_numeric($funcionarioId)) {
-    //             Log::error('FuncionarioId inválido', ['idx' => $idx, 'valor' => $funcionarioId]);
-    //             continue;
-    //         }
-    //         $dadosFuncionarios[(int)$funcionarioId] = [
-    //             'data_alocacao_inicio' => now(),
-    //             'funcao_no_servico' => $funcoesSelecionadas[$idx] ?? null,
-    //         ];
-    //     }
-    //     Log::debug('dadosFuncionarios para sync', $dadosFuncionarios);
-    //     if (empty($dadosFuncionarios)) {
-    //         return back()->withErrors(['Erro: Nenhum funcionário válido selecionado!']);
-    //     }
-    //     $servico->funcionarios()->sync($dadosFuncionarios);
-
-    //     return redirect()->route('servicos.checkout.index')
-    //         ->with('success', 'Check-out atualizado com sucesso!');
-    // }
+    return redirect()->route('servicos.checkout.index')
+        ->with('success', 'Check-out atualizado com sucesso!');
+}
 
 
 
