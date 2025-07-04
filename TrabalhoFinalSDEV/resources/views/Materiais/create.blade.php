@@ -1,6 +1,13 @@
 @extends('layouts.dashboard')
 
 @section('content')
+<div class="flex items-center justify-start mb-6" style="margin-left: -2rem;">
+    <a href="{{ url()->previous() }}" class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+    </a>
+</div>
 <div class="container mx-auto px-4 max-w-lg font-mono">
     @if(session('success'))
         <div style="background: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; padding: 12px; border-radius: 6px; margin-bottom: 16px; text-align:center; font-weight:bold;" class="font-mono">
