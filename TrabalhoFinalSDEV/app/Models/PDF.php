@@ -4,9 +4,7 @@ namespace App\Models;
 
 class PDF
 {
-    /**
-     * Gera um array de dados relevantes para PDF de um serviço/evento.
-     */
+    
     public static function dadosServico(Servico $servico)
     {
         $cliente = $servico->cliente;

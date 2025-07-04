@@ -45,7 +45,7 @@
             <input type="hidden" name="evento" value="{{ $evento_id }}">
 
             {{-- FUNCIONÁRIOS --}}
-            <h2 class="text-xl font-bold mb-4 text-slate-100 mt-8">Funcionários</h2>
+            <h2 class="text-xl font-bold mb-4 text-slate-100 mt-8">Colaboradores</h2>
             <div id="funcionarios-cards" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 @if(old('funcionarios', $funcionariosAssociados))
                     @foreach(old('funcionarios', $funcionariosAssociados) as $idx => $cod_funcionario)

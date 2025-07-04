@@ -20,7 +20,7 @@
                         CHECK-OUT</label>
                     <input type="text" name="search" id="search"
                         class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
-                        placeholder="Pesquisar por evento ou funcionário" value="{{ request('search') }}">
+                        placeholder="Pesquisar por evento ou colaborador" value="{{ request('search') }}">
                 </div>
                 <div class="w-full flex flex-col">
                     <label for="data" class="block text-base font-semibold text-blue-200 mb-3 font-mono">DATA DO
@@ -50,7 +50,7 @@
                                     Evento</th>
                                 <th
                                     class="px-4 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider font-mono">
-                                    Funcionário(s)</th>
+                                    Colaborador(es)</th>
                                 <th
                                     class="px-4 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider font-mono">
                                     Função(ões)</th>

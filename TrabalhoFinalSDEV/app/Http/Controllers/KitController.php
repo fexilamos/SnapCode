@@ -85,9 +85,7 @@ class KitController extends Controller
         return redirect()->route('kits.index')->with('success', 'Kit criado com sucesso!');
     }
 
-    /**
-     * Formulário para editar kit (materiais disponíveis + já presentes).
-     */
+    
     public function edit($id)
     {
         $kit = Kit::with('materiais')->findOrFail($id);
@@ -106,9 +104,7 @@ class KitController extends Controller
         return view('materiais.kits.edit', compact('kit', 'materiais'));
     }
 
-    /**
-     * Atualiza kit, validação extra.
-     */
+    
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -148,9 +144,7 @@ class KitController extends Controller
         return redirect()->route('kits.index')->with('success', 'Kit atualizado com sucesso!');
     }
 
-    /**
-     * Apaga kit.
-     */
+    
     public function destroy($id)
     {
         $kit = Kit::findOrFail($id);

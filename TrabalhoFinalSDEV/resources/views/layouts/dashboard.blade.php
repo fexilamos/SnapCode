@@ -54,7 +54,7 @@
                         </button>
                         <div x-show="open" class="pl-4 space-y-1">
                             <a href="{{ route('materiais.home') }}" class="block py-2 px-2  font-mono rounded hover:bg-gray-800 text-base">GESTÃO DE MATERIAL</a>
-                            <a href="{{ route('funcionarios.home') }}" class="block py-2 px-2  font-mono rounded hover:bg-gray-800 text-base">GESTÃO DE COLABORADORES</a>
+                            <a href="{{ route('funcionarios.home') }}" class="block py-2 px-2  font-mono rounded hover:bg-gray-800 text-base">GESTÃO DE EQUIPAS</a>
                         </div>
                     </div>
 

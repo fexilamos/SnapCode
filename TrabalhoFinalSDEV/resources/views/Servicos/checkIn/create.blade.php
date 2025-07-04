@@ -17,7 +17,7 @@
         </div>
 
         {{-- FUNCIONÁRIOS --}}
-        <h2 class="text-2xl font-bold mb-4 text-slate-100 mt-4 text-center">Funcionários no Evento</h2>
+        <h2 class="text-2xl font-bold mb-4 text-slate-100 mt-4 text-center">Colaboradores no Evento</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 justify-items-center">
             @foreach($funcionarios as $funcionario)
             <div class="flex flex-col md:flex-row items-center gap-5 bg-slate-900/80 p-6 rounded-2xl shadow border border-slate-700 w-full max-w-xl mx-auto relative group">

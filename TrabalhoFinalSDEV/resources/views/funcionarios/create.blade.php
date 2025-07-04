@@ -8,7 +8,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
         </a>
-        <h1 class="text-3xl md:text-3xl font-bold text-white font-mono text-center w-full">&lt;REGISTO DE FUNCIONÁRIO/&gt;</h1>
+        <h1 class="text-3xl md:text-3xl font-bold text-white font-mono text-center w-full">&lt;REGISTO DE COLABORADOR/&gt;</h1>
     </div>
     <!-- Content -->
     <main class="p-8 font-mono">
@@ -37,7 +37,7 @@
                                name="nome"
                                value="{{ old('nome') }}"
                                class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                               placeholder="Nome completo do funcionário"
+                               placeholder="Nome completo do colaborador"
                                required>
                     </div>
 
@@ -131,7 +131,7 @@
                                   name="morada"
                                   rows="1"
                                   class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                  placeholder="Área de residencia do Funcionário">{{ old('morada') }}</textarea>
+                                  placeholder="Área de residencia do colaborador">{{ old('morada') }}</textarea>
                     </div>
 
                     <!-- Equipamento Próprio (Sim/Não) -->

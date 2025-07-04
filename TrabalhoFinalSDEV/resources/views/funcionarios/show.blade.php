@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 max-w-lg font-mono">
     <div class="bg-slate-700 rounded-xl shadow-xl p-8 mt-8 font-mono">
-        <h2 class="text-2xl font-bold text-white mb-8 text-center font-mono uppercase tracking-widest">DETALHES DO FUNCIONÁRIO</h2>
+        <h2 class="text-2xl font-bold text-white mb-8 text-center font-mono uppercase tracking-widest">DETALHES DO COLABORADOR</h2>
         <div class="flex flex-col items-center mb-10">
             <img src="{{ asset('images/colab.png') }}" alt="Funcionário" width="70" class="mb-2">
             <h3 class="text-xl font-bold text-blue-200 font-mono uppercase tracking-wide">{{ $funcionario->nome ?? '-' }}</h3>
