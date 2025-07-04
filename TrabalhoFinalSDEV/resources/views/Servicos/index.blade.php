@@ -2,6 +2,21 @@
 
 @section('content')
 
+@if(session('success'))
+    <div class="flex justify-center">
+        <div class="bg-green-900 text-green-200 border border-green-700 rounded-lg px-6 py-4 mb-8 font-mono uppercase text-center">
+            <b>{{ session('success') }}</b>
+        </div>
+    </div>
+@endif
+@if(session('error'))
+    <div class="flex justify-center">
+        <div class="bg-red-900 text-red-200 border border-red-700 rounded-lg px-6 py-4 mb-8 font-mono uppercase text-center">
+            <b>{{ session('error') }}</b>
+        </div>
+    </div>
+@endif
+
     <div class="relative mb-12 mt-8 max-w-7xl mx-auto px-4">
         <a href="{{ route('servicos.home') }}" class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-300 hover:text-white transition-colors">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
