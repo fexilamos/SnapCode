@@ -70,17 +70,18 @@
                     </div>
                 </div>
             </a>
-             <!-- Card Relatorios -->
-            <a href="{{ route('servicos.relatorios.index') }}" class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block">
+            <!-- Card Relatorios (centralizada na linha de baixo, igual ao card Perdas) -->
+            <a href="{{ route('servicos.relatorios.index') }}"
+                class="bg-slate-600 p-8 rounded-lg border border-slate-500 transition-transform hover:scale-105 hover:border-white block md:col-span-2 md:mx-auto">
                 <div class="flex items-start space-x-4">
                     <div class="flex-shrink-0">
                         <div class="w-16 h-16 bg-gray-800 rounded-lg flex items-center justify-center">
-                            <img src="{{ asset('images/checkout.png') }}" class="w-12 h-12 object-contain" alt="Check-Out">
+                            <img src="{{ asset('images/checkout.png') }}" class="w-12 h-12 object-contain" alt="Relatórios">
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">RELATÓRIOS</h3>
-                        <p class="text-gray-300 mb-4 leading-relaxed">
+                        <h3 class="text-xl font-semibold text-white mb-2 font-mono">RELATÓRIOS</h3>
+                        <p class="text-gray-300 mb-4 leading-relaxed font-mono">
                             Consulte os relatórios de eventos.
                         </p>
                     </div>
