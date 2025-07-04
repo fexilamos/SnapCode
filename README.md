@@ -1,4 +1,4 @@
-# Trabalho Final SDEV — Gestão de Serviços Fotográficos <Snap>
+# <SnapCode/> — Gestão de Serviços Fotográficos 
 
 Este projeto é um sistema backend desenvolvido em **Laravel 12.x** para a gestão de serviços fotográficos, materiais, funcionários e registos de eventos (casamentos, batizados, etc).  
 Foi criado como projeto final do curso de Desenvolvimento de Software, focando-se em boas práticas, segurança e separação de responsabilidades.
@@ -9,6 +9,7 @@ Foi criado como projeto final do curso de Desenvolvimento de Software, focando-s
 - [Descrição Geral](#descrição-geral)
 - [Requisitos](#requisitos)
 - [Instalação](#instalação)
+- [Geração de PDFs (Snappy)](#geração-de-pdfs-snappy)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Autenticação e Permissões](#autenticação-e-permissões)
 - [Utilização](#utilização)
@@ -35,6 +36,8 @@ O sistema permite:
 - MySQL ou MariaDB
 - Node.js (para assets front-end, se aplicável)
 - [Laravel 12.x](https://laravel.com/)
+- Extensão PHP `mbstring` e `dom`
+- **wkhtmltopdf** (para geração de PDFs com Snappy)
 
 ---
 
@@ -80,6 +83,44 @@ O sistema permite:
 
 ---
 
+## Geração de PDFs (Snappy)
+
+Este projeto utiliza a biblioteca **Snappy** para gerar PDFs (ex: relatórios de serviços).
+
+### Instalação do Snappy
+
+1. **Instalar a dependência via Composer:**
+    ```bash
+    composer require barryvdh/laravel-snappy
+    ```
+
+2. **Instalar o `wkhtmltopdf` no sistema:**
+
+   **Ubuntu/Debian:**
+   ```bash
+   sudo apt install wkhtmltopdf
+   ```
+
+   **Mac (via Homebrew):**
+   ```bash
+   brew install Caskroom/cask/wkhtmltopdf
+   ```
+
+   **Windows:**
+   - Transferir o instalador: [https://wkhtmltopdf.org/downloads.html](https://wkhtmltopdf.org/downloads.html)
+   - Adicionar o caminho do executável ao `PATH` do sistema.
+
+3. **Configurar o serviço (se necessário)** no ficheiro `config/snappy.php` (pode ser publicado com `php artisan vendor:publish`).
+
+4. **Testar geração de PDF**
+    ```php
+    use Barryvdh\Snappy\Facades\SnappyPdf;
+
+    return SnappyPdf::loadView('pdf.servico', $data)->download('servico.pdf');
+    ```
+
+---
+
 ## Estrutura do Projeto
 
 - `app/Models` — Modelos Eloquent para cada entidade (Funcionário, Material, Serviço, etc).
@@ -111,6 +152,9 @@ O sistema permite:
       Route::get('/servicos', [ServicoController::class, 'index']);
       // ...
   });
+  ```
+
+---
 
 ## Utilização
 
@@ -140,6 +184,8 @@ Após autenticação no sistema, cada utilizador terá acesso às funcionalidade
 **Nota:**  
 Cada ação só está disponível se o nível de permissão do utilizador permitir. Utilizadores de nível 3, por exemplo, apenas veem e gerem os serviços a que estão alocados.
 
+---
+
 ## Base de Dados e Seeds
 
 O projeto utiliza **migrações Laravel** para criar automaticamente toda a estrutura da base de dados necessária ao sistema.
@@ -162,11 +208,12 @@ O projeto utiliza **migrações Laravel** para criar automaticamente toda a estr
 > **Sugestão:**  
 > Após o seed, podes aceder com um utilizador admin ou criar o teu próprio.
 
+---
+
 ## Autores
 
 Projeto desenvolvido por:
 - **Bruna Silva**
-- **Tiago Cardona**
 - **Luis Mago**
-
+- **Tiago Cardona**
 Curso: **CESAE Digital — Software Developer**
