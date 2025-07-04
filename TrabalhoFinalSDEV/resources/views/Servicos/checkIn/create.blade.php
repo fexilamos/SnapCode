@@ -3,6 +3,15 @@
 @section('content')
 <div class="min-h-screen flex flex-col items-center justify-center py-12 font-mono">
     <h1 class="text-4xl font-mono text-white mb-8 drop-shadow-xl tracking-tight">&lt;REGISTO DE ENTRADA/&gt;</h1>
+<div class="relative min-h-screen flex flex-col items-center justify-center py-12 font-mono">
+    <div class="flex items-center justify-start mb-6 w-full max-w-5xl mx-auto">
+        <a href="{{ url()->previous() }}" class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+        </a>
+    </div>
+    <h1 class="text-4xl font-mono text-white mb-8 drop-shadow-xl tracking-tight">&lt;CHECK-IN/&gt;</h1>
     <div class="w-full max-w-5xl">
 
         {{-- EVENTO EM DESTAQUE --}}

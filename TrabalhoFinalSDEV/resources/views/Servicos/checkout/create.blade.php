@@ -1,6 +1,13 @@
 @extends('layouts.dashboard')
 
 @section('content')
+<div class="flex items-center justify-start mb-6 w-full max-w-5xl mx-auto">
+    <a href="{{ url()->previous() }}" class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+    </a>
+</div>
 <div class="min-h-screen flex flex-col items-center justify-center py-12 font-mono">
     <h1 class="text-4xl font-mono text-white mb-8 drop-shadow-xl tracking-tight">&lt;REGISTO DE SAÍDA/&gt;</h1>
     <div class="w-full max-w-5xl">
@@ -45,7 +52,7 @@
             <input type="hidden" name="evento" value="{{ $evento_id }}">
 
             {{-- FUNCIONÁRIOS --}}
-            <h2 class="text-xl font-bold mb-4 text-slate-100 mt-8">Colaboradores</h2>
+            <h2 class="text-xl font-bold mb-4 text-slate-100 mt-8">Funcionários</h2>
             <div id="funcionarios-cards" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 @if(old('funcionarios', $funcionariosAssociados))
                     @foreach(old('funcionarios', $funcionariosAssociados) as $idx => $cod_funcionario)

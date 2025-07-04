@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Servico\ServicoController;
 use App\Http\Controllers\Servico\ServicoCheckInController;
 use App\Http\Controllers\KitController;
+use App\Http\Controllers\RelatorioEventoController;
 
 
 // HOME & DASHBOARD
@@ -30,7 +31,6 @@ Route::middleware('auth', 'nivel:1,2')->group(function () {
     Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
     Route::get('/servicos/lista-tipo', [ServicoController::class, 'listaTipo'])->name('servicos.lista-tipo');
 });
-
 
 
 // FILTRAR EVENTOS POR TIPO
@@ -59,6 +59,13 @@ Route::prefix('servicos/checkin')->middleware(['auth', 'nivel:1,2'])->group(func
     Route::put('/{servico}/update', [ServicoCheckInController::class, 'updateCheckin'])->name('servicos.checkin.update');
     Route::delete('/{servico}', [ServicoCheckInController::class, 'destroyCheckin'])->name('servicos.checkin.destroy');
     Route::get('/{servico}/edit', [ServicoCheckInController::class, 'editCheckin'])->name('servicos.checkin.edit');
+});
+
+Route::middleware(['auth', 'nivel:1,2'])->group(function () {
+    Route::get('/relatorios', [RelatorioEventoController::class, 'index'])->name('servicos.relatorios.index');
+    Route::get('/relatorios/{servico}/create', [RelatorioEventoController::class, 'create'])->name('servicos.relatorios.create');
+    Route::post('/relatorios', [RelatorioEventoController::class, 'store'])->name('servicos.relatorios.store');
+    Route::get('/relatorios/{relatorio}', [RelatorioEventoController::class, 'show'])->name('servicos.relatorios.show');
 });
 
 // FUNCIONÁRIOS
@@ -124,9 +131,7 @@ Route::get('/', function () {
 });
 Route::middleware(['auth', 'nivel:1,2,3'])->group(function () {
     Route::get('/servicos/{servico}', [ServicoController::class, 'show'])->name('servicos.show');
-        Route::get('/servicos/{id}/pdf', [ServicoController::class, 'exportPdf'])->name('servicos.pdf');
-
+    Route::get('/servicos/{id}/pdf', [ServicoController::class, 'exportPdf'])->name('servicos.pdf');
 });
 //CALENDARIO DE EVENTOS
 require __DIR__ . '/calendario_events.php';
-

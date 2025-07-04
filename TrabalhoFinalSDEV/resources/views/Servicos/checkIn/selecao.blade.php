@@ -2,6 +2,14 @@
 
 @section('content')
     <h1 class="text-2xl text-white font-mono mb-8 text-center">&lt;SELECIONAR SERVIÇOS PARA REGISTO DE ENTRADA/&gt;</h1>
+    <div class="flex items-center justify-start mb-6 w-full max-w-4xl mx-auto">
+        <a href="{{ url()->previous() }}" class="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+        </a>
+    </div>
+    <h1 class="text-2xl text-white font-mono mb-8 text-center">&lt;Selecionar Serviço para Check-In/&gt;</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full mx-auto">
         @forelse ($servicos as $servico)
             <a href="{{ route('servicos.checkin.create', ['servico' => $servico->cod_servico]) }}"
