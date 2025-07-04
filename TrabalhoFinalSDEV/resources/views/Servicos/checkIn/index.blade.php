@@ -8,7 +8,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
         </a>
-        <h1 class="text-3xl md:text-3xl font-bold text-white text-center font-mono">&lt;CHECK-INS DE EVENTOS/&gt;</h1>
+        <h1 class="text-3xl md:text-3xl font-bold text-white text-center font-mono">&lt;REGISTO DE ENTRADA/&gt;</h1>
     </div>
     <main class="px-4 md:px-8 font-mono">
         <div class="max-w-7xl mx-auto font-mono">
@@ -17,14 +17,14 @@
                 class="w-full flex flex-col gap-6 mb-12 bg-slate-800 rounded-xl p-8 shadow-lg border border-slate-600 font-mono">
                 <div class="w-full flex flex-col">
                     <label for="search" class="block text-base font-semibold text-blue-200 mb-3 font-mono">PESQUISAR
-                        CHECK-IN</label>
+                        REGISTO DE ENTRADA</label>
                     <input type="text" name="search" id="search"
                         class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
                         placeholder="Pesquisar por evento ou funcionário" value="{{ request('search') }}">
                 </div>
                 <div class="w-full flex flex-col">
                     <label for="data" class="block text-base font-semibold text-blue-200 mb-3 font-mono">DATA DO
-                        CHECK-IN</label>
+                        REGISTO DE ENTRADA</label>
                     <input type="date" name="data" id="data"
                         class="w-full px-4 py-3 bg-slate-700 border border-slate-500 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
                         value="{{ request('data') }}">
@@ -39,7 +39,7 @@
             </form>
             <!-- Resultados -->
             <div class="bg-slate-700 rounded-xl p-8 border border-slate-600 mt-10 shadow-xl font-mono">
-                <h3 class="text-2xl font-bold text-blue-200 mb-6 tracking-wide text-center font-mono">LISTA DE CHECK-INS
+                <h3 class="text-2xl font-bold text-blue-200 mb-6 tracking-wide text-center font-mono">LISTA DE REGISTOS
                 </h3>
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[900px] divide-y divide-slate-600 rounded-lg overflow-hidden font-mono">
@@ -54,7 +54,7 @@
                                 <th class="px-4 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider font-mono">
                                     Kits Devolvidos</th>
                                 <th class="px-4 py-3 text-left text-blue-300 font-semibold uppercase tracking-wider font-mono">
-                                    Data Check-In</th>
+                                    Data REGISTO ENTRADA</th>
                                 <th class="px-4 py-3 text-center text-blue-300 font-semibold uppercase tracking-wider font-mono">
                                     Ações</th>
                             </tr>

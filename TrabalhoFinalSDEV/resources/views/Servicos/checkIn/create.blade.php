@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen flex flex-col items-center justify-center py-12 font-mono">
-    <h1 class="text-4xl font-mono text-white mb-8 drop-shadow-xl tracking-tight">&lt;CHECK-IN/&gt;</h1>
+    <h1 class="text-4xl font-mono text-white mb-8 drop-shadow-xl tracking-tight">&lt;REGISTO DE ENTRADA/&gt;</h1>
     <div class="w-full max-w-5xl">
 
         {{-- EVENTO EM DESTAQUE --}}
@@ -84,11 +84,11 @@
             {{-- AVARIAS/PERDAS --}}
             <div class="flex flex-col md:flex-row gap-4 mb-10 justify-center items-center">
                 <a href="{{ route('avarias.create', $servico->cod_servico) }}"
-                    class="bg-orange-600 text-white px-6 py-3 rounded-lg shadow hover:bg-orange-700 font-semibold transition text-center">
+                    class="bg-red-950 text-white px-6 py-3 rounded-lg shadow hover:bg-red-900 font-semibold transition text-center">
                     Registar Avaria
                 </a>
                 <a href="{{ route('perdas.create', $servico->cod_servico) }}"
-                    class="bg-red-600 text-white px-6 py-3 rounded-lg shadow hover:bg-red-700 font-semibold transition text-center">
+                    class="bg-red-950 text-white px-6 py-3 rounded-lg shadow hover:bg-red-900 font-semibold transition text-center">
                     Registar Perda
                 </a>
             </div>

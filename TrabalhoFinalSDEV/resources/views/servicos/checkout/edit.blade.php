@@ -2,19 +2,19 @@
 
 @section('content')
     <div class="min-h-screen flex flex-col items-center justify-center py-12">
-        <h1 class="text-4xl font-extrabold text-white mb-8 drop-shadow-xl tracking-tight">Editar Check-out</h1>
+        <h1 class="text-3xl font-mono text-white mb-8 drop-shadow-xl tracking-tight">&lt; EDITAR REGISTO DE SAÍDA/&gt;</h1>
         <div class="w-full max-w-5xl">
 
             {{-- INFO DO EVENTO --}}
             <div class="mb-10 grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block font-bold text-slate-200 mb-2">Tipo de Evento</label>
+                    <label class="block font-mono text-slate-200 mb-2">Tipo de Evento</label>
                     <input type="text"
                         class="form-input w-full rounded-xl border-slate-600 px-4 py-3 bg-slate-900 text-white shadow-md"
                         value="{{ $servico->tipoServico->nome_tipo ?? '-' }}" disabled>
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-200 mb-2">Evento</label>
+                    <label class="block font-mono text-slate-200 mb-2">Evento</label>
                     <input type="text"
                         class="form-input w-full rounded-xl border-slate-600 px-4 py-3 bg-slate-900 text-white shadow-md"
                         value="{{ $servico->nome_servico }} ({{ \Carbon\Carbon::parse($servico->data_inicio)->format('d/m/Y') }})"
@@ -38,7 +38,7 @@
                 <input type="hidden" name="evento" value="{{ $servico->cod_servico }}">
 
                 {{-- FUNCIONÁRIOS --}}
-                <h2 class="text-xl font-bold mb-4 text-slate-100 mt-8">Funcionários</h2>
+                <h2 class="text-xl font-mono mb-4 text-slate-100 mt-8">Funcionários</h2>
                 <div id="funcionarios-cards" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                     @if (old('funcionarios', $funcionariosAssociados))
                         @foreach (old('funcionarios', $funcionariosAssociados) as $idx => $cod_funcionario)
@@ -49,7 +49,7 @@
                             <div
                                 class="card-funcionario flex flex-col md:flex-row items-center gap-5 bg-slate-900/80 p-6 rounded-2xl shadow border border-slate-700 relative group">
                                 <div
-                                    class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white text-lg font-bold shadow">
+                                    class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white text-lg font-mono shadow">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -91,7 +91,7 @@
                         <div
                             class="card-funcionario flex flex-col md:flex-row items-center gap-5 bg-slate-900/80 p-6 rounded-2xl shadow border border-slate-700 relative group">
                             <div
-                                class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white text-lg font-bold shadow">
+                                class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white text-lg font-mono shadow">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -127,9 +127,9 @@
                 </button>
 
                 {{-- KITS --}}
-                <h2 class="text-xl font-bold mb-4 text-slate-100 mt-8">Kits a Associar</h2>
+                <h2 class="text-xl font-mono mb-4 text-slate-100 mt-8">Kits a Associar</h2>
 
-                <div id="kits-alerta-vazio" class="mb-4 text-red-400 font-bold hidden">Não existem mais kits disponíveis!
+                <div id="kits-alerta-vazio" class="mb-4 text-red-400 font-mono hidden">Não existem mais kits disponíveis!
                 </div>
                 <div id="kits-cards" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                     @php
@@ -137,7 +137,7 @@
                     @endphp
 
                     @if (count($kits) === 0)
-                        <div class="text-red-500 font-bold">Não existem kits disponíveis.</div>
+                        <div class="text-red-500 font-mono">Não existem kits disponíveis.</div>
                     @elseif(count($kitsSelecionados) > 0)
                         @foreach ($kitsSelecionados as $selectedKit)
                             <div
@@ -237,7 +237,7 @@
             card.className =
                 'card-funcionario flex flex-col md:flex-row items-center gap-5 bg-slate-900/80 p-6 rounded-2xl shadow border border-slate-700 relative group';
             card.innerHTML = `
-            <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white text-lg font-bold shadow">
+            <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white text-lg font-mono shadow">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>

@@ -7,7 +7,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
         </a>
-        <h1 class="flex-1 text-3xl md:text-3xl font-bold text-white text-center font-mono">&lt;CHECK-OUT DE EQUIPAMENTO/&gt;</h1>
+        <h1 class="flex-1 text-3xl md:text-3xl font-bold text-white text-center font-mono">&lt;REGISTO DE SAÍDA DE EQUIPAMENTO/&gt;</h1>
     </div>
     <br>
     <br>
@@ -22,9 +22,9 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">NOVO CHECK-OUT</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">NOVA SAÍDA</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed">
-                            Efetue o check-out (levantamento) de kits e funcionários para um evento.
+                            Efetue o registo de saída de kits e funcionários para um evento.
                         </p>
                     </div>
                 </div>
@@ -38,9 +38,9 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">CONSULTAR CHECK-OUTS</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">CONSULTAR SAÍDA</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed">
-                            Veja todos os check-outs efetuados e o histórico de levantamentos.
+                            Veja todos os registos de saída efetuados e o histórico de levantamentos.
                         </p>
                     </div>
                 </div>

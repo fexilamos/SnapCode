@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen flex flex-col items-center justify-center py-12 font-mono">
-    <h1 class="text-4xl font-mono text-white mb-8 drop-shadow-xl tracking-tight">&lt;CHECK-OUT/&gt;</h1>
+    <h1 class="text-4xl font-mono text-white mb-8 drop-shadow-xl tracking-tight">&lt;REGISTO DE SAÍDA/&gt;</h1>
     <div class="w-full max-w-5xl">
 
         {{-- FORM DE FILTRO --}}
@@ -181,7 +181,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>Guardar Check-out</span>
+                    <span>Guardar registo </span>
                 </button>
             </div>
         </form>

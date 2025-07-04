@@ -325,16 +325,62 @@ INSERT INTO Clientes (nome, telefone, mail) VALUES
 ('Carlos e Ana', '931234678', 'carlosana@email.com'),
 ('Família Fernandes', '941234789', 'familiafernandes@email.com'),
 ('Família Oliveira', '951234890', 'familiaoliveira@email.com'),
-('Empresa ABC', '961234901', 'contato@empresaabc.com');
+('Empresa ABC', '961234901', 'contato@empresaabc.com'),
+('João e Maria', '911112223', 'joaomaria@email.com'),
+('Pedro e Inês', '961234789', 'pedroines@email.com'),
+('André e Carla', '962345678', 'andrecarla@email.com'),
+('Miguel e Patrícia', '963456789', 'miguelpatricia@email.com'),
+('Tiago e Beatriz', '964567890', 'tiagobeatriz@email.com'),
+('Familia Martins', '921111111', 'leonor.martins@email.com'),
+('Familia Costa', '922222222', 'mateus.costa@email.com'),
+('Familia Ribeiro', '923333333', 'ines.ribeiro@email.com'),
+('Familia Lopes', '924444444', 'santiago.lopes@email.com'),
+('Familia Sousa', '925555555', 'beatriz.sousa@email.com'),
+('Familia Alves', '926111111', 'catarina.alves@email.com'),
+('Familia Ferreira', '926222222', 'tomas.ferreira@email.com'),
+('Familia Mendes', '926333333', 'laura.mendes@email.com'),
+('Familia Rocha', '926444444', 'gabriel.rocha@email.com'),
+('Familia Cruz', '926555555', 'matilde.cruz@email.com'),
+('Pais do Martim Correia', '927111111', 'martim.correia@email.com'),
+('Pais da Clara Santos', '927222222', 'clara.santos@email.com'),
+('Pais do Rodrigo Almeida', '927333333', 'rodrigo.almeida@email.com'),
+('Pais da Mafalda Dias', '927444444', 'mafalda.dias@email.com'),
+('Empresa TechNova', '928111111', 'eventos@technova.com'),
+('Empresa InovaMais', '928222222', 'comunicacao@inovamais.pt'),
+('Grupo FutureCorp', '928333333', 'contacto@futurecorp.pt'),
+('Organização SigmaEvent', '928444444', 'sigma@eventos.pt');
 
 INSERT INTO Servicos (cod_cliente, cod_tipo_servico, cod_local_servico, data_inicio, data_fim, nome_servico) VALUES
 (1, 1, 1, '2025-09-20', '2025-09-21', 'Casamento Rui e Sofia'),
 (2, 1, 2, '2025-10-10', '2025-10-11', 'Casamento Carlos e Ana'),
 (3, 2, 3, '2025-07-05', '2025-07-05', 'Batizado do João Fernandes'),
 (4, 2, 4, '2025-08-15', '2025-08-15', 'Batizado da Mariana Oliveira'),
-(3, 5, 3, '2025-06-15', '2025-06-15', 'Comunhão Geral do Tiago Fernandes'),
+(3, 5, 3, '2025-06-15', '2025-06-15', 'Comunhão Geral de Lanheses'),
 (4, 4, 4, '2025-06-30', '2025-06-30', 'Comunhão Privada da Beatriz Oliveira'),
-(5, 3, 5, '2025-11-05', '2025-11-06', 'Evento Empresarial ABC 2025');
+(5, 3, 5, '2025-11-05', '2025-11-06', 'Evento Empresarial ABC 2025'),
+(6, 1, 1, '2025-12-20', '2025-12-21', 'Casamento João e Maria'),
+(7, 1, 2, '2025-01-10', '2025-01-11', 'Casamento Pedro e Inês'),
+(8, 1, 3, '2025-02-15', '2025-02-16', 'Casamento André e Carla'),
+(9, 1, 4, '2025-03-20', '2025-03-21', 'Casamento Miguel e Patrícia'),
+(10, 1, 5, '2025-04-25', '2025-04-26', 'Casamento Tiago e Beatriz'),
+(11, 2, 1, '2025-05-10', '2025-05-10', 'Batizado da Leonor Martins'),
+(12, 2, 2, '2025-06-01', '2025-06-01', 'Batizado do Mateus Costa'),
+(13, 2, 3, '2025-07-20', '2025-07-20', 'Batizado da Inês Ribeiro'),
+(14, 2, 4, '2025-08-03', '2025-08-03', 'Batizado do Santiago Lopes'),
+(15, 2, 5, '2025-09-07', '2025-09-07', 'Batizado da Beatriz Sousa'),
+(16, 4, 1, '2025-05-25', '2025-05-25', 'Comunhão Geral da Catarina Alves'),
+(17, 4, 2, '2025-06-10', '2025-06-10', 'Comunhão Geral de Oliveira'),
+(18, 4, 3, '2025-06-18', '2025-06-18', 'Comunhão Geral de Vila Verde'),
+(19, 4, 4, '2025-07-02', '2025-07-02', 'Comunhão Geral de Rendufinho'),
+(20, 4, 5, '2025-07-15', '2025-07-15', 'Comunhão Geral de Mordor'),
+(21, 5, 1, '2025-06-01', '2025-06-01', 'Comunhão Particular do Martim Correia'),
+(22, 5, 2, '2025-06-10', '2025-06-10', 'Comunhão Particular da Clara Santos'),
+(23, 5, 3, '2025-06-15', '2025-06-15', 'Comunhão Particular do Rodrigo Almeida'),
+(24, 5, 4, '2025-07-01', '2025-07-01', 'Comunhão Particular da Mafalda Dias'),
+(25, 3, 1, '2025-09-10', '2025-09-11', 'Evento Corporativo TechNova Connect'),
+(26, 3, 2, '2025-10-02', '2025-10-02', 'Workshop InovaMais 2025'),
+(27, 3, 3, '2025-11-15', '2025-11-16', 'Conferência FutureCorp'),
+(28, 3, 4, '2025-12-05', '2025-12-05', 'Networking SigmaEvent – Fim de Ano');
 
 INSERT INTO Servico_Detalhes_Casamento (cod_servico, fotos, video, drone, sde, fotos_convidados, num_convidados_fotos, venda_fotos,
   hora_chegada_casa_noivo, hora_saida_casa_noivo, nome_noivo, morada_noivo, agregado_noivo, info_extra_noivo,
@@ -353,7 +399,43 @@ INSERT INTO Servico_Detalhes_Casamento (cod_servico, fotos, video, drone, sde, f
   '12:15', 'Ana Costa', 'Rua dos Cravos, Porto', 'Família Costa', 'Noiva quer fotos com avó',
   'Igreja de São Francisco', 'Chegar 10 min antes', 'Noiva, Noivo, Padrinhos', FALSE, '', 'Leitura 1, Leitura 2',
   FALSE, TRUE, 'Aguardar saída dos noivos', 'Cuidado com chuva',
-  'Quinta do Vale', 'Rua Quinta 10, Porto', 'Entrada principal', '14:00 Chegada, 15:00 Almoço, 17:00 Corte do bolo');
+  'Quinta do Vale', 'Rua Quinta 10, Porto', 'Entrada principal', '14:00 Chegada, 15:00 Almoço, 17:00 Corte do bolo'),
+  (8, TRUE, TRUE, TRUE, FALSE, TRUE, 80, TRUE,
+  '08:30', '09:30', 'João Ribeiro', 'Rua da Amizade, Guimarães', 'Família Ribeiro', 'Fotografar relógio antigo do avô',
+  '09:45', 'Maria Lopes', 'Avenida Central, Guimarães', 'Família Lopes', 'Momentos com damas de honor',
+  'Igreja de Nossa Senhora da Consolação', 'Entrada simultânea padrinhos/noivo', 'Padrinhos, Noivo, Noiva', TRUE, 'Lado direito', 'Salmo, Leitura',
+  TRUE, TRUE, 'Saída com pétalas', 'Atentar à luz solar direta',
+  'Solar do Arco', 'Rua do Arco, Guimarães', 'Decoração personalizada', '12:30 Chegada, 14:00 Almoço, 17:00 Bolo'),
+
+(9, TRUE, FALSE, FALSE, TRUE, FALSE, 40, FALSE,
+  '10:00', '11:00', 'Pedro Faria', 'Travessa das Camélias, Viana', 'Família Faria', 'Noivo prefere poucas fotos',
+  '11:15', 'Inês Monteiro', 'Rua do Mirante, Viana do Castelo', 'Família Monteiro', 'Sessão rápida antes da igreja',
+  'Igreja Matriz de Viana', 'Fotógrafo entra primeiro', 'Noivo, padrinhos, noiva', FALSE, '', 'Leitura única',
+  FALSE, FALSE, 'Saída tradicional', 'Noiva quer foto com madrinha',
+  'Quinta da Lameira', 'Estrada Nacional 13, Viana', 'Zona de jardim priorizada', '13:00 Chegada, 14:30 Almoço'),
+
+(10, TRUE, TRUE, TRUE, TRUE, TRUE, 120, TRUE,
+  '07:30', '08:30', 'André Pinto', 'Rua do Cruzeiro, Barcelos', 'Família Pinto', 'Fotos com carro antigo',
+  '08:45', 'Carla Matos', 'Rua das Palmeiras, Barcelos', 'Família Matos', 'Retratos com irmãos',
+  'Igreja do Senhor da Cruz', 'Entrada em silêncio', 'Noiva, madrinha, noivo', TRUE, 'Varanda', 'Leitura 1, Leitura 2, Evangelho',
+  TRUE, TRUE, 'Saída com balões', 'Padre é sensível a barulho',
+  'Quinta dos Moinhos', 'Barcelos', 'Cuidado com escadas na entrada', '12:00 Chegada, 13:00 Almoço, 15:30 Bolo'),
+
+(11, TRUE, TRUE, FALSE, TRUE, TRUE, 50, FALSE,
+  '10:30', '11:30', 'Miguel Gonçalves', 'Rua das Laranjeiras, Braga', 'Família Gonçalves', 'Quer fotos com irmãos mais novos',
+  '11:45', 'Patrícia Rocha', 'Rua da Escola, Braga', 'Família Rocha', 'Quer captar bouquet entregue pela avó',
+  'Igreja de São João do Souto', 'Entrada alternada', 'Noivo, mãe, noiva', FALSE, '', 'Salmo responsorial',
+  TRUE, FALSE, 'Saída com confettis', 'Padre permite apenas 1 fotógrafo no altar',
+  'Quinta Encantada', 'Braga', 'Evitar fios elétricos visíveis', '13:00 Chegada, 14:00 Almoço, 17:00 Corte do bolo'),
+
+(12, FALSE, TRUE, TRUE, TRUE, FALSE, 80, TRUE,
+  '09:00', '10:15', 'Tiago Ferreira', 'Rua das Vinhas, Famalicão', 'Família Ferreira', 'Sem sessão com os pais',
+  '10:30', 'Beatriz Carvalho', 'Rua da Liberdade, Famalicão', 'Família Carvalho', 'Fotos com animal de estimação',
+  'Capela de Santo António', 'Chegar com antecedência', 'Convidados, noivo, noiva', TRUE, 'Galeria superior', 'Leitura breve',
+  FALSE, TRUE, 'Aguardar os noivos antes de sair', 'Cuidado com piso escorregadio',
+  'Quinta dos Sonhos', 'Famalicão', 'Entrada secundária para staff', '13:30 Chegada, 15:00 Almoço, 18:00 Bolo');
+
+
 
 INSERT INTO Servico_Detalhes_Batizado (cod_servico, fotos, video, drone, sde, fotos_convidados, num_convidados_fotos, venda_fotos,
   hora_chegada_casa_bebe, hora_saida_casa_bebe, nome_bebe, morada_bebe, agregado_bebe, info_extra_bebe,
@@ -366,12 +448,50 @@ INSERT INTO Servico_Detalhes_Batizado (cod_servico, fotos, video, drone, sde, fo
 (4, TRUE, TRUE, FALSE, TRUE, TRUE, 40, TRUE,
   '09:30', '10:45', 'Mariana Oliveira', 'Rua dos Lírios, Guimarães', 'Família Oliveira', 'Bebé gosta de música',
   'Capela de São Bento', 'Entrada discreta', TRUE, 'Perto do altar', FALSE, '',
-  'Quinta do Lago', 'Guimarães', 'Buffet livre', '12:00 Almoço, 15:30 atividades');
+  'Quinta do Lago', 'Guimarães', 'Buffet livre', '12:00 Almoço, 15:30 atividades'),
+  (13, TRUE, TRUE, FALSE, FALSE, TRUE, 25, FALSE,
+  '08:45', '10:00', 'Leonor Martins', 'Rua da Paz, Braga', 'Família Martins', 'Evitar barulhos de manhã',
+  'Igreja de São Vicente', 'Chegar com 15 min de antecedência', TRUE, 'Galeria lateral', FALSE, '',
+  'Quinta da Alegria', 'Braga', 'Entrada com carrinho', '12:00 Almoço, 13:30 sessão fotográfica'),
+
+(14, TRUE, FALSE, FALSE, TRUE, FALSE, 100, TRUE,
+  '09:00', '10:00', 'Mateus Costa', 'Rua do Sol, Viana do Castelo', 'Família Costa', 'Bebé com sono frequente',
+  'Capela do Carmo', 'Respeitar silêncio', FALSE, '', TRUE, 'Grupo de animação infantil à saída',
+  'Quinta do Sol', 'Viana do Castelo', '', '13:00 Almoço, 15:00 bolo'),
+
+(15, TRUE, TRUE, TRUE, TRUE, TRUE, 35, TRUE,
+  '10:00', '11:15', 'Inês Ribeiro', 'Rua das Camélias, Braga', 'Família Ribeiro', 'Captar momento do banho',
+  'Igreja da Misericórdia', 'Fotógrafo autorizado na sacristia', TRUE, 'Corredor central', TRUE, 'Balões à saída',
+  'Quinta do Arco', 'Braga', 'Espaço com zona infantil', '12:30 Almoço, 16:00 jogos e lanche'),
+
+(16, TRUE, TRUE, FALSE, FALSE, TRUE, 20, FALSE,
+  '09:30', '10:30', 'Santiago Lopes', 'Rua das Rosas, Porto', 'Família Lopes', 'Momentos com os avós',
+  'Igreja de Santo António', 'Início com cântico', TRUE, 'Frente ao altar', FALSE, '',
+  'Quinta da Relva', 'Porto', 'Decoração azul e branca', '12:00 Almoço, 14:30 brincadeiras'),
+
+(17, TRUE, FALSE, FALSE, TRUE, TRUE, 15, FALSE,
+  '08:30', '09:45', 'Beatriz Sousa', 'Rua do Pinhal, Aveiro', 'Família Sousa', 'Levar brinquedo preferido',
+  'Capela da Boa Nova', 'Luz natural forte – ajustar ISO', FALSE, '', FALSE, '',
+  'Quinta do Prado', 'Aveiro', 'Atenção ao acesso de carrinhos', '11:45 Almoço, 13:15 bolo e fotos');
 
 INSERT INTO Servico_Detalhes_ComunhaoGeral (cod_servico, fotos, video, drone, sde, formato_fotos, valor_foto, formato_video, valor_video,
   hora_chegada_igreja, num_criancas, info_extra_comunhao, coro, coro_localizacao, diplomas, grupo_exterior) VALUES
-(5, TRUE, TRUE, FALSE, FALSE, 'JPEG', 5.00, 'MP4', 15.00,
-  '10:00', 20, 'Preparação a cargo da catequese', TRUE, 'Frente', TRUE, FALSE);
+(5, TRUE, TRUE, FALSE, FALSE, 'Digital', 5.00, 'MP4', 15.00,
+  '10:00', 20, 'Preparação a cargo da catequese', TRUE, 'Frente', TRUE, FALSE),
+  (18, TRUE, TRUE, FALSE, TRUE, 'Impressas', 5.00, 'MP4', 12.00,
+  '09:30', 25, 'Cada criança terá 2 fotos individuais e 1 de grupo', TRUE, 'Varanda', TRUE, TRUE),
+
+(19, TRUE, FALSE, FALSE, FALSE, 'Impressas', 4.00, 'MP4', 10.00,
+  '10:15', 18, 'Fotos serão impressas no final', FALSE, '', FALSE, FALSE),
+
+(20, TRUE, TRUE, TRUE, FALSE, 'Digital', 6.50, 'DVD', 20.00,
+  '09:45', 30, 'Captar chegada dos pais e catequistas', TRUE, 'Galeria superior', TRUE, TRUE),
+
+(21, TRUE, TRUE, FALSE, TRUE, 'Impressas', 5.00, 'DVD', 15.00,
+  '11:00', 22, 'Registrar entrega dos diplomas individualmente', TRUE, 'Frente ao altar', TRUE, FALSE),
+
+(22, TRUE, FALSE, FALSE, FALSE, 'Impressas', 3.50, 'DVD', 10.00,
+  '10:00', 12, 'Grupo pequeno, comunhão privada', FALSE, '', FALSE, FALSE);
 
 INSERT INTO Servico_Detalhes_ComunhaoParticular (cod_servico, fotos, video, drone, sde, fotos_convidados, num_convidados_fotos, venda_fotos,
   hora_chegada_casa_crianca, hora_saida_casa_crianca, nome_crianca, morada_crianca, agregado_crianca, info_extra_crianca,
@@ -380,10 +500,36 @@ INSERT INTO Servico_Detalhes_ComunhaoParticular (cod_servico, fotos, video, dron
 (6, TRUE, TRUE, FALSE, TRUE, TRUE, 35, TRUE,
   '09:00', '10:30', 'Beatriz Oliveira', 'Rua dos Lírios, Guimarães', 'Família Oliveira', 'Gosta de fotos com primos',
   'Capela de Nossa Senhora', 'Chegada discreta', FALSE, '', FALSE, '',
-  'Quinta da Serra', 'Guimarães', 'Espaço privado', '12:30 Almoço, 14:00 sessão de fotos');
+  'Quinta da Serra', 'Guimarães', 'Espaço privado', '12:30 Almoço, 14:00 sessão de fotos'),
+  (23, TRUE, TRUE, TRUE, TRUE, TRUE, 40, TRUE,
+  '08:30', '09:45', 'Martim Correia', 'Rua do Jardim, Braga', 'Família Correia', 'Quer fotos com os avós paternos',
+  'Igreja de São José', 'Padre permite fotos na entrada', TRUE, 'Frente', FALSE, '',
+  'Quinta da Fonte', 'Braga', 'Zona de sombra para fotos', '12:00 Almoço, 13:30 Bolo'),
+
+(24, TRUE, FALSE, FALSE, FALSE, TRUE, 15, FALSE,
+  '09:00', '10:15', 'Clara Santos', 'Rua da Liberdade, Porto', 'Família Santos', 'Fotografar com o cão de estimação',
+  'Capela do Carmo', 'Silêncio absoluto na entrada', FALSE, '', TRUE, 'Grupo de canto à saída',
+  'Quinta do Prado', 'Porto', 'Espaço reservado para crianças', '13:00 Almoço, 15:00 Corte do bolo'),
+
+(25, TRUE, TRUE, FALSE, TRUE, TRUE, 28, TRUE,
+  '10:00', '11:00', 'Rodrigo Almeida', 'Rua dos Pinheiros, Viana do Castelo', 'Família Almeida', 'Gosta de fotos com guitarra',
+  'Igreja Matriz de Viana', 'Aguardar todos antes de entrar', TRUE, 'Lado direito', TRUE, '',
+  'Quinta Encantada', 'Viana do Castelo', 'Cuidado com degraus na entrada', '11:45 Almoço, 14:15 jogos'),
+
+(26, TRUE, TRUE, TRUE, TRUE, FALSE, 100, FALSE,
+  '07:45', '09:00', 'Mafalda Dias', 'Avenida Central, Braga', 'Família Dias', 'Pais preferem estilo documental',
+  'Igreja do Senhor dos Passos', 'Entrada organizada por ordem de chegada', TRUE, 'Corredor lateral', FALSE, '',
+  'Quinta do Sol', 'Braga', 'Evitar flash no salão', '12:15 Almoço, 14:00 dança');
 
 INSERT INTO Servico_Detalhes_EvCorporativo (cod_servico, fotos, video, drone, sde, hora_chegada_corp, info_extra_corp) VALUES
-(7, TRUE, TRUE, TRUE, FALSE, '08:30', 'Capturar discursos principais, networking e entrega de prémios');
+(7, TRUE, TRUE, TRUE, FALSE, '08:30', 'Capturar discursos principais, networking e entrega de prémios'),
+(27, TRUE, TRUE, FALSE, TRUE, '09:00', 'Fotografar momento de abertura, stands de empresas e interação com público'),
+
+(28, TRUE, FALSE, FALSE, FALSE, '10:00', 'Evento interno com equipa — foco em sessões de brainstorming e partilha'),
+
+(29, TRUE, TRUE, TRUE, TRUE, '08:00', 'Cobertura completa de convenção — registo de oradores e atividades paralelas'),
+
+(30, TRUE, TRUE, FALSE, TRUE, '07:45', 'Documentar chegada de parceiros, assinatura de protocolos e coffee-breaks');
 
 
 -- Novas Categorias
@@ -657,7 +803,7 @@ INSERT INTO Material (
     ('MAT216','MOC', 12, 35, 'X5Y1Z7A3', 1, ''),
     ('MAT217','MOC', 12, 35, 'B6C2D8E0', 1, ''),
     ('MAT218','MOC', 12, 35, 'G1H7I3J9', 1, '');
-    
+
 
 
 

@@ -47,9 +47,9 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">CHECK-IN</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">REGISTO DE ENTRADA</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed">
-                            Faça o check-in de materiais e equipamentos para eventos.
+                            Proceda ao registo de devolução dos equipamentos e à elaboração do respetivo relatório.
                         </p>
                     </div>
                 </div>
@@ -63,9 +63,9 @@
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-xl font-semibold text-white mb-2">CHECK-OUT</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">REGISTO DE SAÍDAS</h3>
                         <p class="text-gray-300 mb-4 leading-relaxed">
-                            Faça o check-out de materiais e equipamentos para eventos.
+                            Efetue o registo de saída dos equipamentos e a alocação dos funcionários aos eventos.
                         </p>
                     </div>
                 </div>
