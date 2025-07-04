@@ -1,4 +1,5 @@
-# <SnapCode/> — Gestão de Serviços Fotográficos 
+# &lt;SnapCode/&gt; — Gestão de Serviços Fotográficos 
+
 
 Este projeto é um sistema backend desenvolvido em **Laravel 12.x** para a gestão de serviços fotográficos, materiais, funcionários e registos de eventos (casamentos, batizados, etc).  
 Foi criado como projeto final do curso de Desenvolvimento de Software, focando-se em boas práticas, segurança e separação de responsabilidades.
